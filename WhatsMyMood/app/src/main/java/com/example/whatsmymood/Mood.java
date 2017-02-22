@@ -1,7 +1,9 @@
 package com.example.whatsmymood;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.location.Location;
+import android.location.LocationManager;
 
 import java.util.Date;
 
@@ -29,12 +31,12 @@ public class Mood {
         this.date = date;
     }
 
-    public void setMood(String newMoodType) {
-        this.moodType = newMoodType;
-    }
-
     public String getMoodType() {
         return moodType;
+    }
+
+    public void setMoodType(String newMoodType) {
+        this.moodType = newMoodType;
     }
 
     public String getMoodAuthor() {
@@ -45,11 +47,11 @@ public class Mood {
         this.moodAuthor = newmoodAuthor;
     }
 
-    public String getMoodMessage() {
+    public String getMoodMsg() {
         return moodMsg;
     }
 
-    public void setMoodMessage(String newmoodMsg) {
+    public void setMoodMsg(String newmoodMsg) {
         this.moodMsg = newmoodMsg;
     }
 
@@ -57,8 +59,8 @@ public class Mood {
         return location;
     }
 
-    public void setLocation(Location newlocation) {
-        this.location = newlocation;
+    public void setLocation(Location newLocation) {
+        this.location = newLocation;
     }
 
     public String getSocialSit() {
