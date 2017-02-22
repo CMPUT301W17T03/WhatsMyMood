@@ -2,6 +2,8 @@ package com.example.whatsmymood;
 
 import android.graphics.Bitmap;
 
+import java.util.ArrayList;
+
 /**
  * Created by Alex on 2/21/2017.
  */

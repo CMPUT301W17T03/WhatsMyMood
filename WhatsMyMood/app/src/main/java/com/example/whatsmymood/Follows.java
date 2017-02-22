@@ -5,18 +5,25 @@ import java.util.ArrayList;
 /**
  * Created by YiJi on 2017-02-21.
  */
+
 public class Follows {
 
-    private ArrayList<String> followingList;
-    private ArrayList<String> followedByList;
-    private ArrayList<String> followRequestsList;
+    private ArrayList<String> followingList = new ArrayList<String>();
+    private ArrayList<String> followedByList = new ArrayList<String>();
+    private ArrayList<String> followRequestsList = new ArrayList<String>();
 
-    public Follows(){
-        this.followingList = followingList;
-        this.followedByList = followedByList;
-        this.followRequestsList = followRequestsList;
+    //Some testing methods
+    public boolean hasFollowing(String username){
+        return followingList.contains(username);
+    }
+    public boolean isFollowedBy(String username){
+        return followedByList.contains(username);
+    }
+    public boolean hasRequests(String username){
+        return followRequestsList.contains(username);
     }
 
+    //Methods included on the UML diagram
     public ArrayList<String> getFollowingList() {
         return followingList;
     }
