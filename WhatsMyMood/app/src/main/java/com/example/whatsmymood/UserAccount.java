@@ -13,25 +13,31 @@ public class UserAccount {
     private String password;
     private String name;
     private Bitmap profilePicture;
-    private ArrayList<Mood> moodList;
+    public MoodList moodList;
     public Follows follows;
 
     public UserAccount(String username, String password) {
         this.username = username;
         this.password = password;
+        moodList = new MoodList();
+        follows = new Follows();
     }
 
     public String getUsername() {
-        return username;
+        return this.username;
     }
 
 
     public String getPassword() {
-        return password;
+        return this.password;
     }
 
-    public void setPassword(String oldPassword, String newPassword) {
-        this.password = password;
+    public void setPassword(String oldPassword, String newPassword) throws WrongPasswordException {
+        if(this.password == oldPassword){
+            this.password = newPassword;
+        }else{
+            throw new WrongPasswordException();
+        }
     }
 
     public String getName() {
@@ -39,7 +45,7 @@ public class UserAccount {
     }
 
     public void setName(String newName) {
-        this.name = name;
+        this.name = newName;
     }
 
     public Bitmap getProfilePicture() {
@@ -47,10 +53,6 @@ public class UserAccount {
     }
 
     public void setProfilePicture(Bitmap newProfilePicture) {
-        this.profilePicture = profilePicture;
-    }
-
-    public ArrayList<Mood> getMoodList() {
-        return moodList;
+        this.profilePicture = newProfilePicture;
     }
 }
