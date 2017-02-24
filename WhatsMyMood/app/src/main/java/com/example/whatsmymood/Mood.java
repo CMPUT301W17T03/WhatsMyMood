@@ -1,9 +1,7 @@
 package com.example.whatsmymood;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.location.Location;
-import android.location.LocationManager;
 
 import java.util.Date;
 
@@ -20,18 +18,31 @@ public class Mood {
     private Date date = new Date();
     private Bitmap Photo;
 
+    /**
+     * @param moodAuthor
+     * @param moodType
+     */
     public Mood(String moodAuthor, String moodType) {
         this.moodAuthor = moodAuthor;
         this.moodType = moodType;
     }
 
-    // Manual Date Constructor
+    /**
+     * Manual Date
+     * @param moodAuthor
+     * @param moodType
+     * @param date
+     */
     public Mood(String moodAuthor, String moodType, Date date) {
         this.moodAuthor = moodAuthor;
         this.moodType = moodType;
         this.date = date;
     }
 
+    /**
+     * Getters and Setters
+     * @return
+     */
     public String getMoodType() {
         return moodType;
     }

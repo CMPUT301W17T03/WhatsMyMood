@@ -7,12 +7,15 @@ import java.util.ArrayList;
  */
 
 public class Follows {
-
     private ArrayList<String> followingList = new ArrayList<String>();
     private ArrayList<String> followedByList = new ArrayList<String>();
     private ArrayList<String> followRequestsList = new ArrayList<String>();
 
-    //Some testing methods
+    /**
+     * Testing Methods
+     * @param username
+     * @return
+     */
     public boolean hasFollowing(String username){
         return followingList.contains(username);
     }
@@ -23,7 +26,10 @@ public class Follows {
         return followRequestsList.contains(username);
     }
 
-    //Methods included on the UML diagram
+    /**
+     * Getters for follow lists
+     * @return
+     */
     public ArrayList<String> getFollowingList() {
         return followingList;
     }
@@ -36,6 +42,10 @@ public class Follows {
         return followRequestsList;
     }
 
+    /**
+     * Add's users to lists
+     * @param username
+     */
     public void addToFollowing(String username){
         followingList.add(username);
     }
@@ -48,6 +58,10 @@ public class Follows {
         followRequestsList.add(username);
     }
 
+    /**
+     * Removes users from lists
+     * @param username
+     */
     public void removeFromFollowing(String username){
         followingList.remove(username);
     }
