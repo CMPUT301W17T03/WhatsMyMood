@@ -25,6 +25,7 @@ public class Mood {
         this.moodType = moodType;
     }
 
+    // Manual Date Constructor
     public Mood(String moodAuthor, String moodType, Date date) {
         this.moodAuthor = moodAuthor;
         this.moodType = moodType;
