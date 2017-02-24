@@ -6,8 +6,21 @@ import java.util.ArrayList;
 
 /**
  * Created by Alex on 2/21/2017.
+ *
+ * UserAccount is used to store all of the users information
+ *
+ *@author czeto
+ *@author mtfische
+ *
+ * @param username       The username of a user, used to identify them within the app
+ * @param password       The user's password stored as a hash
+ * @param name           The user's name used as an identity between users
+ * @param profilePicture An image added by the user to describe themselves
+ * @param moodlist       A class which contains methods to store moods
+ * @see   MoodList
+ * @param follows        A class which contains methods for following users
+ * @see   Follows
  */
-
 public class UserAccount {
     private String username;
     private String password;
@@ -23,15 +36,29 @@ public class UserAccount {
         follows = new Follows();
     }
 
+    /**
+     * Method to get the user's password
+     *
+     * @return the user's password hash
+     */
     public String getUsername() {
         return this.username;
     }
 
-
+    /**
+     * Method to get the user's username
+     *
+     * @return the user's username
+     */
     public String getPassword() {
         return this.password;
     }
 
+    /**
+     *@param oldPassword        The password currently in use, stored as hash
+     *@param newPassword        The password to change to, stored as hash
+     *@throws WrongPasswordException  If the old password does not match the one in use
+     */
     public void setPassword(String oldPassword, String newPassword) throws WrongPasswordException {
         if(this.password == oldPassword){
             this.password = newPassword;
@@ -40,10 +67,20 @@ public class UserAccount {
         }
     }
 
+    /**
+     * Method to get the user's name
+     *
+     * @return name of user as String
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Method to set the user's name
+     *
+     * @param newName    The name to set the user's name to
+     */
     public void setName(String newName) {
         this.name = newName;
     }

@@ -34,7 +34,7 @@ public class MoodList {
         //TODO search for mood
     }
     public Mood get(int index){
-       return this.moods.get(index);
+        return this.moods.get(index);
     }
 
     public int getSize(){
