@@ -26,11 +26,15 @@ public class MoodList {
         this.moods.remove(index);
     }
 
-    public void get(Mood mood){
+    public int getIndex(Mood mood){
+        for (int i = 0; i < this.getSize(); i++){
+            if(moods.get(i) == mood){return i;}
+        }
+        return -1;
         //TODO search for mood
     }
-    public void get(int index){
-        this.moods.get(index);
+    public Mood get(int index){
+       return this.moods.get(index);
     }
 
     public int getSize(){
