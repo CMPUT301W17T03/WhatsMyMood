@@ -69,7 +69,8 @@ public class MoodList {
      */
     public Mood getRecentMood(){
         //TODO search earliest date
-        return null;
+        Collections.sort(moods);
+        return moods.get(0);
     }
 
     /**
