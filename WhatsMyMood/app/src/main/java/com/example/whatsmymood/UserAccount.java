@@ -7,10 +7,10 @@ import java.util.ArrayList;
 /**
  * Created by Alex on 2/21/2017.
  *
- * UserAccount is used to store all of the users information
- *
  *@author czeto
  *@author mtfische
+ *
+ * UserAccount is used to store all of the users information
  *
  * @param username       The username of a user, used to identify them within the app
  * @param password       The user's password stored as a hash
@@ -22,6 +22,18 @@ import java.util.ArrayList;
  * @see   Follows
  */
 public class UserAccount {
+    /**
+     * UserAccount is used to store all of the users information
+     *
+     * @param username       The username of a user, used to identify them within the app
+     * @param password       The user's password stored as a hash
+     * @param name           The user's name used as an identity between users
+     * @param profilePicture An image added by the user to describe themselves
+     * @param moodlist       A class which contains methods to store moods
+     * @see   MoodList
+     * @param follows        A class which contains methods for following users
+     * @see   Follows
+     */
     private String username;
     private String password;
     private String name;
@@ -55,8 +67,8 @@ public class UserAccount {
     }
 
     /**
-     *@param oldPassword        The password currently in use, stored as hash
-     *@param newPassword        The password to change to, stored as hash
+     *@param oldPassword              The password currently in use, stored as hash
+     *@param newPassword              The password to change to, stored as hash
      *@throws WrongPasswordException  If the old password does not match the one in use
      */
     public void setPassword(String oldPassword, String newPassword) throws WrongPasswordException {
