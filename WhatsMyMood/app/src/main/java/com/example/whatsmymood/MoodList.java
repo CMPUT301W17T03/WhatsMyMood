@@ -82,7 +82,6 @@ public class MoodList {
      * @return
      */
     public ArrayList<Mood> getSortedMoodList(){
-        //TODO sort the moods by date
         Collections.sort(this.moods);
         return this.moods;
     }
