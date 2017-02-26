@@ -15,21 +15,34 @@ public class MoodList {
         this.moods = new ArrayList<Mood>();
     }
 
+    /**
+     * appends a mood to the list
+     * @param mood
+     */
     public void addMood(Mood mood){
         this.moods.add(mood);
     }
 
     /**
-     * Adds and Removes moods from the list
+     * inserts a mood to the list at index
      * @param index
      * @param mood
      */
     public void addMood(int index, Mood mood){
         this.moods.add(index, mood);
     }
+
+    /**
+     * removes a mood from the list matching mood
+     * @param mood
+     */
     public void removeMood(Mood mood){
         this.moods.remove(mood);
     }
+    /**
+     * removes a mood from the list at index
+     * @param index
+     */
     public void removeMood(int index){
         this.moods.remove(index);
     }
@@ -37,7 +50,7 @@ public class MoodList {
     /**
      * Get's index of the mood
      * @param mood
-     * @return
+     * @return The index position of mood
      */
     public int getIndex(Mood mood){
         for (int i = 0; i < this.getSize(); i++){
@@ -49,7 +62,7 @@ public class MoodList {
     /**
      * Get's mood from index
      * @param index
-     * @return
+     * @return the mood at index position
      */
     public Mood get(int index){
         return this.moods.get(index);
@@ -57,7 +70,7 @@ public class MoodList {
 
     /**
      * Gets the size of the moodList
-     * @return
+     * @return an integer of the size
      */
     public int getSize(){
         return this.moods.size();
@@ -65,7 +78,7 @@ public class MoodList {
 
     /**
      * Get's the most recent mood
-     * @return
+     * @return the mood with the earliest date
      */
     public Mood getRecentMood(){
         //TODO search earliest date
@@ -74,7 +87,7 @@ public class MoodList {
 
     /**
      * Gets the sorted mood list
-     * @return
+     * @return the array list sorted by date sescending
      */
     public ArrayList<Mood> getSortedMoodList(){
         //TODO sort the moods by date
@@ -84,7 +97,7 @@ public class MoodList {
 
     /**
      * Gets the mood list
-     * @return
+     * @return the moodlist
      */
     public ArrayList<Mood> getMoodList(){
         return this.moods;
