@@ -58,21 +58,21 @@ public class MoodTest extends ActivityInstrumentationTestCase2 {
 
         assertEquals(mood.getLocation().getLatitude(), 100.0);
         assertEquals(mood.getLocation().getLongitude(), 50.0);
-    }
-
-    public void testGetSocialSit() {
-        Mood mood = new Mood("Nathan", "Happy");
-        mood.setSocialSit("With Eddy");
-
-        assertEquals(mood.getSocialSit(), "With Eddy");
-    }
-
-    public void testGetDate() {
-        Mood mood1 = new Mood("Nathan", "Happy");
-
         try {
             Date date = new SimpleDateFormat("yyyy-MM-dd").parse("2011-01-08");
-            Mood mood2 = new Mood("Nathan", "Happy", date);
+            Mood mood2 = new Mood("Nathan", "Happy", date
+        }
+
+        public void testGetSocialSit() {
+            Mood mood = new Mood("Nathan", "Happy");
+            mood.setSocialSit("With Eddy");
+
+            assertEquals(mood.getSocialSit(), "With Eddy");
+        }
+
+        public void testGetDate() {
+            Mood mood1 = new Mood("Nathan", "Happy");
+            );
 
             mood1.setDate(date);
 
