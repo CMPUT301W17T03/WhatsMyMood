@@ -9,7 +9,7 @@ import java.util.Date;
  * Created by nathan on 21/02/17.
  */
 
-public class Mood {
+public class Mood implements Comparable<Mood>{
     private String moodType;
     private String moodAuthor;
     private String moodMsg;
@@ -97,5 +97,11 @@ public class Mood {
 
     public void setPhoto(Bitmap newPhoto) {
         this.Photo = newPhoto;
+    }
+
+    //http://stackoverflow.com/questions/5927109/sort-objects-in-arraylist-by-date
+    //February 26th, 2016 - 1:02pm
+    public int compareTo(Mood o) {
+        return getDate().compareTo(o.getDate());
     }
 }
