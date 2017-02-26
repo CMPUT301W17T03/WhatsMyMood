@@ -42,6 +42,19 @@ public class UserAccountTest extends ActivityInstrumentationTestCase2 {
         assertEquals(name, user.getName());
     }
 
+    public void testSetPassword() {
+        String username = "superCoolUsername";
+        String password = "superSecretPassword";
+        UserAccount user = new UserAccount(username, password);
+
+        try {
+            user.setPassword(password, "newSuperSecretPassword");
+            assertEquals(user.getPassword(),"newSuperSecretPassword");
+            user.setPassword("Banana", "apple");
+            fail();
+        } catch (WrongPasswordException e) {}
+    }
+
     /*
     public Bitmap getProfilePicture() {
         return profilePicture;
