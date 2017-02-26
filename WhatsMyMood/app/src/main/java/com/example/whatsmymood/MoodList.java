@@ -1,6 +1,7 @@
 package com.example.whatsmymood;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Created by Malcolm on 2017-02-23.
@@ -77,6 +78,7 @@ public class MoodList {
      */
     public ArrayList<Mood> getSortedMoodList(){
         //TODO sort the moods by date
+        Collections.sort(this.moods);
         return this.moods;
     }
 

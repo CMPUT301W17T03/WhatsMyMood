@@ -46,12 +46,35 @@ public class MoodListTest extends ActivityInstrumentationTestCase2 {
     }
 
     public void testGetRecentMood(){
-        //TODO implement test
+
+        MoodList moods = new MoodList();
+        Mood mood1 = new Mood("Person1", "Angry");
+        Mood mood2 = new Mood("Person2", "Happy");
+        Mood mood3 = new Mood("Prson3", "Sad");
+
+        assertEquals(moods.getRecentMood(), mood3);
+
     }
 
     public void testGetSortedMoodList(){
-        //TODO sort the moods by date
+
+        MoodList moods = new MoodList();
+        Mood mood1 = new Mood("Person1", "Sad");
+        Mood mood2 = new Mood("Person2", "Angry");
+        Mood mood3 = new Mood("Person3", "Happy");
+
+        moods.addMood(mood1);
+        moods.addMood(mood2);
+        moods.addMood(mood3);
+
+        ArrayList<Mood> sortedmoods = new ArrayList<Mood>();
+        sortedmoods = moods.getSortedMoodList();
+
+        for (int i = 1; i<sortedmoods.size(); i++){
+            assertFalse(sortedmoods.get(i-1).getDate().before(sortedmoods.get(i).getDate()));
+        }
     }
+
 
     public void testGetMoodList(){
         MoodList list = new MoodList();
