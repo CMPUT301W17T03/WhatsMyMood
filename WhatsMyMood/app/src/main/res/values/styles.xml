@@ -8,4 +8,9 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="MyToolbarStyle" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:minWidth">20dip</item>
+        <item name="android:padding">0dip</item>
+    </style>
+
 </resources>

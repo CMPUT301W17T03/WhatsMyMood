@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 
 import android.os.AsyncTask;
@@ -40,7 +41,7 @@ public class LoginActivity extends AppCompatActivity{
      * TODO: remove after connecting to a real authentication system.
      */
     private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "MeanyInc:HelloWorld"
+            "a:a"
     };
 
     /**
@@ -221,7 +222,10 @@ public class LoginActivity extends AppCompatActivity{
             showProgress(false);
 
             if (success) {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+
                 finish();
+                startActivity(intent);
             } else {
                 Context context = getApplicationContext();
                 CharSequence text = "Wrong Username/Password Combination";
