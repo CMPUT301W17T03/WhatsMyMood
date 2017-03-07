@@ -224,8 +224,8 @@ public class LoginActivity extends AppCompatActivity{
             if (success) {
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
 
-                finish();
                 startActivity(intent);
+                finish();
             } else {
                 Context context = getApplicationContext();
                 CharSequence text = "Wrong Username/Password Combination";
