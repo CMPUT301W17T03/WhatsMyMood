@@ -12,5 +12,4 @@
         <item name="android:minWidth">20dip</item>
         <item name="android:padding">0dip</item>
     </style>
-
 </resources>

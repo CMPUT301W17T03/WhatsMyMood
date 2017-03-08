@@ -13,4 +13,27 @@
 
     <!-- Strings related to the action bar -->
     <string name="add_mood">Add Mood</string>
+
+    <!-- Strings related to the add mood popup -->
+    <string name="select_mood">Select Mood</string>
+    <string name="enter_descript">Enter Description Here</string>
+    <string name="enter_location">Location</string>
+    <string name="enter_tag">Tag people you are with</string>
+    <string name="enter_date">Enter the date</string>
+    <string name="upload_photo">Upload Photo</string>
+    <string name="post">Post</string>
+
+    <!-- Select mood drop down population -->
+    <string-array name="mood_array">
+        <item>Select a mood</item>
+        <item>Happiness</item>
+        <item>Sadness</item>
+        <item>Anger</item>
+        <item>Confusion</item>
+        <item>Disgusted</item>
+        <item>Scared</item>
+        <item>Shame</item>
+        <item>Surpise</item>
+    </string-array>
+
 </resources>
