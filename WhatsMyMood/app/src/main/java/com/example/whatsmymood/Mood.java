@@ -3,7 +3,9 @@ package com.example.whatsmymood;
 import android.graphics.Bitmap;
 import android.location.Location;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+
 
 /**
  * Created by nathan on 21/02/17.
@@ -17,6 +19,7 @@ public class Mood implements Comparable<Mood>{
     private String socialSit;
     private Date date = new Date();
     private Bitmap Photo;
+
 
     /**
      * @param moodAuthor

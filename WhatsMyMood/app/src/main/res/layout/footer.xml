@@ -7,27 +7,27 @@
     android:weightSum="5.0" android:gravity="bottom"
     android:layout_margin="0dp" android:layout_alignParentBottom="true">
 
-    <Button android:id="@+id/home" android:layout_height="wrap_content"
+    <Button android:id="@+id/follow" android:layout_height="wrap_content"
         android:layout_width="wrap_content" android:layout_weight="1"
         android:background="@drawable/follow" android:textColor="@color/footer_text"
         android:padding="10px"></Button>
 
-    <Button android:id="@+id/issue" android:layout_height="wrap_content"
+    <Button android:id="@+id/profile" android:layout_height="wrap_content"
         android:layout_width="wrap_content" android:layout_weight="1"
         android:background="@drawable/profile" android:textColor="@color/footer_text"
         android:padding="10px"></Button>
 
-    <Button android:id="@+id/browse" android:layout_height="wrap_content"
+    <Button android:id="@+id/home" android:layout_height="wrap_content"
         android:layout_width="wrap_content" android:layout_weight="1"
         android:background="@drawable/home" android:textColor="@color/footer_text"
         android:padding="10px"></Button>
 
-    <Button android:id="@+id/search" android:layout_height="wrap_content"
+    <Button android:id="@+id/map" android:layout_height="wrap_content"
         android:layout_width="wrap_content" android:layout_weight="1"
         android:background="@drawable/map" android:textColor="@color/footer_text"
         android:padding="10px"></Button>
 
-    <Button android:layout_height="wrap_content" android:id="@+id/favorite"
+    <Button android:layout_height="wrap_content" android:id="@+id/add"
         android:background="@drawable/add" android:layout_width="wrap_content"
         android:layout_weight="1"
         android:textColor="@color/footer_text" android:padding="10px"></Button>
