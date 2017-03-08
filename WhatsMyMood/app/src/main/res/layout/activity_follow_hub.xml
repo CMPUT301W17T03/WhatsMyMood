@@ -10,4 +10,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.whatsmymood.FollowHubActivity">
 
+
+
 </RelativeLayout>

@@ -36,6 +36,7 @@ public class FollowHubActivity extends AppCompatActivity {
         super.onStart();
         followersAdapter = new FollowAdapter(followers, this);
         followingAdapter = new FollowAdapter(following, this);
+        requestsAdapter = new RequestAdapter(requests, this);
 
     }
 
