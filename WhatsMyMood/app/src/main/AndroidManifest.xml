@@ -27,7 +27,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".FollowHubActivity" />
-        <activity android:name=".FollowAdapter"></activity>
+        <activity android:name=".FollowAdapter" />
+        <activity android:name=".RequestAdapter"></activity>
     </application>
 
 </manifest>
