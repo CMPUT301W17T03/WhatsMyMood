@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        setContentView(R.layout.footer);
+        //setContentView(R.layout.footer);
 
         /*
         Toolbar myToolbar = (Toolbar) findViewById(R.id.footer);

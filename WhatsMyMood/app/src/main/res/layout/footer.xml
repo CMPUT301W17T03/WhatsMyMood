@@ -4,7 +4,7 @@
     android:layout_weight="1" android:layout_width="fill_parent"
     android:orientation="horizontal" android:layout_height="50dp"
     android:visibility="visible" android:background="@color/footer_color"
-    android:weightSum="5.0" android:gravity="center"
+    android:weightSum="5.0" android:gravity="bottom"
     android:layout_margin="0dp" android:layout_alignParentBottom="true">
 
     <Button android:id="@+id/home" android:layout_height="wrap_content"
