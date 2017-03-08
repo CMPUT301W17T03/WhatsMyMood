@@ -21,4 +21,5 @@ public class RequestAdapter extends ArrayAdapter<String> {
         this.usernames = usernames;
         this.context = context;
     }
+    //TODO add a custom adapter that will allow us to accept or decline on each instance of it
 }

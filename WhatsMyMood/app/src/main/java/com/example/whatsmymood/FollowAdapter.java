@@ -21,6 +21,7 @@ public class FollowAdapter extends ArrayAdapter<String> {
         this.usernames = usernames;
         this.context = context;
     }
+    //TODO possibly add a custom adapter to click on the username to get to their profile
 
 
 }
