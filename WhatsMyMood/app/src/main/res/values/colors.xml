@@ -4,4 +4,8 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="actionBar">#F4F4F6</color>
+
+    <!-- Popup Colors -->
+    <color name="popup_background">#4F4F4F</color>
+    <color name="popup_text">#8E8E93</color>
 </resources>
