@@ -1,11 +1,8 @@
 package com.example.whatsmymood;
 
 import android.content.Context;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.widget.ArrayAdapter;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -20,7 +17,7 @@ public class FollowAdapter extends ArrayAdapter<String> {
      * Instantiates a new Follow adapter.
      */
     public FollowAdapter(ArrayList<String> usernames, Context context) {
-        super(context, R.layout.activity_follow_adapter, usernames);
+        super(context, R.layout.follow_adapter, usernames);
         this.usernames = usernames;
         this.context = context;
     }
