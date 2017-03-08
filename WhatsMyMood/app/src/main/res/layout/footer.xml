@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:id="@+id/footer"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_weight="1" android:layout_width="fill_parent"
+    android:orientation="horizontal" android:layout_height="0dp"
+    android:visibility="visible" android:background="blue"
+    android:weightSum="5.0" android:gravity="center"
+    android:layout_margin="0dp">
+
+    <Button android:id="@+id/home" android:layout_height="wrap_content"
+        android:layout_width="wrap_content" android:layout_weight="1"
+        android:background="@drawable/follow" android:textColor="#FFFFFF"
+        android:padding="10px"></Button>
+
+    <Button android:id="@+id/issue" android:layout_height="wrap_content"
+        android:layout_width="wrap_content" android:layout_weight="1"
+        android:background="@drawable/profile" android:textColor="#FFFFFF"
+        android:padding="10px"></Button>
+
+    <Button android:id="@+id/browse" android:layout_height="wrap_content"
+        android:layout_width="wrap_content" android:layout_weight="1"
+        android:background="@drawable/home" android:textColor="#FFFFFF"
+        android:padding="10px"></Button>
+
+    <Button android:id="@+id/search" android:layout_height="wrap_content"
+        android:layout_width="wrap_content" android:layout_weight="1"
+        android:background="@drawable/map" android:textColor="#FFFFFF"
+        android:padding="10px"></Button>
+
+    <Button android:layout_height="wrap_content" android:id="@+id/favorite"
+        android:background="@drawable/add" android:layout_width="wrap_content"
+        android:layout_weight="1"
+        android:textColor="#FFFFFF" android:padding="10px"></Button>
+</LinearLayout>
+
+
