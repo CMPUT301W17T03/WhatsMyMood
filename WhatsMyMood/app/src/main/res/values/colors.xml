@@ -3,7 +3,10 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="actionBar">#F4F4F6</color>
+
+    <!-- Footer Colors -->
+    <color name="footer_color">#F4F4F6</color>
+    <color name="footer_text">#FFFFFF</color>
 
     <!-- Popup Colors -->
     <color name="popup_background">#4F4F4F</color>

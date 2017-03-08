@@ -7,6 +7,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,11 +29,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setContentView(R.layout.footer);
+
+        /*
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.footer);
         setSupportActionBar(myToolbar);
         getSupportActionBar().setTitle(null);
+        */
     }
 
+    /*
     public boolean onOptionsItemSelected(MenuItem item) {
         View menuItemView = findViewById(R.id.add_mood_popup);
         PopupMenu popupMenu = new PopupMenu(this, menuItemView);
@@ -39,6 +46,6 @@ public class MainActivity extends AppCompatActivity {
 
         popupMenu.show();
         return true;
-    }
+    }*/
 
 }

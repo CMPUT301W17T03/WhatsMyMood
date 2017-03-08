@@ -124,7 +124,7 @@
                 android:layout_marginRight="0dp"
                 android:layout_marginTop="20dp"
                 android:background="@color/popup_background"
-                android:drawableTop="@mipmap/Camera"
+                android:drawableTop="@mipmap/camera"
                 android:gravity="center"
                 android:text="@string/upload_photo"
                 android:textSize="12sp"
