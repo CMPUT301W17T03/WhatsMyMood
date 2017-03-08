@@ -10,16 +10,6 @@ import java.util.ArrayList;
  *@author czeto
  *@author mtfische
  *
- * UserAccount is used to store all of the users information
- *
- * @param username       The username of a user, used to identify them within the app
- * @param password       The user's password stored as a hash
- * @param name           The user's name used as an identity between users
- * @param profilePicture An image added by the user to describe themselves
- * @param moodlist       A class which contains methods to store moods
- * @see   MoodList
- * @param follows        A class which contains methods for following users
- * @see   Follows
  */
 public class UserAccount {
     /**

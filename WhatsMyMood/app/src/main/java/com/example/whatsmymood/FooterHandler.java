@@ -8,30 +8,68 @@ import android.view.View;
 
 /**
  * Created by Malcolm on 2017-03-08.
+ *@author mtfische
+ *
  */
 
 public class FooterHandler {
+    /**
+     * FooterHandler handles the footer view that is displayed in activities
+     * Creates on click listners and handles page transitions
+     *
+     * @param v            The footer View to be passed in and handled
+     * @param mContext     The context of the main activity which calls the handler
+     * @param dialog       dialog is the dialog the handler displayes on certain button presses
+     * @param dialogActive boolean to see if the dialog is showing :: DEPRECIATED
+     */
     private View v;
     private Context mContext;
     private Dialog dialog;
     private boolean dialogActive;
 
+    /**
+     * Blank Constructor
+     */
     public FooterHandler(){};
 
+    /**
+     * Constructor to attach a view and context as well as initialize boolean values
+     * build is called at the end to initialize the onclick listners
+     *
+     * @param mContext The context of the main activity which calls the handler
+     * @param v        The footer View to be passed in and handled
+     * @see build
+     */
     public FooterHandler(Context mContext, View v){
         this.v = v;
         this.mContext = mContext;
+        dialogActive = false;
         build();
     }
 
+    /**
+     * Setter to set the context
+     *
+     * @param mContext The context of the main activity which calls the handler
+     */
     public void setContext(Context mContext){
         this.mContext = mContext;
     }
 
+    /**
+     * Setter to set the view to be handled build is called after a view shift
+     *
+     * @param v The footer View to be passed in and handled
+     * @see build
+     */
     public void setView(View v){
         this.v = v;
+        build();
     }
 
+    /**
+     * Builder function which initializes the onClickListners for the footer buttons
+     */
     private void build(){
         //TODO implementation
         this.v.findViewById(R.id.follow).setOnClickListener(new View.OnClickListener() {
@@ -71,22 +109,17 @@ public class FooterHandler {
             @Override
             public void onClick(View view) {
                 Log.d("intent", "intent dialog");
-                if(!dialogActive) {
+                if(!dialog.isShowing()) {
+                    //dialogActive = true;
                     dialog = new Dialog(mContext);
                     dialog.setContentView(R.layout.add_mood_popup);
                     dialog.show();
-                    dialogActive = true;
                 }else{
                     dialog.dismiss();
-                    dialogActive = false;
+                    //dialogActive = false;
                 }
             }
         });
-
-
-
-
-
     }
 
 }

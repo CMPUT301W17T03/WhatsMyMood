@@ -7,26 +7,31 @@
     android:weightSum="5.0" android:gravity="bottom"
     android:layout_margin="0dp" android:layout_alignParentBottom="true">
 
+     <!--Follow button links to the follow hub activity-->
     <Button android:id="@+id/follow" android:layout_height="wrap_content"
         android:layout_width="wrap_content" android:layout_weight="1"
         android:background="@drawable/follow" android:textColor="@color/footer_text"
         android:padding="10px"></Button>
 
+    <!--Profile button links to the profile activity-->
     <Button android:id="@+id/profile" android:layout_height="wrap_content"
         android:layout_width="wrap_content" android:layout_weight="1"
         android:background="@drawable/profile" android:textColor="@color/footer_text"
         android:padding="10px"></Button>
 
+    <!--Home button links to the main activity-->
     <Button android:id="@+id/home" android:layout_height="wrap_content"
         android:layout_width="wrap_content" android:layout_weight="1"
         android:background="@drawable/home" android:textColor="@color/footer_text"
         android:padding="10px"></Button>
 
+    <!--Map button links to the map activity-->
     <Button android:id="@+id/map" android:layout_height="wrap_content"
         android:layout_width="wrap_content" android:layout_weight="1"
         android:background="@drawable/map" android:textColor="@color/footer_text"
         android:padding="10px"></Button>
 
+    <!--Add button opens a dialog to add a mood-->
     <Button android:layout_height="wrap_content" android:id="@+id/add"
         android:background="@drawable/add" android:layout_width="wrap_content"
         android:layout_weight="1"
