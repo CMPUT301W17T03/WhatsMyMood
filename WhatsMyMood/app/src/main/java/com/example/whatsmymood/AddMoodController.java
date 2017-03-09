@@ -1,62 +1,88 @@
 package com.example.whatsmymood;
 
-import android.app.Dialog;
+import android.app.Activity;
 import android.content.Context;
-import android.graphics.Bitmap;
+import android.content.Intent;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import android.util.Log;
+import android.graphics.Bitmap;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 /**
  * Created by nathan on 07/03/17.
  */
 
 public class AddMoodController {
+    private static final int CAPTURE_IMAGE_REQUEST_CODE = 2;
+    public static final int CONFIRM = 3;
 
-    private View view;
+    private static boolean dateInvalid = false;
+    private static boolean locationInvalid = false;
+
+    private View v;
+    private Context mContext;
 
     private Mood mood;
 
     private String moodType;
-    private String moodAuthor;
+
+    // TODO: Automatically set the author to the current user
+    private String moodAuthor = "Nathan";
+
     private String moodMsg = null;
     private String location = null;
     private String socialSit = null;
     private String date;
+    private Bitmap photo;
 
 
-    private AddMoodController(View view, final Dialog dialog) {
-        this.view = view;
+    private AddMoodController(final Context mContext, View v) {
+        this.v = v;
+        this.mContext = mContext;
 
-        Button post = (Button) this.view.findViewById(R.id.post);
-        post.setOnClickListener(new View.OnClickListener() {
+        /**
+         * Get access to the camera in android on user click
+         */
+        Button photoButton = (Button) this.v.findViewById(R.id.load_picture);
+
+        photoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getMood();
-                dialog.dismiss();
+                Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+                ((Activity) mContext).startActivityForResult(intent, CAPTURE_IMAGE_REQUEST_CODE);
             }
         });
+
+        getMood();
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        if (requestCode == CAPTURE_IMAGE_REQUEST_CODE) {
+            if (resultCode == CONFIRM) {
+                Bitmap photo = (Bitmap) intent.getExtras().get("data");
+                this.photo = photo;
+            }
+        }
     }
 
     public void getMood() {
 
-        // TODO: automatically set the author to the current user
-        // String moodAuthor =
+        // TODO: Automatically set the author to the current user
 
-        Spinner spinner = (Spinner) this.view.findViewById(R.id.select_mood);
+        Spinner spinner = (Spinner) this.v.findViewById(R.id.select_mood);
 
         if (!spinner.getSelectedItem().toString().isEmpty()) {
             this.moodType = spinner.getSelectedItem().toString();
         }
 
-        EditText msg = (EditText) this.view.findViewById(R.id.enter_description);
+        EditText msg = (EditText) this.v.findViewById(R.id.enter_description);
 
         if (!msg.getText().toString().isEmpty()) {
             this.moodMsg = msg.getText().toString();
@@ -64,21 +90,22 @@ public class AddMoodController {
 
 
         // TODO: Make this an actual location
-        // TODO: Handle exception where user does not input a location
+        // TODO: Handle exception where user does not input a location/invalid locations
         // Possibly find the current location? Or just not put a location
-        EditText location = (EditText) this.view.findViewById(R.id.enter_location);
+        EditText location = (EditText) this.v.findViewById(R.id.enter_location);
 
         if (!location.getText().toString().isEmpty()) {
             this.location = location.getText().toString();
-        }
+        } else { }
 
-        EditText socialSit = (EditText) this.view.findViewById(R.id.enter_tags);
+        EditText socialSit = (EditText) this.v.findViewById(R.id.enter_tags);
 
         if (!socialSit.getText().toString().isEmpty()) {
             this.socialSit = socialSit.getText().toString();
         }
 
-        EditText date = (EditText) this.view.findViewById(R.id.enter_date);
+        EditText date = (EditText) this.v.findViewById(R.id.enter_date);
+
 
         if (!date.getText().toString().isEmpty()) {
             this.date = date.getText().toString();
@@ -90,11 +117,22 @@ public class AddMoodController {
                 Date checkdate = check.parse(this.date);
             } catch(ParseException e) {
                 e.printStackTrace();
+                dateInvalid = true;
             }
         }
 
+        if (dateInvalid) {
+            TextView textview = (TextView) this.v.findViewById(R.id.invalid);
+            textview.setText("Invalid Date");
+        } else if (locationInvalid) {
+            TextView textview = (TextView) this.v.findViewById(R.id.invalid);
+            textview.setText("Location not found");
+        } else {
+            makeMood();
+        }
+
     }
-    /*
+
     public Mood makeMood() {
 
         // If the date is null, automatically set the date to the current date
@@ -104,13 +142,15 @@ public class AddMoodController {
 
             this.mood = new Mood(this.moodType, this.moodAuthor, currentDateandTime);
         } else {
-            this.mood = new Mood(this.moodType, this.moodAuthor, date);
+            this.mood = new Mood(this.moodType, this.moodAuthor, this.date);
         }
 
         mood.setMoodMsg(this.moodMsg);
         mood.setLocation(this.location);
+        mood.setSocialSit(this.socialSit);
+        mood.setPhoto(this.photo);
 
-
-    }*/
+        return mood;
+    }
 
 }

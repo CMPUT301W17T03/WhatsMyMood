@@ -113,7 +113,7 @@
         android:id="@+id/linearLayout">
 
         <Button
-            android:id="@+id/buttonLoadPicture"
+            android:id="@+id/load_picture"
             android:layout_width="81dp"
             android:layout_height="63dp"
             android:layout_marginLeft="30dp"
@@ -155,4 +155,11 @@
             android:textAllCaps="false"/>
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/invalid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#ff0000" />
+
 </RelativeLayout>
