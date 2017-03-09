@@ -15,10 +15,14 @@ public class Mood implements Comparable<Mood>{
     private String moodType;
     private String moodAuthor;
     private String moodMsg;
-    private Location location;
+
+    // TODO: Use an actual location instead of a string
+    //private Location location;
+    private String location;
+
     private String socialSit;
-    private Date date = new Date();
-    private Bitmap Photo;
+    private String date;
+    private Bitmap photo;
 
 
     /**
@@ -36,7 +40,7 @@ public class Mood implements Comparable<Mood>{
      * @param moodType
      * @param date
      */
-    public Mood(String moodAuthor, String moodType, Date date) {
+    public Mood(String moodAuthor, String moodType, String date) {
         this.moodAuthor = moodAuthor;
         this.moodType = moodType;
         this.date = date;
@@ -70,6 +74,14 @@ public class Mood implements Comparable<Mood>{
         this.moodMsg = newmoodMsg;
     }
 
+
+
+    // TODO: Use an actual location instead of a string
+    public String getLocation() { return location; }
+
+    public void setLocation(String newLocation) {this.location = newLocation; }
+
+    /*
     public Location getLocation() {
         return location;
     }
@@ -77,6 +89,9 @@ public class Mood implements Comparable<Mood>{
     public void setLocation(Location newLocation) {
         this.location = newLocation;
     }
+    */
+
+
 
     public String getSocialSit() {
         return socialSit;
@@ -86,20 +101,20 @@ public class Mood implements Comparable<Mood>{
         this.socialSit = newsocialSit;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date newdate) {
+    public void setDate(String newdate) {
         this.date = newdate;
     }
 
     public Bitmap getPhoto() {
-        return Photo;
+        return photo;
     }
 
     public void setPhoto(Bitmap newPhoto) {
-        this.Photo = newPhoto;
+        this.photo = newPhoto;
     }
 
     //http://stackoverflow.com/questions/5927109/sort-objects-in-arraylist-by-date

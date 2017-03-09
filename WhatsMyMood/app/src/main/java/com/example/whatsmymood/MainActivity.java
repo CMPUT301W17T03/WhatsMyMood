@@ -20,7 +20,6 @@ public class MainActivity extends AppCompatActivity {
         FooterHandler handler = new FooterHandler(this, footer);
     }
 
-
     @Override
     protected void onStart() {
         super.onStart();
