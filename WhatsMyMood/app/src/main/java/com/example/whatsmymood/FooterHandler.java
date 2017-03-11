@@ -45,7 +45,8 @@ public class FooterHandler {
         this.v = v;
         this.mContext = mContext;
         dialog = new Dialog(mContext);
-        this.moodController = new AddMoodController(mContext,v);
+        dialog.setContentView(R.layout.add_mood_popup);
+        moodController = new AddMoodController(mContext,dialog);
         build();
     }
 
@@ -114,7 +115,6 @@ public class FooterHandler {
             public void onClick(View view) {
                 Log.d("intent", "intent dialog");
                 if(!dialog.isShowing()) {
-                    dialog.setContentView(R.layout.add_mood_popup);
                     dialog.show();
                 }else{
                     dialog.dismiss();

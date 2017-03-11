@@ -1,6 +1,7 @@
 package com.example.whatsmymood;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 
@@ -27,7 +28,7 @@ public class AddMoodController {
     private static boolean dateInvalid = false;
     private static boolean locationInvalid = false;
 
-    private View v;
+    private Dialog dialog;
     private Context mContext;
 
     private Mood mood;
@@ -44,14 +45,14 @@ public class AddMoodController {
     private Bitmap photo;
 
 
-    public AddMoodController(final Context mContext, View v) {
-        this.v = v;
+    public AddMoodController(final Context mContext, Dialog d) {
+        this.dialog = d;
         this.mContext = mContext;
 
         /**
          * Get access to the camera in android on user click
          */
-        Button photoButton = (Button) this.v.findViewById(R.id.load_picture);
+        Button photoButton = (Button) dialog.findViewById(R.id.load_picture);
 
         photoButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,21 +62,24 @@ public class AddMoodController {
             }
         });
 
-        Button post = (Button) this.v.findViewById(R.id.post);
+        Button post = (Button) dialog.findViewById(R.id.post);
 
         post.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                UserAccount user = CurrentUser.getInstance().getCurrentUser();
+                CurrentUser current = CurrentUser.getInstance();
+                current.setCurrentUser(new UserAccount("username","password"));
+                UserAccount user = current.getCurrentUser();
                 Mood m = getMood();
                 Log.d("tag", m.toString());
                 if(m != null) {
                     user.moodList.addMood(getMood());
                 }
+                Log.d("tag", user.toString());
+                dialog.dismiss();
                 //TODO implement the iohandler to update server
             }
         });
-
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
@@ -91,13 +95,13 @@ public class AddMoodController {
 
         // TODO: Automatically set the author to the current user
 
-        Spinner spinner = (Spinner) this.v.findViewById(R.id.select_mood);
+        Spinner spinner = (Spinner) this.dialog.findViewById(R.id.select_mood);
 
         if (!spinner.getSelectedItem().toString().isEmpty()) {
             this.moodType = spinner.getSelectedItem().toString();
         }
 
-        EditText msg = (EditText) this.v.findViewById(R.id.enter_description);
+        EditText msg = (EditText) this.dialog.findViewById(R.id.enter_description);
 
         if (!msg.getText().toString().isEmpty()) {
             this.moodMsg = msg.getText().toString();
@@ -107,19 +111,19 @@ public class AddMoodController {
         // TODO: Make this an actual location
         // TODO: Handle exception where user does not input a location/invalid locations
         // Possibly find the current location? Or just not put a location
-        EditText location = (EditText) this.v.findViewById(R.id.enter_location);
+        EditText location = (EditText) this.dialog.findViewById(R.id.enter_location);
 
         if (!location.getText().toString().isEmpty()) {
             this.location = location.getText().toString();
         } else { }
 
-        EditText socialSit = (EditText) this.v.findViewById(R.id.enter_tags);
+        EditText socialSit = (EditText) this.dialog.findViewById(R.id.enter_tags);
 
         if (!socialSit.getText().toString().isEmpty()) {
             this.socialSit = socialSit.getText().toString();
         }
 
-        EditText date = (EditText) this.v.findViewById(R.id.enter_date);
+        EditText date = (EditText) this.dialog.findViewById(R.id.enter_date);
 
 
         if (!date.getText().toString().isEmpty()) {
@@ -137,10 +141,10 @@ public class AddMoodController {
         }
 
         if (dateInvalid) {
-            TextView textview = (TextView) this.v.findViewById(R.id.invalid);
+            TextView textview = (TextView) this.dialog.findViewById(R.id.invalid);
             textview.setText("Invalid Date");
         } else if (locationInvalid) {
-            TextView textview = (TextView) this.v.findViewById(R.id.invalid);
+            TextView textview = (TextView) this.dialog.findViewById(R.id.invalid);
             textview.setText("Location not found");
         } else {
             return makeMood();
