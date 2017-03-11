@@ -43,11 +43,11 @@ public class ElasticSearchUserController {
                         user.setId(result.getId());
                     }
                     else{
-                        Log.i("Error","Elasticsearch was not able to add the user");
+                        Log.i("Error","ElasticSearch was not able to add the user");
                     }
                 }
                 catch (Exception e) {
-                    Log.i("Error", "The application failed to build and send the userAccounts");
+                    Log.i("Error", "The application failed to build and send the user accounts");
                 }
 
             }
