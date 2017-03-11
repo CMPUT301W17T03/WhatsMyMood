@@ -22,8 +22,12 @@ public class ElasticSearchMoodController {
 
     private static JestDroidClient client;
 
+<<<<<<< HEAD
+//    public static class AddMoodsTask extends AsyncTask<Mood, Void, Void> {
+//
+//    }
+=======
     //Adds moods to ElasticSearch... probably
-
     public static class AddMoodsTask extends AsyncTask<Mood, Void, Void> {
 
         @Override
@@ -60,6 +64,8 @@ public class ElasticSearchMoodController {
             
         }
     }
+>>>>>>> 75ed5a93bc8e0b0cf52f4a339bcaef2fd25c6a4b
+
 
     //Taken from LonelyTwitter - Lab 5 with ElasticSearch
     public static void verifySettings() {
