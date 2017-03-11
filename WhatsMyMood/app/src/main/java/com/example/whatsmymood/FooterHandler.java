@@ -44,6 +44,7 @@ public class FooterHandler {
         this.v = v;
         this.mContext = mContext;
         dialogActive = false;
+        dialog = new Dialog(mContext);
         build();
     }
 
@@ -77,6 +78,8 @@ public class FooterHandler {
             public void onClick(View view) {
                 //TODO need a follow hub activity
                 Log.d("intent", "intent follow");
+                Intent intent = new Intent(mContext, FollowHubActivity.class);
+                mContext.startActivity(intent);
             }
         });
 
@@ -111,7 +114,6 @@ public class FooterHandler {
                 Log.d("intent", "intent dialog");
                 if(!dialog.isShowing()) {
                     //dialogActive = true;
-                    dialog = new Dialog(mContext);
                     dialog.setContentView(R.layout.add_mood_popup);
                     dialog.show();
                 }else{
