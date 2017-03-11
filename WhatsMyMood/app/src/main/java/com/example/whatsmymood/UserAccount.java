@@ -4,7 +4,7 @@ import android.graphics.Bitmap;
 
 import java.util.ArrayList;
 
-import io.searchbox.annotations.JestId;
+//import io.searchbox.annotations.JestId;
 
 /**
  * Created by Alex on 2/21/2017.
@@ -33,7 +33,7 @@ public class UserAccount {
     public MoodList moodList;
     public Follows follows;
 
-    @JestId
+    //@JestId
     private String id;
 
     public UserAccount(String username, String password) {
