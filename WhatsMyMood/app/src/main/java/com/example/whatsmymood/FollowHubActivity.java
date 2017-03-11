@@ -33,6 +33,11 @@ public class FollowHubActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        followers = new ArrayList<String>();
+        following = new ArrayList<String>();
+        requests = new ArrayList<String>();
+
         setContentView(R.layout.activity_follow_hub);
         followersList = (ListView) findViewById(R.id.followersList);
         followingList = (ListView) findViewById(R.id.followingList);

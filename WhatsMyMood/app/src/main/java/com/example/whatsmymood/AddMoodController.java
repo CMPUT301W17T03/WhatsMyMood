@@ -140,9 +140,9 @@ public class AddMoodController {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             String currentDateandTime = sdf.format(new Date());
 
-            this.mood = new Mood(this.moodType, this.moodAuthor, currentDateandTime);
+            this.mood = new Mood(this.moodType, this.moodAuthor);
         } else {
-            this.mood = new Mood(this.moodType, this.moodAuthor, this.date);
+            this.mood = new Mood(this.moodType, this.moodAuthor);
         }
 
         mood.setMoodMsg(this.moodMsg);
@@ -152,5 +152,4 @@ public class AddMoodController {
 
         return mood;
     }
-
 }

@@ -13,7 +13,7 @@
     <uses-permission android:name="android.permission.CAMERA" />
 
     <!-- To get the users current location -->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -36,7 +36,8 @@
         </activity>
         <activity android:name=".FollowHubActivity" />
         <activity android:name=".FollowAdapter" />
-        <activity android:name=".RequestAdapter"></activity>
+        <activity android:name=".RequestAdapter" />
+        <activity android:name=".UserCreateActivity"></activity>
     </application>
 
 </manifest>

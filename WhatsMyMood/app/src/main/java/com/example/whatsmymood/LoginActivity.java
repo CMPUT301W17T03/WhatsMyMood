@@ -41,7 +41,7 @@ public class LoginActivity extends AppCompatActivity{
      * TODO: remove after connecting to a real authentication system.
      */
     private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "a:a"
+            ":"
     };
 
     /**
@@ -80,6 +80,15 @@ public class LoginActivity extends AppCompatActivity{
             @Override
             public void onClick(View view) {
                 attemptLogin();
+            }
+        });
+
+        Button createUserButton = (Button) findViewById(R.id.create_account_button);
+        createUserButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(LoginActivity.this,LoginActivity.class);
+                startActivity(intent);
             }
         });
 
