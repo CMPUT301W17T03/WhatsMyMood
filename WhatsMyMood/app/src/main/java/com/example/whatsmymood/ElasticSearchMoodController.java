@@ -14,9 +14,9 @@ public class ElasticSearchMoodController {
 
     private static JestDroidClient client;
 
-    public static class AddMoodsTask extends AsyncTask<Mood, Void, Void> {
-
-    }
+//    public static class AddMoodsTask extends AsyncTask<Mood, Void, Void> {
+//
+//    }
 
 
     //Taken from LonelyTwitter - Lab 5 with ElasticSearch
