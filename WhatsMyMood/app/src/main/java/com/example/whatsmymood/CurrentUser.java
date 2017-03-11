@@ -6,15 +6,17 @@ package com.example.whatsmymood;
  * Implements Lazy Singleton to hold Current User
  */
 public class CurrentUser {
-    private  UserAccount currentUser;
-    private CurrentUser() {}
 
-    private static class LazyHolder {
-        private static final CurrentUser INSTANCE = new CurrentUser();
+    private static CurrentUser instance = null ;
+    private UserAccount currentUser ;
+    private CurrentUser() {
     }
 
     public static CurrentUser getInstance() {
-        return LazyHolder.INSTANCE;
+        if(instance == null){
+            instance = new CurrentUser();
+        }
+        return instance;
     }
 
     public UserAccount getCurrentUser() {

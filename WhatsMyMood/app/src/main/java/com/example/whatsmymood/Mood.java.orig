@@ -25,6 +25,8 @@ public class Mood implements Comparable<Mood>{
     private Date date;
     private Bitmap photo;
 
+<<<<<<< HEAD
+=======
     private String id;
 
 
@@ -36,6 +38,7 @@ public class Mood implements Comparable<Mood>{
         this.id = id;
     }
 
+>>>>>>> addmood
     /**
      * @param moodAuthor
      * @param moodType
