@@ -21,7 +21,7 @@ public class Mood implements Comparable<Mood>{
     private String location;
 
     private String socialSit;
-    private String date;
+    private Date date;
     private Bitmap photo;
 
 
@@ -32,6 +32,7 @@ public class Mood implements Comparable<Mood>{
     public Mood(String moodAuthor, String moodType) {
         this.moodAuthor = moodAuthor;
         this.moodType = moodType;
+        this.date = new Date();
     }
 
     /**
@@ -40,7 +41,7 @@ public class Mood implements Comparable<Mood>{
      * @param moodType
      * @param date
      */
-    public Mood(String moodAuthor, String moodType, String date) {
+    public Mood(String moodAuthor, String moodType, Date date) {
         this.moodAuthor = moodAuthor;
         this.moodType = moodType;
         this.date = date;
@@ -101,11 +102,11 @@ public class Mood implements Comparable<Mood>{
         this.socialSit = newsocialSit;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(String newdate) {
+    public void setDate(Date newdate) {
         this.date = newdate;
     }
 
