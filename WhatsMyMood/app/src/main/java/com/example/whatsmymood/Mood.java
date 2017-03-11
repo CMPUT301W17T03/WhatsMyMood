@@ -6,7 +6,6 @@ import android.location.Location;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import io.searchbox.annotations.JestId;
 
 
 /**
@@ -26,7 +25,6 @@ public class Mood implements Comparable<Mood>{
     private Date date;
     private Bitmap photo;
 
-    @JestId
     private String id;
 
 

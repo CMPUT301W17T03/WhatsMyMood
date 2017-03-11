@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -43,7 +44,7 @@ public class AddMoodController {
     private Bitmap photo;
 
 
-    private AddMoodController(final Context mContext, View v) {
+    public AddMoodController(final Context mContext, View v) {
         this.v = v;
         this.mContext = mContext;
 
@@ -60,7 +61,21 @@ public class AddMoodController {
             }
         });
 
-        getMood();
+        Button post = (Button) this.v.findViewById(R.id.post);
+
+        post.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                UserAccount user = CurrentUser.getInstance().getCurrentUser();
+                Mood m = getMood();
+                Log.d("tag", m.toString());
+                if(m != null) {
+                    user.moodList.addMood(getMood());
+                }
+                //TODO implement the iohandler to update server
+            }
+        });
+
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
@@ -72,7 +87,7 @@ public class AddMoodController {
         }
     }
 
-    public void getMood() {
+    public Mood getMood() {
 
         // TODO: Automatically set the author to the current user
 
@@ -128,12 +143,12 @@ public class AddMoodController {
             TextView textview = (TextView) this.v.findViewById(R.id.invalid);
             textview.setText("Location not found");
         } else {
-            makeMood();
+            return makeMood();
         }
-
+        return null;
     }
 
-    public Mood makeMood() {
+    private Mood makeMood() {
 
         // If the date is null, automatically set the date to the current date
         if (this.date == null) {

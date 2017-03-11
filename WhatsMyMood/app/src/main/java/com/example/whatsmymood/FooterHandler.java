@@ -25,6 +25,7 @@ public class FooterHandler {
     private View v;
     private Context mContext;
     private Dialog dialog;
+    private AddMoodController moodController;
     private boolean dialogActive;
 
     /**
@@ -44,6 +45,7 @@ public class FooterHandler {
         this.v = v;
         this.mContext = mContext;
         dialog = new Dialog(mContext);
+        this.moodController = new AddMoodController(mContext,v);
         build();
     }
 
