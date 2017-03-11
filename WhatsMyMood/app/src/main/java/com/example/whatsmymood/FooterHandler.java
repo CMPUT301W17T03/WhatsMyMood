@@ -43,7 +43,6 @@ public class FooterHandler {
     public FooterHandler(Context mContext, View v){
         this.v = v;
         this.mContext = mContext;
-        dialogActive = false;
         dialog = new Dialog(mContext);
         build();
     }
@@ -113,12 +112,10 @@ public class FooterHandler {
             public void onClick(View view) {
                 Log.d("intent", "intent dialog");
                 if(!dialog.isShowing()) {
-                    //dialogActive = true;
                     dialog.setContentView(R.layout.add_mood_popup);
                     dialog.show();
                 }else{
                     dialog.dismiss();
-                    //dialogActive = false;
                 }
             }
         });
