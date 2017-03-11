@@ -7,8 +7,13 @@ import com.searchly.jestdroid.DroidClientConfig;
 import com.searchly.jestdroid.JestClientFactory;
 import com.searchly.jestdroid.JestDroidClient;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import io.searchbox.core.DocumentResult;
 import io.searchbox.core.Index;
+import io.searchbox.core.Search;
+import io.searchbox.core.SearchResult;
 
 
 /**
@@ -22,7 +27,7 @@ public class ElasticSearchUserController {
     //https://github.com/AlexCzeto/lonelyTwitter/blob/elasticsearch/app/src/main/java/ca/ualberta/cs/lonelytwitter/ElasticsearchTweetController.java
     //03-11-2017
 
-    public static class AddTweetsTask extends AsyncTask<UserAccount, Void, Void> {
+    public static class AddUserTask extends AsyncTask<UserAccount, Void, Void> {
 
         @Override
         protected Void doInBackground(UserAccount... users) {
@@ -50,6 +55,37 @@ public class ElasticSearchUserController {
         }
     }
 
+    public static class GetUserTask extends AsyncTask<String, Void, ArrayList<UserAccount>> {
+        @Override
+        protected ArrayList<UserAccount> doInBackground(String... search_parameters) {
+            verifySettings();
+
+            ArrayList<UserAccount> users = new ArrayList<UserAccount>();
+
+            //String query = "";
+            String query = String.format("{ \"query\" : {  \"term\" : { \"username\" : \"%s\" } } }",search_parameters[0].toString().trim());
+
+            Search search = new Search.Builder(query).
+                    addIndex("testing").addType("tweet")
+                    .build();
+
+            try {
+                SearchResult result = client.execute(search);
+                if (result.isSucceeded()){
+                    List<UserAccount> foundAccount = result.getSourceAsObjectList(UserAccount.class);
+                    users.addAll(foundAccount);
+                }
+                else{
+                    Log.i("Error","The search query failed to find any user accounts that matched");
+                }
+            }
+            catch (Exception e) {
+                Log.i("Error", "Something went wrong when we tried to communicate with the elasticsearch server!");
+            }
+
+            return users;
+        }
+    }
 
 
     //Taken from LonelyTwitter - Lab 5 with ElasticSearch
