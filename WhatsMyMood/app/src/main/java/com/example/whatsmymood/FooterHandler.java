@@ -91,6 +91,7 @@ public class FooterHandler {
         this.v.findViewById(R.id.home).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //TODO handle case where home activity is in the stack multiple times in a row
                 Log.d("intent", "intent main");
                 Intent intent = new Intent(mContext, MainActivity.class);
                 mContext.startActivity(intent);
@@ -100,8 +101,9 @@ public class FooterHandler {
         this.v.findViewById(R.id.map).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO need a map activity
                 Log.d("intent", "intent map");
+                Intent intent = new Intent (mContext, MapsActivity.class);
+                mContext.startActivity(intent);
             }
         });
 
@@ -109,9 +111,9 @@ public class FooterHandler {
             @Override
             public void onClick(View view) {
                 Log.d("intent", "intent dialog");
+                dialog = new Dialog(mContext); // Moved this line because I was getting a null object reference - Nathan
                 if(!dialog.isShowing()) {
                     //dialogActive = true;
-                    dialog = new Dialog(mContext);
                     dialog.setContentView(R.layout.add_mood_popup);
                     dialog.show();
                 }else{
