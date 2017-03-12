@@ -65,9 +65,7 @@ public class ElasticSearchUserController {
             //String query = "";
             String query = String.format("{ \"query\" : {  \"term\" : { \"username\" : \"%s\" } } }",search_parameters[0].toString().trim());
 
-            Search search = new Search.Builder(query).
-                    addIndex("testing").addType("tweet")
-                    .build();
+            Search search = new Search.Builder(query).addIndex("cmput301w17t03").addType("user").build();
 
             try {
                 SearchResult result = client.execute(search);
