@@ -67,9 +67,6 @@ public class ElasticSearchUserController {
 
             Search search = new Search.Builder(query).addIndex("cmput301w17t03").addType("user").build();
             Log.d("yiji",query);
-            Search search = new Search.Builder(query).
-                    addIndex("cmput301w17t03").addType("user")
-                    .build();
 
             try {
                 SearchResult result = client.execute(search);
