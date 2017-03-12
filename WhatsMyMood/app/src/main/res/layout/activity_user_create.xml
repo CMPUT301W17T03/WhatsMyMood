@@ -34,6 +34,7 @@
         android:maxLines="1" />
     <Button
         android:id="@+id/create"
+        android:onClick="clickCreate"
         style="?android:textAppearanceSmall"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -42,6 +43,7 @@
         android:textStyle="bold" />
     <Button
         android:id="@+id/cancel"
+        android:onClick="clickCancel"
         style="?android:textAppearanceSmall"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
