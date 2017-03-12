@@ -28,16 +28,20 @@ public class ElasticSearchTest extends ActivityInstrumentationTestCase2 {
         //getUserTask.execute(search);
 
         try{
-            ArrayList<UserAccount> getUserList = getUserTask.execute(search);
-            Log.d("yiji",getUserList.toString());
-            Log.d("yiji",getUserList.get(0).toString());
+            getUserTask.execute(search);
+            ArrayList<UserAccount> getUser = getUserTask.get();
+
+            Log.d("yiji",getUser.toString());
+            Log.d("yiji",getUser.get(0).toString());
             Log.d("yiji",user.toString());
-            assertTrue(getUserList.contains(user));
+            //assertTrue(getUser.contains(user));
+            assertEquals(getUser.get(0), user);
         } catch (InterruptedException e){
             e.printStackTrace();
         } catch (ExecutionException e){
             e.printStackTrace();
         }
+
     }
 }
 
