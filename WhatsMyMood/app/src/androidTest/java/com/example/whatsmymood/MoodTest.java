@@ -54,10 +54,10 @@ public class MoodTest extends ActivityInstrumentationTestCase2 {
         Location location = new Location("provider");
         location.setLatitude(100.0);
         location.setLongitude(50.0);
-        mood.setLocation(location);
+        //mood.setLocation(location);
 
-        assertEquals(mood.getLocation().getLatitude(), 100.0);
-        assertEquals(mood.getLocation().getLongitude(), 50.0);
+        //assertEquals(mood.getLocation().getLatitude(), 100.0);
+        //assertEquals(mood.getLocation().getLongitude(), 50.0);
     }
 
     public void testGetDate() {
