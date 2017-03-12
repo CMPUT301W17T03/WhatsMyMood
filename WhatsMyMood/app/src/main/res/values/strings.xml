@@ -37,5 +37,6 @@
         <item>Shame</item>
         <item>Surpise</item>
     </string-array>
+    <string name="title_activity_maps">Map</string>
 
 </resources>
