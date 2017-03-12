@@ -64,8 +64,8 @@ public class AddMoodController {
                 Mood m = getMood();
                 if(m != null) {
                     user.moodList.addMood(getMood());
+                    dialog.dismiss();
                 }
-                dialog.dismiss();
                 //TODO implement the iohandler to update server
             }
         });
@@ -120,7 +120,8 @@ public class AddMoodController {
         }
 
         if (DATE_INVALID) {
-            TextView textview = (TextView) this.dialog.findViewById(R.id.invalid);
+            TextView textview = (TextView) this.dialog.findViewById(R.id.enter_date);
+            textview.setError("Invalid Date");
         } else {
             return makeMood();
         }
