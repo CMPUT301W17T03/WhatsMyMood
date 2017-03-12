@@ -155,11 +155,4 @@
             android:textAllCaps="false"/>
 
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/invalid"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="#ff0000" />
-
 </RelativeLayout>
