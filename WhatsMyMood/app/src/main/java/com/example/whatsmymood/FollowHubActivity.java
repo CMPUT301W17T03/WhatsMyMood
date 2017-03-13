@@ -48,6 +48,8 @@ public class FollowHubActivity extends AppCompatActivity {
 
     protected void onStart() {
         super.onStart();
+
+        //TODO Fecth data periodically e.i. observer/observable
         fetchData();
         followersAdapter = new FollowAdapter(followers, this);
         followingAdapter = new FollowAdapter(following, this);
@@ -62,6 +64,9 @@ public class FollowHubActivity extends AppCompatActivity {
     //TODO grab the information from elastic search and place it into lists
     protected void fetchData() {
         // currently using static data to prove concept works
+
+
+
         Log.d("fetch","Fetching data...");
         followers.add("John Doe");
         followers.add("Jane Doe");
