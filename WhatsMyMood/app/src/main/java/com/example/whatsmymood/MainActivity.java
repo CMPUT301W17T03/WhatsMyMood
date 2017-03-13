@@ -20,12 +20,11 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<String> followers;
     private ArrayList<UserAccount> mFollower;
 
+    // Checks for follower updates
+    private static int size = 0;
+
     private ArrayList<Mood> moods;
     private ArrayAdapter<Mood> moodAdapter;
-
-    //temporary
-    private UserAccount user;
-    private Follows templist;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +72,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        fetchData();
+        if (followers.size() != size) {
+            fetchData();
+            size = followers.size();
+        }
         moodList = (ListView) findViewById(R.id.moodList);
         moodAdapter = new MoodAdapter(moods,this);
 
@@ -90,8 +92,7 @@ public class MainActivity extends AppCompatActivity {
                 if (!mFollower.isEmpty()) {
                     UserAccount temp = mFollower.get(mFollower.size()-1);
                     MoodList tempMoodList = temp.getMoodList();
-                    //moods.add(temp.getMoodList().getRecentMood());
-                    moods.add(new Mood(temp.getUsername(), tempMoodList.getRecentMood().getMoodType()));
+                    moods.add(temp.getMoodList().getRecentMood());
                 } else {
                     //TODO: Handle exception
                     //Tbh even if we don't handle it nothing goes wrong
