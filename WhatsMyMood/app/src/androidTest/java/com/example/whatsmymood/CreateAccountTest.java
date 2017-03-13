@@ -38,7 +38,7 @@ public class CreateAccountTest extends ActivityInstrumentationTestCase2 {
 
         solo.enterText((EditText) solo.getView(R.id.username), "NewUser");
         solo.enterText((EditText) solo.getView(R.id.password1), "password");
-        solo.enterText((EditText) solo.getView(R.id.password1), "password");
+        solo.enterText((EditText) solo.getView(R.id.password2), "password");
 
         solo.clickOnButton("Create");
         solo.assertCurrentActivity("Wrong Activity", LoginActivity.class);
