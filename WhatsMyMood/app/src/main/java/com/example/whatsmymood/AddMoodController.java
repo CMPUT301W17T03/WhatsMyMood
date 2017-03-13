@@ -64,6 +64,10 @@ public class AddMoodController {
                 Mood m = getMood();
                 if(m != null) {
                     user.moodList.addMood(getMood());
+
+                    ElasticSearchUserController.UpdateUser updateUser = new ElasticSearchUserController.UpdateUser();
+                    updateUser.execute(user);
+
                     dialog.dismiss();
                 }
                 //TODO implement the iohandler to update server
