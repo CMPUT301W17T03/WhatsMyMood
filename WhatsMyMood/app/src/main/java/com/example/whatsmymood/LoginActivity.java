@@ -198,6 +198,7 @@ public class LoginActivity extends AppCompatActivity{
                 }
                 for (UserAccount User : userList) {
                     if (User.getUsername().equals(mUsername) && User.getPassword().equals(mPassword)) {
+                        CurrentUser.getInstance().setCurrentUser(User);
                         return true;
                     } else {
                         return false;

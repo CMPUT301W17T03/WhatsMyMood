@@ -7,9 +7,11 @@ import android.content.Intent;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.util.Log;
 import android.location.LocationManager;
 import android.view.View;
@@ -29,7 +31,8 @@ import static android.content.Context.LOCATION_SERVICE;
  *  PLEASE NOTE I HAVE NOT TESTED THIS YET - NATHAN
  */
 public class AddMoodController {
-    private static boolean DATE_INVALID = false;
+    private boolean DATE_INVALID = false;
+    private boolean SELECT_MOOD_INVALID = false;
 
     private Dialog dialog;
     private Context mContext;
@@ -39,7 +42,7 @@ public class AddMoodController {
     private String moodType;
 
     // TODO: Automatically set the author to the current user
-    private String moodAuthor = "Nathan";
+    private String moodAuthor;
 
     private String moodMsg = null;
     private String location = null;
@@ -59,11 +62,16 @@ public class AddMoodController {
             @Override
             public void onClick(View view) {
                 CurrentUser current = CurrentUser.getInstance();
+                moodAuthor = CurrentUser.getInstance().getCurrentUser().getUsername();
                 //current.setCurrentUser(new UserAccount("username","password"));
                 UserAccount user = current.getCurrentUser();
                 Mood m = getMood();
                 if(m != null) {
                     user.moodList.addMood(getMood());
+
+                    ElasticSearchUserController.UpdateUser updateUser = new ElasticSearchUserController.UpdateUser();
+                    updateUser.execute(user);
+
                     dialog.dismiss();
                 }
                 //TODO implement the iohandler to update server
@@ -77,15 +85,16 @@ public class AddMoodController {
 
         Spinner spinner = (Spinner) this.dialog.findViewById(R.id.select_mood);
 
-        if (!spinner.getSelectedItem().toString().isEmpty()) {
+        if (!spinner.getSelectedItem().toString().equals("Select a mood")) {
             this.moodType = spinner.getSelectedItem().toString();
+        } else {
+            SELECT_MOOD_INVALID = true;
         }
 
         EditText msg = (EditText) this.dialog.findViewById(R.id.enter_description);
 
         if (!msg.getText().toString().isEmpty()) {
             this.moodMsg = msg.getText().toString();
-            Log.d("tagg", this.moodMsg);
         }
 
         // TODO: Make this an actual location
@@ -119,9 +128,25 @@ public class AddMoodController {
             }
         }
 
-        if (DATE_INVALID) {
+        if (SELECT_MOOD_INVALID) {
+
+            // TODO: Find a better way to output the error
+            Spinner mSpinner = (Spinner) this.dialog.findViewById(R.id.select_mood);
+            TextView textview = (TextView) mSpinner.getSelectedView();
+            textview.setError("");
+            textview.setTextColor(Color.RED);//just to highlight that this is an error
+            textview.setText("Invalid Mood Selected");
+
+            // TODO: Handle invalid mood properly
+            // SELECT_MOOD_INVALID is always set to true unless we manually set it to false
+            SELECT_MOOD_INVALID = false;
+        } else if (DATE_INVALID) {
             TextView textview = (TextView) this.dialog.findViewById(R.id.enter_date);
-            textview.setError("Invalid Date");
+            textview.setError("Invalid Date Inputed");
+
+            // TODO: Handle invalid date properly
+            // DATE_INVALID is always set to true unless we manually set it to false
+            DATE_INVALID = false;
         } else {
             return makeMood();
         }
