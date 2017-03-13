@@ -63,10 +63,20 @@ public class ElasticSearchUserController {
             ArrayList<UserAccount> users = new ArrayList<UserAccount>();
 
             //String query = "";
-            String query = String.format("{ \"query\" : {  \"term\" : { \"username\" : \"%s\" } } }",search_parameters[0].toString().trim());
+            //String query = String.format("{ \"query\" : {  \"term\" : { \"username\" : \"Username\" } } }");  //,search_parameters[0].toString().trim());
+
+
+            String query = String.format("{\n" +
+                    "    \"query\" : {\n" +
+                    "        \"match\" : " +
+                    "               { \"username\" : \"" + "%s" + "\" }\n" +
+                    "    }\n" +
+                    "}", search_parameters[0].toString().trim());
+
+
 
             Search search = new Search.Builder(query).addIndex("cmput301w17t03").addType("user").build();
-            Log.d("yiji",query);
+            Log.d("hello",query);
 
             try {
                 SearchResult result = client.execute(search);
