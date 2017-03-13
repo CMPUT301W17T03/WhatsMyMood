@@ -1,14 +1,18 @@
 package com.example.whatsmymood;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+
+import static android.R.attr.onClick;
 
 /**
  * The type Request adapter.
@@ -33,10 +37,26 @@ public class RequestAdapter extends ArrayAdapter<String> {
         LayoutInflater requestsInflator = LayoutInflater.from(getContext());
         View customView = requestsInflator.inflate(R.layout.request_adapter, parent, false);
 
+        Button acceptButton = (Button) customView.findViewById(R.id.acceptButton);
+        Button declineButton = (Button) customView.findViewById(R.id.declineButton);
+
         String user = getItem(position);
         TextView usernameText = (TextView) customView.findViewById(R.id.usernameText);
-
         usernameText.setText(user);
+
+        acceptButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("accept","accept button tapped");
+            }
+        });
+
+        declineButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("decline","decline button tapped");
+            }
+        });
 
         return customView;
     }

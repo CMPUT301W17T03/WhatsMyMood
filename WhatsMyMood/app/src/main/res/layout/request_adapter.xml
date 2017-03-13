@@ -17,18 +17,16 @@
             android:layout_width="192px"
             android:layout_height="192px"
             android:layout_marginRight="20sp"
-            android:id="@+id/accept"
+            android:id="@+id/acceptButton"
             android:background="@drawable/ic_check_circle"
-            android:onClick="acceptRequest"
             android:visibility="visible">
         </Button>
         <Button
             android:layout_width="192px"
             android:layout_height="192px"
             android:layout_marginRight="10sp"
-            android:id="@+id/decline"
+            android:id="@+id/declineButton"
             android:background="@drawable/ic_remove_circle"
-            android:onClick="declineRequest"
             android:visibility="visible">
         </Button>
     </LinearLayout>
