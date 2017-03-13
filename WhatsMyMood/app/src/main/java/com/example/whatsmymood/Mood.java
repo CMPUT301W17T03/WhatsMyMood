@@ -23,7 +23,7 @@ public class Mood implements Comparable<Mood>{
 
     private String socialSit;
     private Date date;
-    private Bitmap photo;
+    private String photo;
 
     private String id;
 
@@ -121,11 +121,11 @@ public class Mood implements Comparable<Mood>{
         this.date = newdate;
     }
 
-    public Bitmap getPhoto() {
+    public String getPhoto() {
         return photo;
     }
 
-    public void setPhoto(Bitmap newPhoto) {
+    public void setPhoto(String newPhoto) {
         this.photo = newPhoto;
     }
 

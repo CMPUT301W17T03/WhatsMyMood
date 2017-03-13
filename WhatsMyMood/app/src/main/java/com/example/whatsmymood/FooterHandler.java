@@ -46,7 +46,7 @@ public class FooterHandler {
         this.mContext = mContext;
         dialog = new Dialog(mContext);
         dialog.setContentView(R.layout.add_mood_popup);
-        moodController = new AddMoodController(mContext,dialog);
+        moodController = new AddMoodController(mContext,dialog,v);
         build();
     }
 
