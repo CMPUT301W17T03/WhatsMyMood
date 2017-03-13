@@ -47,6 +47,7 @@ public class RequestAdapter extends ArrayAdapter<String> {
         acceptButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //TODO: add the user to the followers list and remove from requests list
                 Log.d("accept","accept button tapped");
             }
         });
@@ -54,6 +55,7 @@ public class RequestAdapter extends ArrayAdapter<String> {
         declineButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //TODO: remove user from requests list
                 Log.d("decline","decline button tapped");
             }
         });
