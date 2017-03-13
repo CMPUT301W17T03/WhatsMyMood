@@ -10,7 +10,9 @@ import com.robotium.solo.Solo;
 /**
  * Created by ejtang on 2017-03-13.
  *
- * testing our Login activity to make sure that everything works 
+ * testing our Login activity to make sure that everything works
+ * We may need to associate this with Elastic search and think of a way to
+ * make it so that the accounts exist
  */
 public class LoginTest extends ActivityInstrumentationTestCase2 {
     private Solo solo;
