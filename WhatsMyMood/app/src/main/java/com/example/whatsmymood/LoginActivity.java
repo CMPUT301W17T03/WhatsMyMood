@@ -23,26 +23,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.concurrent.ExecutionException;
 
 
 /**
  * A login screen that offers login via username/password.
  */
 public class LoginActivity extends AppCompatActivity{
-
-    /**
-     * Id to identity READ_CONTACTS permission request.
-     */
-    private static final int REQUEST_READ_CONTACTS = 0;
-
-    /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "a:a"
-    };
 
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
@@ -189,39 +178,35 @@ public class LoginActivity extends AppCompatActivity{
 
         private final String mUsername;
         private final String mPassword;
+        ElasticSearchUserController.GetUserTask getUserTask = new ElasticSearchUserController.GetUserTask();
 
         UserLoginTask(String username, String password) {
             mUsername = username;
             mPassword = password;
+
+            String search = mUsername;
+            getUserTask.execute(search);
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
-
             try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
-            }
-
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                Log.d("tag", Arrays.toString(pieces));
-                Log.d("tag", mUsername);
-                Log.d("tag", mPassword);
-                if (pieces[0].equals(mUsername)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
-                else {
-                    // Account does not exist.
+                ArrayList<UserAccount> userList = getUserTask.get();
+                if (userList.isEmpty()) {
                     return false;
                 }
+                for (UserAccount User : userList) {
+                    if (User.getUsername().equals(mUsername) && User.getPassword().equals(mPassword)) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-
-            // TODO: register the new account here.
             return true;
         }
 
