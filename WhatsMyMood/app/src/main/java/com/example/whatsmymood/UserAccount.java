@@ -8,10 +8,7 @@ import java.util.ArrayList;
 
 /**
  * Created by Alex on 2/21/2017.
- *
- *@author czeto
- *@author mtfische
- *
+ * User account class
  */
 public class UserAccount {
     /**
