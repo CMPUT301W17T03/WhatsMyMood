@@ -58,5 +58,6 @@ public class FollowHubActivity extends AppCompatActivity {
     }
 
     //TODO grab the information and place add it to our arraylists
+    // Grab The info
 
 }
