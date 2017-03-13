@@ -216,9 +216,9 @@ public class AddMoodController extends AppCompatActivity{
         // If the date is null, automatically set the date to the current date
         if (this.date == null) {
             Date newDate = new Date();
-            this.mood = new Mood(this.moodType, this.moodAuthor, newDate);
+            this.mood = new Mood(this.moodAuthor,this.moodType, newDate);
         } else {
-            this.mood = new Mood(this.moodType, this.moodAuthor, this.date);
+            this.mood = new Mood(this.moodAuthor,this.moodType, this.date);
         }
 
         mood.setMoodMsg(this.moodMsg);
