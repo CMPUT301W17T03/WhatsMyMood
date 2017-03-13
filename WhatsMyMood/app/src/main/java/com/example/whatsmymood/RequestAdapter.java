@@ -1,8 +1,13 @@
 package com.example.whatsmymood;
 
 import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 /**
@@ -21,5 +26,18 @@ public class RequestAdapter extends ArrayAdapter<String> {
         this.usernames = usernames;
         this.context = context;
     }
-    //TODO add a custom adapter that will allow us to accept or decline on each instance of it
+
+    //TODO create accept and delete buttons in custom adapter
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        LayoutInflater peopleInflator = LayoutInflater.from(getContext());
+        View customView = peopleInflator.inflate(R.layout.request_adapter, parent, false);
+
+        String user = getItem(position);
+        TextView usernameText = (TextView) customView.findViewById(R.id.usernameText);
+
+        usernameText.setText(user);
+
+        return customView;
+    }
 }

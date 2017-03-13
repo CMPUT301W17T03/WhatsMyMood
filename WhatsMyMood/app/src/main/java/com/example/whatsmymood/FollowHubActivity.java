@@ -3,6 +3,7 @@ package com.example.whatsmymood;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.ListViewCompat;
+import android.util.Log;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -47,6 +48,7 @@ public class FollowHubActivity extends AppCompatActivity {
 
     protected void onStart() {
         super.onStart();
+
         followersAdapter = new FollowAdapter(followers, this);
         followingAdapter = new FollowAdapter(following, this);
         requestsAdapter = new RequestAdapter(requests, this);
@@ -55,8 +57,27 @@ public class FollowHubActivity extends AppCompatActivity {
         followingList.setAdapter(followingAdapter);
         requestsList.setAdapter(requestsAdapter);
 
+        fetchData();
+
     }
 
-    //TODO grab the information and place add it to our arraylists
+    //TODO grab the information from elastic search and place it into lists
+    protected void fetchData() {
+        // currently using static data to prove concept works
+        Log.d("fetch","Fetching data...");
+        followers.add("John Doe");
+        followers.add("Jane Doe");
+        followers.add("Malcolm");
+
+        following.add("person1");
+        following.add("person2");
+        following.add("person3");
+
+        requests.add("person4");
+        requests.add("person5");
+        requests.add("person6");
+
+
+    }
 
 }
