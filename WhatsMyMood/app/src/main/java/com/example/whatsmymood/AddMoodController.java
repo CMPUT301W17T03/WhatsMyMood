@@ -59,7 +59,7 @@ public class AddMoodController {
             @Override
             public void onClick(View view) {
                 CurrentUser current = CurrentUser.getInstance();
-                current.setCurrentUser(new UserAccount("username","password"));
+                //current.setCurrentUser(new UserAccount("username","password"));
                 UserAccount user = current.getCurrentUser();
                 Mood m = getMood();
                 if(m != null) {

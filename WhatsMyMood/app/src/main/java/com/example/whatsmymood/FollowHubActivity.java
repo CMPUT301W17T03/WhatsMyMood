@@ -60,7 +60,7 @@ public class FollowHubActivity extends AppCompatActivity {
         fetchData();
 
     }
-
+    
     //TODO grab the information from elastic search and place it into lists
     protected void fetchData() {
         // currently using static data to prove concept works

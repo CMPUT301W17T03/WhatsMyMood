@@ -88,6 +88,5 @@ public class MoodTest extends ActivityInstrumentationTestCase2 {
         Bitmap bitmap = BitmapFactory.decodeResource(null, R.mipmap.ic_launcher);
         mood.setPhoto(bitmap);
 
-        assertEquals(mood.getPhoto(), bitmap);
-    }*/
+        assertEquals(mood.getPhoto(), bitmap); */
 }
