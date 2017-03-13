@@ -36,7 +36,6 @@ import static android.content.Context.LOCATION_SERVICE;
  * Created by nathan on 07/03/17.
  */
 
-
 /**
  *  PLEASE NOTE I HAVE NOT TESTED THIS YET - NATHAN
  */

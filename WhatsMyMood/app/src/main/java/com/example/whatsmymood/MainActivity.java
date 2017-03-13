@@ -39,6 +39,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
+        /*
+        UserAccount user = current.getCurrentUser();
+        user.getFollows().addToFollowing("Alex");
+        user.getFollows().addToFollowing("Yiji");
+        user.getFollows().addToFollowing("Malcom");
+        user.getFollows().addToFollowing("Eddy");
+        user.getFollows().addToFollowing("Nathan");
+        */
+
         ElasticSearchUserController.GetUserTask getUserTask = new ElasticSearchUserController.GetUserTask();
         getUserTask.execute(current.getCurrentUser().getUsername());
 
