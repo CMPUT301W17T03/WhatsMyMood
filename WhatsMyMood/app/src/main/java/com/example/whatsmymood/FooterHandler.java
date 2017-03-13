@@ -1,10 +1,15 @@
 package com.example.whatsmymood;
 
+import android.app.ActivityManager;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Malcolm on 2017-03-08.
@@ -93,13 +98,38 @@ public class FooterHandler {
             }
         });
 
+
+        // http://stackoverflow.com/questions/5934050/check-whether-activity-is-active March 13, 2017 15:17
         this.v.findViewById(R.id.home).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //TODO handle case where home activity is in the stack multiple times in a row
+
+                /*
                 Log.d("intent", "intent main");
                 Intent intent = new Intent(mContext, MainActivity.class);
                 mContext.startActivity(intent);
+                */
+
+
+
+                ArrayList<String> runningactivities = new ArrayList<String>();
+
+                ActivityManager activityManager = (ActivityManager) mContext.getSystemService (Context.ACTIVITY_SERVICE);
+
+                List<ActivityManager.RunningTaskInfo> services = activityManager.getRunningTasks(Integer.MAX_VALUE);
+
+                for (int i1 = 0; i1 < services.size(); i1++) {
+                    runningactivities.add(0,services.get(i1).topActivity.toString());
+                }
+
+                if(runningactivities.contains("ComponentInfo{com.example.whatsmymood/com.example.whatsmymood.MainActivity}")==true){
+                    Toast.makeText(mContext, "Currently In Home", Toast.LENGTH_LONG).show();
+                } else {
+                    Intent intent = new Intent(mContext, MainActivity.class);
+                    mContext.startActivity(intent);
+                }
+
             }
         });
 
