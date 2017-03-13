@@ -36,18 +36,23 @@ import static android.content.Context.LOCATION_SERVICE;
  * Created by nathan on 07/03/17.
  */
 
+
 /**
- *  PLEASE NOTE I HAVE NOT TESTED THIS YET - NATHAN
+ * Takes user input and converts it into a relevant mood
  */
 public class AddMoodController extends AppCompatActivity{
+    // Invalid User Selections
     private boolean DATE_INVALID = false;
     private boolean SELECT_MOOD_INVALID = false;
 
+    // Permissions for the camera
     private static final int PERMISSIONS_REQUEST_ACCESS_CAMERA = 1;
 
+    // Activity Result Codes
     private final static int CAPTURE_IMAGE_REQUEST_CODE = 2;
     private final static int CONFIRM = 3;
 
+    // Variable for camera permission checks
     private int cameraPermissionCheck;
 
     private Dialog dialog;
@@ -59,14 +64,24 @@ public class AddMoodController extends AppCompatActivity{
 
     private String moodAuthor;
 
+    // Set to null because they are not mandatory
     private String moodMsg = null;
     private String location = null;
     private String socialSit = null;
+
     private Date date;
 
     // TODO: Figure out how we're handling photos
     private String photo;
 
+    /**
+     * Passes the dialog and context
+     * Sets up the click functionality for
+     * the camera button and the post button
+     * @param mContext
+     * @param d
+     * @param view
+     */
     public AddMoodController(final Context mContext, Dialog d, View view) {
         this.dialog = d;
         this.mContext = mContext;
@@ -88,10 +103,13 @@ public class AddMoodController extends AppCompatActivity{
                 else {
                     Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
                     ((Activity) mContext).startActivityForResult(intent, CAPTURE_IMAGE_REQUEST_CODE);
-                    Log.d("tag", "finished");
                 }
             }
         });
+
+        /**
+         * Sets the mood on post button click
+         */
 
         Button post = (Button) dialog.findViewById(R.id.post);
 
@@ -114,30 +132,37 @@ public class AddMoodController extends AppCompatActivity{
         });
     }
 
+    /**
+     * Grabs the result from the camera activity
+     * // TODO: Get the bitmap image successfully
+     * @param requestCode
+     * @param resultCode
+     * @param intent
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        Log.d("tag", "it started");
         super.onActivityResult(requestCode, resultCode, intent);
-        Log.d("tag", "1");
         if (requestCode == CAPTURE_IMAGE_REQUEST_CODE) {
-            Log.d("tag", "2");
-            Log.d("tag", String.valueOf(resultCode));
-            Log.d("tag", "3");
             if (resultCode == CONFIRM) {
-                Log.d("tag", "hi");
                 Bitmap photo = (Bitmap) intent.getExtras().get("data");
 
+                // Used for decoding the image for later storage
                 ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
                 photo.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
                 byte[] imageBytes = outputStream.toByteArray();
                 String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
 
                 this.photo = encodedImage;
-                Log.d("tag", this.photo);
             }
         }
     }
 
+    /**
+     * Main controller actions
+     * Takes each inputi and converts it into
+     * their respective variables
+     * @return
+     */
     public Mood getMood() {
 
         Spinner spinner = (Spinner) this.dialog.findViewById(R.id.select_mood);
@@ -145,6 +170,7 @@ public class AddMoodController extends AppCompatActivity{
         if (!spinner.getSelectedItem().toString().equals("Select a mood")) {
             this.moodType = spinner.getSelectedItem().toString();
         } else {
+            // Set to TRUE if they have no selected an entry
             SELECT_MOOD_INVALID = true;
         }
 
@@ -156,7 +182,6 @@ public class AddMoodController extends AppCompatActivity{
 
         // TODO: Make this an actual location
         // TODO: Handle exception where user does not input a location/invalid locations
-        // Possibly find the current location? Or just not put a location
         EditText location = (EditText) this.dialog.findViewById(R.id.enter_location);
 
         if (!location.getText().toString().isEmpty()) {
@@ -171,6 +196,9 @@ public class AddMoodController extends AppCompatActivity{
 
         EditText date = (EditText) this.dialog.findViewById(R.id.enter_date);
 
+        // Checks if the date is empty
+        // and parses the date to make sure
+        // the date format is correct
         if (!date.getText().toString().isEmpty()) {
 
             SimpleDateFormat check = new SimpleDateFormat("yyyy-MM-dd");
@@ -199,17 +227,26 @@ public class AddMoodController extends AppCompatActivity{
             SELECT_MOOD_INVALID = false;
         } else if (DATE_INVALID) {
             TextView textview = (TextView) this.dialog.findViewById(R.id.enter_date);
-            textview.setError("Invalid Date Inputed");
+            textview.setError("Invalid Date Inputed (yyyy-MM-DD)");
 
             // TODO: Handle invalid date properly
             // DATE_INVALID is always set to true unless we manually set it to false
             DATE_INVALID = false;
+
+            // Makes the mood if there are no errors
         } else {
+
             return makeMood();
         }
         return null;
     }
 
+    /**
+     * Creates the mood
+     * Automatically creates a date to the current date
+     * if there is no date specifeid
+     * @return
+     */
     public Mood makeMood() {
 
         // If the date is null, automatically set the date to the current date

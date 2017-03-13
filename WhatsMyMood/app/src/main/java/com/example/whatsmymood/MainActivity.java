@@ -11,6 +11,11 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
+/**
+ * Main Activity
+ * Used for displaying the moods of the people you follow
+ * Also implements a footer that handles different activities
+ */
 public class MainActivity extends AppCompatActivity {
     private ListView moodList;
 
@@ -35,18 +40,14 @@ public class MainActivity extends AppCompatActivity {
         FooterHandler handler = new FooterHandler(this, footer);
     }
 
+    /**
+     * Sets the first query up everytime main activity
+     * is viewed. This ensures that we get the most updated
+     * user.
+     */
     @Override
     protected void onStart() {
         super.onStart();
-
-        /*
-        UserAccount user = current.getCurrentUser();
-        user.getFollows().addToFollowing("Alex");
-        user.getFollows().addToFollowing("Yiji");
-        user.getFollows().addToFollowing("Malcom");
-        user.getFollows().addToFollowing("Eddy");
-        user.getFollows().addToFollowing("Nathan");
-        */
 
         ElasticSearchUserController.GetUserTask getUserTask = new ElasticSearchUserController.GetUserTask();
         getUserTask.execute(current.getCurrentUser().getUsername());
@@ -80,6 +81,10 @@ public class MainActivity extends AppCompatActivity {
         moodList.setAdapter(moodAdapter);
     }
 
+    /**
+     * Fetches the moods from each follower and adds them
+     * to a arraylist to be displayed
+     */
     protected void fetchData() {
         for (String follower : followers) {
             ElasticSearchUserController.GetUserTask getFollowersTask = new ElasticSearchUserController.GetUserTask();

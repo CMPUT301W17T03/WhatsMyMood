@@ -3,9 +3,10 @@ package com.example.whatsmymood;
 import java.util.ArrayList;
 
 /**
+ * Used to keep track of followers and the people
+ * you are following as well as your follow requests
  * Created by YiJi on 2017-02-21.
  */
-
 public class Follows {
     private ArrayList<String> followingList = new ArrayList<String>();
     private ArrayList<String> followedByList = new ArrayList<String>();
