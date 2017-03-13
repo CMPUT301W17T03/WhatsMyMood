@@ -25,17 +25,6 @@ public class Mood implements Comparable<Mood>{
     private Date date;
     private String photo;
 
-    private String id;
-
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
     /**
      * @param moodAuthor
      * @param moodType

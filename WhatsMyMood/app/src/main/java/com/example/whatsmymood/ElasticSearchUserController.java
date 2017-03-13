@@ -26,6 +26,10 @@ import io.searchbox.core.Update;
  * Created by YiJi on 2017-03-11.
  */
 
+/**
+ * Universal elastic search controller to return
+ * user objects
+ */
 public class ElasticSearchUserController {
 
     private static JestDroidClient client;
@@ -33,6 +37,10 @@ public class ElasticSearchUserController {
     //https://github.com/AlexCzeto/lonelyTwitter/blob/elasticsearch/app/src/main/java/ca/ualberta/cs/lonelytwitter/ElasticsearchTweetController.java
     //03-11-2017
 
+    /**
+     * Adds a new user to elastic search
+     * Used in login activity
+     */
     public static class AddUserTask extends AsyncTask<UserAccount, Void, Void> {
 
         @Override
@@ -61,6 +69,11 @@ public class ElasticSearchUserController {
         }
     }
 
+    /**
+     * Gets the current user
+     * Used for grabbing the current user as an object
+     * and to edit the data
+     */
     public static class GetUserTask extends AsyncTask<String, Void, ArrayList<UserAccount>> {
         @Override
         protected ArrayList<UserAccount> doInBackground(String... search_parameters) {
@@ -100,6 +113,10 @@ public class ElasticSearchUserController {
         }
     }
 
+    /**
+     * Updates a user by deleting and reinsterting a user
+     * Used to update their user attributes
+     */
     public static class UpdateUser extends AsyncTask<UserAccount, Void, Void> {
 
         @Override
@@ -119,6 +136,7 @@ public class ElasticSearchUserController {
                         "    }\n" +
                         "}", user.getUsername());
 
+                // Delete first then update the result
                 DeleteByQuery delete = new DeleteByQuery.Builder(deleteQuery).addIndex("cmput301w17t03").addType("user").build();
 
                 Index index = new Index.Builder(user).index("cmput301w17t03").type("user").build();
@@ -144,7 +162,8 @@ public class ElasticSearchUserController {
         }
     }
 
-    //Taken from LonelyTwitter - Lab 5 with ElasticSearch
+    // Taken from LonelyTwitter - Lab 5 with ElasticSearch
+    // Verifies elastic search settings
     public static void verifySettings() {
         if (client == null) {
             DroidClientConfig.Builder builder = new DroidClientConfig.Builder("http://cmput301.softwareprocess.es:8080");

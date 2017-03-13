@@ -12,7 +12,7 @@ import java.util.concurrent.ExecutionException;
  */
 public class CreateUserController {
 
-    // Blank Constructor
+    // Blank Constructor for instantiating
     public CreateUserController(){
     }
 
