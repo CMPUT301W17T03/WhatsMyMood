@@ -1,19 +1,25 @@
 package com.example.whatsmymood;
 
 import android.os.AsyncTask;
+import android.provider.DocumentsContract;
 import android.util.Log;
 
 import com.searchly.jestdroid.DroidClientConfig;
 import com.searchly.jestdroid.JestClientFactory;
 import com.searchly.jestdroid.JestDroidClient;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.searchbox.client.JestResult;
+import io.searchbox.core.Delete;
+import io.searchbox.core.DeleteByQuery;
 import io.searchbox.core.DocumentResult;
 import io.searchbox.core.Index;
 import io.searchbox.core.Search;
 import io.searchbox.core.SearchResult;
+import io.searchbox.core.Update;
 
 
 /**
@@ -39,6 +45,7 @@ public class ElasticSearchUserController {
 
                     DocumentResult result = client.execute(index);
                     if (result.isSucceeded()){
+                        Log.d("tag", result.getId());
                         user.setId(result.getId());
                     }
                     else{
@@ -101,22 +108,37 @@ public class ElasticSearchUserController {
         protected Void doInBackground(UserAccount... users) {
             verifySettings();
             for (UserAccount user : users) {
-                //Index index = new Index.Builder(user).index("cmput301w17t03").type("user").build();
 
-                Index index = new Index.Builder(user).index("cmput301w17t0e").type("user").id(user.getId()).build();
+                /**
+                 * THIS WORKS BY DELETING THE OLD USER
+                 * AND UPDATING WITH THE SAME (updated) USER
+                 */
+
+                String deleteQuery = String.format("{\n" +
+                        "    \"query\" : {\n" +
+                        "        \"match\" : " +
+                        "               { \"username\" : \"" + "%s" + "\" }\n" +
+                        "    }\n" +
+                        "}", user.getUsername());
+
+                DeleteByQuery delete = new DeleteByQuery.Builder(deleteQuery).addIndex("cmput301w17t03").addType("user").build();
+
+                Index index = new Index.Builder(user).index("cmput301w17t03").type("user").build();
 
                 try {
-
-                    DocumentResult result = client.execute(index);
-                    if (result.isSucceeded()){
-                        user.setId(result.getId());
+                    client.execute(delete);
+                    DocumentResult updateResult = client.execute(index);
+                    if (updateResult.isSucceeded()){
+                        // TODO: ID'S change constantly, so we might have to implmement this in a different way or ditch ID's in User Accounts
+                        user.setId(updateResult.getId());
                     }
                     else{
                         Log.i("Error","ElasticSearch was not able to add the user");
                     }
                 }
                 catch (Exception e) {
-                    Log.i("Error", "The application failed to build and send the user accounts");
+                    Log.i("tag", "The application failed to build and send the user accounts");
+                    e.printStackTrace();
                 }
 
             }

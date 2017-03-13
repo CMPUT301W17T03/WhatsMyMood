@@ -7,6 +7,7 @@ import android.content.Intent;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import android.graphics.Bitmap;
@@ -94,7 +95,6 @@ public class AddMoodController {
 
         if (!msg.getText().toString().isEmpty()) {
             this.moodMsg = msg.getText().toString();
-            Log.d("tagg", this.moodMsg);
         }
 
         // TODO: Make this an actual location
@@ -127,6 +127,7 @@ public class AddMoodController {
                 DATE_INVALID = true;
             }
         }
+
         if (SELECT_MOOD_INVALID) {
 
             // TODO: Find a better way to output the error

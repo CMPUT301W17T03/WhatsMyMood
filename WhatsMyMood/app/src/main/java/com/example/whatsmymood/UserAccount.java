@@ -43,6 +43,8 @@ public class UserAccount {
         follows = new Follows();
     }
 
+    public void setPassword(String password) {this.password = password;}
+
     /**
      * Method to get the user's password
      *
@@ -100,8 +102,10 @@ public class UserAccount {
         this.profilePicture = newProfilePicture;
     }
 
+
     public void setId(String id) {
         this.id = id;
     }
     public String getId() {return this.id;}
+
 }
