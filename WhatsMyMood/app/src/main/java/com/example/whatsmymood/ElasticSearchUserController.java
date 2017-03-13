@@ -79,13 +79,11 @@ public class ElasticSearchUserController {
                     "    }\n" +
                     "}", search_parameters[0].toString().trim());
 
-
-
             Search search = new Search.Builder(query).addIndex("cmput301w17t03").addType("user").build();
-            Log.d("hello",query);
 
             try {
                 SearchResult result = client.execute(search);
+
                 if (result.isSucceeded()){
                     List<UserAccount> foundAccount = result.getSourceAsObjectList(UserAccount.class);
                     users.addAll(foundAccount);
