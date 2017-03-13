@@ -90,4 +90,5 @@ public class MoodTest extends ActivityInstrumentationTestCase2 {
 
         assertEquals(mood.getPhoto(), bitmap);
     }
+    */
 }
