@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
          * 5. COMMENT
          */
         //user = current.getCurrentUser();
-        //user.getFollows().addToFollowing("TESTTEST");
+        //user.getFollows().addToFollowing("John");
 
         setContentView(R.layout.activity_main);
         LinearLayout footer = (LinearLayout)findViewById(R.id.footer);
@@ -74,17 +74,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         fetchData();
-        ListView moodList = (ListView) findViewById(R.id.moodList);
+        moodList = (ListView) findViewById(R.id.moodList);
         moodAdapter = new MoodAdapter(moods,this);
 
         moodList.setAdapter(moodAdapter);
     }
 
     protected void fetchData() {
-        Log.d("tag", "fetch");
-
-        ElasticSearchUserController.GetUserTask getFollowersTask = new ElasticSearchUserController.GetUserTask();
         for (String follower : followers) {
+            ElasticSearchUserController.GetUserTask getFollowersTask = new ElasticSearchUserController.GetUserTask();
             getFollowersTask.execute(follower);
 
             try {
@@ -92,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
                 if (!mFollower.isEmpty()) {
                     UserAccount temp = mFollower.get(mFollower.size()-1);
                     MoodList tempMoodList = temp.getMoodList();
+                    //moods.add(temp.getMoodList().getRecentMood());
                     moods.add(new Mood(temp.getUsername(), tempMoodList.getRecentMood().getMoodType()));
                 } else {
                     //TODO: Handle exception
