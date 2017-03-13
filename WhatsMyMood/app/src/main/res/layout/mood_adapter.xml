@@ -15,4 +15,22 @@
         android:layout_height="wrap_content"
         android:id="@+id/mood"
         android:textSize="20sp"/>
+    <TextView
+        android:text="No Message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/moodMessage"
+        android:textSize="20sp"/>
+    <TextView
+        android:text="No Social Situation Entered"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/moodSocialSituation"
+        android:textSize="20sp"/>
+    <TextView
+        android:text="Date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/moodDate"
+        android:textSize="20sp"/>
 </LinearLayout>

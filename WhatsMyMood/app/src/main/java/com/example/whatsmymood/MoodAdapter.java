@@ -34,10 +34,16 @@ public class MoodAdapter extends ArrayAdapter<Mood> {
 
         Mood mood = (Mood) getItem(position);
         TextView authorText = (TextView) customView.findViewById(R.id.author);
-        TextView moodText = (TextView) customView.findViewById(R.id.mood);
+        TextView moodTypeText = (TextView) customView.findViewById(R.id.mood);
+        TextView moodMessageText = (TextView) customView.findViewById(R.id.moodMessage);
+        TextView socialSituationText = (TextView) customView.findViewById(R.id.moodSocialSituation);
+        TextView dateText = (TextView) customView.findViewById(R.id.moodDate);
 
         authorText.setText(mood.getMoodAuthor());
-        moodText.setText(mood.getMoodType());
+        moodTypeText.setText(mood.getMoodType());
+        moodMessageText.setText(mood.getMoodMsg());
+        socialSituationText.setText(mood.getSocialSit());
+        dateText.setText(mood.getDate().toString());
 
         return customView;
     }
