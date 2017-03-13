@@ -32,7 +32,6 @@ public class ElasticSearchUserController {
         @Override
         protected Void doInBackground(UserAccount... users) {
             verifySettings();
-
             for (UserAccount user : users) {
                 Index index = new Index.Builder(user).index("cmput301w17t03").type("user").build();
 
