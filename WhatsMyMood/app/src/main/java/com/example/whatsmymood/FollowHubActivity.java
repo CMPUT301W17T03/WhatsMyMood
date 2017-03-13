@@ -105,38 +105,11 @@ public class FollowHubActivity extends AppCompatActivity {
 //TODO grab the information from elastic search and place it into lists
     protected void fetchData() {
         // currently using static data to prove concept works
-
-
-
         Log.d("fetch","Fetching data...");
         followers.add("John Doe");
         followers.add("Jane Doe");
         followers.add("Malcolm");
-        followers.add("John Doe");
-        followers.add("Jane Doe");
-        followers.add("Malcolm");
-        followers.add("John Doe");
-        followers.add("Jane Doe");
-        followers.add("Malcolm");
-        followers.add("John Doe");
-        followers.add("Jane Doe");
-        followers.add("Malcolm");
-        followers.add("John Doe");
-        followers.add("Jane Doe");
-        followers.add("Malcolm");
 
-        following.add("person1");
-        following.add("person2");
-        following.add("person3");
-        following.add("person1");
-        following.add("person2");
-        following.add("person3");
-        following.add("person1");
-        following.add("person2");
-        following.add("person3");
-        following.add("person1");
-        following.add("person2");
-        following.add("person3");
         following.add("person1");
         following.add("person2");
         following.add("person3");

@@ -30,21 +30,23 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        /**
-         * USE THIS TO MANUALLY ADD A FOLLOWER
-         * STEPS:
-         * 1. TYPE THE USER YOU WANT TO FOLLOW
-         * 2. LAUNCH THE APP AND LOGIN
-         * 3. MAKE A SINGULAR MOOD
-         * 4. LOG OUT
-         * 5. COMMENT
-         */
-        //user = current.getCurrentUser();
-        //user.getFollows().addToFollowing("John");
-
         setContentView(R.layout.activity_main);
         LinearLayout footer = (LinearLayout)findViewById(R.id.footer);
         FooterHandler handler = new FooterHandler(this, footer);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        /*
+        UserAccount user = current.getCurrentUser();
+        user.getFollows().addToFollowing("Alex");
+        user.getFollows().addToFollowing("Yiji");
+        user.getFollows().addToFollowing("Malcom");
+        user.getFollows().addToFollowing("Eddy");
+        user.getFollows().addToFollowing("Nathan");
+        */
 
         ElasticSearchUserController.GetUserTask getUserTask = new ElasticSearchUserController.GetUserTask();
         getUserTask.execute(current.getCurrentUser().getUsername());
@@ -67,15 +69,11 @@ public class MainActivity extends AppCompatActivity {
         // Instantiate out adapter and set```` view for viewing moods
         moods = new ArrayList<Mood>();
 
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
         if (followers.size() != size) {
             fetchData();
             size = followers.size();
         }
+
         moodList = (ListView) findViewById(R.id.moodList);
         moodAdapter = new MoodAdapter(moods,this);
 
