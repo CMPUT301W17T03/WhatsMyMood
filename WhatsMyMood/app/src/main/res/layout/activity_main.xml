@@ -8,14 +8,24 @@
     android:layout_height="match_parent"
     tools:context="com.example.whatsmymood.MainActivity">
 
-    <ScrollView
+    <!---<ScrollView
         android:id="@+id/mainview"
         android:layout_height="fill_parent"
         android:layout_width="match_parent"
         android:layout_weight="0"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
-    </ScrollView>
+        android:layout_alignParentStart="true">-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <ListView
+                android:id="@+id/moodList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                </ListView>
+        </LinearLayout>
+    <!---</ScrollView>-->
 
     <include
         layout="@layout/footer">

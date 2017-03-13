@@ -30,8 +30,8 @@ public class RequestAdapter extends ArrayAdapter<String> {
     //TODO create accept and delete buttons in custom adapter
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        LayoutInflater peopleInflator = LayoutInflater.from(getContext());
-        View customView = peopleInflator.inflate(R.layout.request_adapter, parent, false);
+        LayoutInflater requestsInflator = LayoutInflater.from(getContext());
+        View customView = requestsInflator.inflate(R.layout.request_adapter, parent, false);
 
         String user = getItem(position);
         TextView usernameText = (TextView) customView.findViewById(R.id.usernameText);

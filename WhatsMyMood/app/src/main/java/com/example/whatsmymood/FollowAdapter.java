@@ -29,8 +29,8 @@ public class FollowAdapter extends ArrayAdapter<String> {
     //TODO possibly adjust custom adapter to click on the username to get to their profile
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        LayoutInflater peopleInflator = LayoutInflater.from(getContext());
-        View customView = peopleInflator.inflate(R.layout.follow_adapter, parent, false);
+        LayoutInflater followInflator = LayoutInflater.from(getContext());
+        View customView = followInflator.inflate(R.layout.follow_adapter, parent, false);
 
         String user = getItem(position);
         TextView usernameText = (TextView) customView.findViewById(R.id.usernameText);
