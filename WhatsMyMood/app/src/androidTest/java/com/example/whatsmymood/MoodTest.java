@@ -49,16 +49,11 @@ public class MoodTest extends ActivityInstrumentationTestCase2 {
         assertEquals(mood.getMoodMsg(), "Wow!");
     }
 
-    // TODO: Redo test after making the location correct
-    /*
     public void testGetLocation() {
         Mood mood = new Mood("Nathan", "Happy");
-        Location location = new Location("provider");
-        location.setLatitude(100.0);
-        location.setLongitude(50.0);
+        String location = "Edmonton";
         mood.setLocation(location);
-	assertEquals(mood.getLocation().getLatitude(), 100.0);
-        assertEquals(mood.getLocation().getLongitude(), 50.0);
+	    assertEquals(mood.getLocation(), location);
     }
 
     public void testGetDate() {
@@ -85,8 +80,9 @@ public class MoodTest extends ActivityInstrumentationTestCase2 {
     public void testGetPhoto() {
         Mood mood = new Mood("Nathan", "Happy");
 
-        Bitmap bitmap = BitmapFactory.decodeResource(null, R.mipmap.ic_launcher);
-        mood.setPhoto(bitmap);
+        String photo = "AW#$#$WH%$U#@3235^$#%63ERGGEEWE";
+        mood.setPhoto(photo);
 
-        assertEquals(mood.getPhoto(), bitmap); */
+        assertEquals(mood.getPhoto(), photo);
+    }
 }

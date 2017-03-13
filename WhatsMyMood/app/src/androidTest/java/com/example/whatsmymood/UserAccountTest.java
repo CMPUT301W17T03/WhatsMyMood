@@ -52,7 +52,9 @@ public class UserAccountTest extends ActivityInstrumentationTestCase2 {
             assertEquals(user.getPassword(),"newSuperSecretPassword");
             user.setPassword("Banana", "apple");
             fail();
-        } catch (WrongPasswordException e) {}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /*
