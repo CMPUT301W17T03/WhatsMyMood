@@ -45,6 +45,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         LinearLayout footer = (LinearLayout)findViewById(R.id.footer);
         FooterHandler handler = new FooterHandler(this, footer);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
 
         ElasticSearchUserController.GetUserTask getUserTask = new ElasticSearchUserController.GetUserTask();
         getUserTask.execute(current.getCurrentUser().getUsername());
@@ -67,15 +72,11 @@ public class MainActivity extends AppCompatActivity {
         // Instantiate out adapter and set```` view for viewing moods
         moods = new ArrayList<Mood>();
 
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
         if (followers.size() != size) {
             fetchData();
             size = followers.size();
         }
+
         moodList = (ListView) findViewById(R.id.moodList);
         moodAdapter = new MoodAdapter(moods,this);
 
