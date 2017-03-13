@@ -7,7 +7,10 @@ import java.util.Collections;
  * Created by Malcolm on 2017-02-23.
  */
 
-//TODO add observable implementation
+/**
+ * MoodList object holds an arraylist of moods
+ * to keep track of the moods of each user
+ */
 public class MoodList {
     private ArrayList<Mood> moods;
 
