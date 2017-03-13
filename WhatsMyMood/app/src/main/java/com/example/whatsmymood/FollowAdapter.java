@@ -26,6 +26,13 @@ public class FollowAdapter extends ArrayAdapter<String> {
         this.context = context;
     }
 
+    /**
+     * Sets the view for the profile of the user
+     * @param position
+     * @param convertView
+     * @param parent
+     * @return
+     */
     //TODO possibly adjust custom adapter to click on the username to get to their profile
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {

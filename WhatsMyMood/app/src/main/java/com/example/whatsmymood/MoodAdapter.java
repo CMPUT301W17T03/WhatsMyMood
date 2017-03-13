@@ -26,6 +26,13 @@ public class MoodAdapter extends ArrayAdapter<Mood> {
         this.context = context;
     }
 
+    /**
+     * Displays the recent mood of the people you are following
+     * @param position
+     * @param convertView
+     * @param parent
+     * @return
+     */
     //TODO: ensure that the information being displayed is how we want it
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {

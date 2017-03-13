@@ -64,13 +64,10 @@ public class UserAccount {
     /**
      *@param oldPassword              The password currently in use, stored as hash
      *@param newPassword              The password to change to, stored as hash
-     *@throws WrongPasswordException  If the old password does not match the one in use
      */
-    public void setPassword(String oldPassword, String newPassword) throws WrongPasswordException {
-        if(this.password == oldPassword){
+    public void setPassword(String oldPassword, String newPassword){
+        if(this.password == oldPassword) {
             this.password = newPassword;
-        }else{
-            throw new WrongPasswordException();
         }
     }
 

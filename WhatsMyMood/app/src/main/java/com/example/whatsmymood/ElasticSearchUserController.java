@@ -26,6 +26,8 @@ import io.searchbox.core.Update;
  * Created by YiJi on 2017-03-11.
  */
 
+// Taken from LonelyTwitter - Lab 5 with ElasticSearch
+
 /**
  * Universal elastic search controller to return
  * user objects
@@ -162,7 +164,6 @@ public class ElasticSearchUserController {
         }
     }
 
-    // Taken from LonelyTwitter - Lab 5 with ElasticSearch
     // Verifies elastic search settings
     public static void verifySettings() {
         if (client == null) {

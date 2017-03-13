@@ -23,7 +23,7 @@ import com.google.android.gms.maps.model.LatLng;
 
 
 /**
- * FROM https://developers.google.com/maps/documentation/android-api/current-place-tutorial
+ * https://developers.google.com/maps/documentation/android-api/current-place-tutorial March 10, 2017 1:00
  */
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleApiClient.OnConnectionFailedListener, ConnectionCallbacks {
     private GoogleMap mMap;

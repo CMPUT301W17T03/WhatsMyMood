@@ -31,6 +31,13 @@ public class RequestAdapter extends ArrayAdapter<String> {
         this.context = context;
     }
 
+    /**
+     * Gets the view for follow requests
+     * @param position
+     * @param convertView
+     * @param parent
+     * @return
+     */
     //TODO create accept and delete buttons in custom adapter
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
