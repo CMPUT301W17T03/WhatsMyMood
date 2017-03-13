@@ -74,8 +74,6 @@ public class FollowHubActivity extends AppCompatActivity {
         requests.add("person4");
         requests.add("person5");
         requests.add("person6");
-
-
     }
 
 }
