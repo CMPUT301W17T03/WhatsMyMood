@@ -95,6 +95,35 @@ public class ElasticSearchUserController {
         }
     }
 
+    public static class UpdateUser extends AsyncTask<UserAccount, Void, Void> {
+
+        @Override
+        protected Void doInBackground(UserAccount... users) {
+            verifySettings();
+            for (UserAccount user : users) {
+                //Index index = new Index.Builder(user).index("cmput301w17t03").type("user").build();
+
+                Index index = new Index.Builder(user).index("cmput301w17t0e").type("user").id(user.getId()).build();
+
+                try {
+
+                    DocumentResult result = client.execute(index);
+                    if (result.isSucceeded()){
+                        user.setId(result.getId());
+                    }
+                    else{
+                        Log.i("Error","ElasticSearch was not able to add the user");
+                    }
+                }
+                catch (Exception e) {
+                    Log.i("Error", "The application failed to build and send the user accounts");
+                }
+
+            }
+            return null;
+        }
+    }
+
 
     //Taken from LonelyTwitter - Lab 5 with ElasticSearch
     public static void verifySettings() {
