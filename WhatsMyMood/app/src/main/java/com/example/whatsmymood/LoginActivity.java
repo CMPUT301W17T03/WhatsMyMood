@@ -178,12 +178,13 @@ public class LoginActivity extends AppCompatActivity{
 
         private final String mUsername;
         private final String mPassword;
-        ElasticSearchUserController.GetUserTask getUserTask = new ElasticSearchUserController.GetUserTask();
+        private ElasticSearchUserController.GetUserTask getUserTask;
 
         UserLoginTask(String username, String password) {
             mUsername = username;
             mPassword = password;
 
+            getUserTask = new ElasticSearchUserController.GetUserTask();
             String search = mUsername;
             getUserTask.execute(search);
         }
