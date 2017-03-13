@@ -14,7 +14,6 @@ import java.util.concurrent.ExecutionException;
 
 public class ElasticSearchTest extends ActivityInstrumentationTestCase2 {
 
-    private String username = "WOWOOWOW";
     private static final String TAG = "hello1";
 
     public ElasticSearchTest(){
@@ -24,12 +23,14 @@ public class ElasticSearchTest extends ActivityInstrumentationTestCase2 {
     //Unsure if test is weird, or if ElasticSearchUserController is weird
     public void testElasticSearch(){
 
+        String username = "WOWOOWOW";
+        String password = "ITWORKS WOWOWOO";
+
         /* PLEASE DO NOT MAKE MULTIPLE USERS OR IT FLOODS ELASTICSEARCH
         UserAccount user = new UserAccount(username, "ITWORKS WOWOWOO");
         ElasticSearchUserController.AddUserTask addUserTask = new ElasticSearchUserController.AddUserTask();
         addUserTask.execute(user);
         */
-
 
         String search = username;
         ElasticSearchUserController.GetUserTask getUserTask = new ElasticSearchUserController.GetUserTask();
@@ -37,8 +38,8 @@ public class ElasticSearchTest extends ActivityInstrumentationTestCase2 {
         try {
             ArrayList<UserAccount> userList = getUserTask.get();
             for (UserAccount User : userList) {
-                Log.d(TAG, User.getUsername());
-                Log.d(TAG, User.getPassword());
+                assertEquals(User.getUsername(), username);
+                assertEquals(User.getPassword(), password);
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
