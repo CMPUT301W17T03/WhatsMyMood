@@ -146,7 +146,6 @@ public class ElasticSearchUserController {
         }
     }
 
-
     //Taken from LonelyTwitter - Lab 5 with ElasticSearch
     public static void verifySettings() {
         if (client == null) {
