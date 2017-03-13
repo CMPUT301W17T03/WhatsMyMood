@@ -71,7 +71,7 @@ public class FooterHandler {
     }
 
     /**
-     * Builder function which initializes the onClickListners for the footer buttons
+     * Builder function which initializes the onClickListeners for the footer buttons
      */
     private void build(){
         //TODO implementation

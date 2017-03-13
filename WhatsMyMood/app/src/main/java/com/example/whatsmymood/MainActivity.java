@@ -73,10 +73,10 @@ public class MainActivity extends AppCompatActivity {
         if (followers.size() != size) {
             fetchData();
             size = followers.size();
+            moodAdapter = new MoodAdapter(moods,this);
         }
 
         moodList = (ListView) findViewById(R.id.moodList);
-        moodAdapter = new MoodAdapter(moods,this);
 
         moodList.setAdapter(moodAdapter);
     }
