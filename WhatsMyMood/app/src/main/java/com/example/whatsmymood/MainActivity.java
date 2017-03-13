@@ -1,33 +1,71 @@
 package com.example.whatsmymood;
 
+import android.icu.util.ValueIterator;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.PopupMenu;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
+import android.util.Log;
 import android.widget.ArrayAdapter;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity {
     private ListView moodList;
+
+    private ArrayList<UserAccount> userList;
+    private CurrentUser current = CurrentUser.getInstance();
+
+    private ArrayList<String> followers;
+    private ArrayList<UserAccount> mFollower;
+
     private ArrayList<Mood> moods;
     private ArrayAdapter<Mood> moodAdapter;
+
+    //temporary
+    private UserAccount user;
+    private Follows templist;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        /**
+         * USE THIS TO MANUALLY ADD A FOLLOWER
+         * STEPS:
+         * 1. TYPE THE USER YOU WANT TO FOLLOW
+         * 2. LAUNCH THE APP AND LOGIN
+         * 3. MAKE A SINGULAR MOOD
+         * 4. LOG OUT
+         * 5. COMMENT
+         */
+        //user = current.getCurrentUser();
+        //user.getFollows().addToFollowing("TESTTEST");
+
         setContentView(R.layout.activity_main);
         LinearLayout footer = (LinearLayout)findViewById(R.id.footer);
         FooterHandler handler = new FooterHandler(this, footer);
 
-        // Instantiate out adapter and set view for viewing moods
+        ElasticSearchUserController.GetUserTask getUserTask = new ElasticSearchUserController.GetUserTask();
+        getUserTask.execute(current.getCurrentUser().getUsername());
+
+        try {
+            userList = getUserTask.get();
+
+            // Should be one user
+            // If there is more than one user then the world is dying
+            for (UserAccount User : userList) {
+                followers = User.getFollows().getFollowingList();
+            }
+
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        // Instantiate out adapter and set```` view for viewing moods
         moods = new ArrayList<Mood>();
 
     }
@@ -43,24 +81,28 @@ public class MainActivity extends AppCompatActivity {
     }
 
     protected void fetchData() {
-        // all this data is here for proof of concept
-        //TODO: replace this with elastic search and populate moods
-        moods.add(new Mood("John","Happy"));
-        moods.add(new Mood("John","Sad"));
-        moods.add(new Mood("John","Mad"));
-        moods.add(new Mood("John","Woot"));
-        moods.add(new Mood("John","Happy"));
-        moods.add(new Mood("John","Sad"));
-        moods.add(new Mood("John","Mad"));
-        moods.add(new Mood("John","Woot"));
-        moods.add(new Mood("John","Happy"));
-        moods.add(new Mood("John","Sad"));
-        moods.add(new Mood("John","Mad"));
-        moods.add(new Mood("John","Woot"));
-        moods.add(new Mood("John","Happy"));
-        moods.add(new Mood("John","Sad"));
-        moods.add(new Mood("John","Mad"));
-        moods.add(new Mood("John","Woot"));
+        Log.d("tag", "fetch");
+
+        ElasticSearchUserController.GetUserTask getFollowersTask = new ElasticSearchUserController.GetUserTask();
+        for (String follower : followers) {
+            getFollowersTask.execute(follower);
+
+            try {
+                mFollower = getFollowersTask.get();
+                if (!mFollower.isEmpty()) {
+                    UserAccount temp = mFollower.get(mFollower.size()-1);
+                    MoodList tempMoodList = temp.getMoodList();
+                    moods.add(new Mood(temp.getUsername(), tempMoodList.getRecentMood().getMoodType()));
+                } else {
+                    //TODO: Handle exception
+                    //Tbh even if we don't handle it nothing goes wrong
+                }
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 

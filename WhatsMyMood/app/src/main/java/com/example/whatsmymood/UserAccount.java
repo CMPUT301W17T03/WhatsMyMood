@@ -33,6 +33,7 @@ public class UserAccount {
     public MoodList moodList;
     public Follows follows;
 
+
     //@JestId
     private String id;
 
@@ -102,10 +103,26 @@ public class UserAccount {
         this.profilePicture = newProfilePicture;
     }
 
-
+    // TODO: Probably redundant, should remove.
     public void setId(String id) {
         this.id = id;
     }
     public String getId() {return this.id;}
+
+    public MoodList getMoodList() {
+        return moodList;
+    }
+
+    public void setMoodList(MoodList moodList) {
+        this.moodList = moodList;
+    }
+
+    public Follows getFollows() {
+        return follows;
+    }
+
+    public void setFollows(Follows follows) {
+        this.follows = follows;
+    }
 
 }
