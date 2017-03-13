@@ -89,5 +89,5 @@ public class MoodTest extends ActivityInstrumentationTestCase2 {
         mood.setPhoto(bitmap);
 
         assertEquals(mood.getPhoto(), bitmap);
-    }
+    }*/
 }
