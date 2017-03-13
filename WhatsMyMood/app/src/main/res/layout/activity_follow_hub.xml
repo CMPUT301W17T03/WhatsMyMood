@@ -22,7 +22,8 @@
                 android:id="@+id/following"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Following"/>
+                android:text="Following"
+                android:textSize="30sp"/>
             <ListView
                 android:id="@+id/followingList"
                 android:layout_width="match_parent"
@@ -33,7 +34,8 @@
                 android:id="@+id/followers"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Followers"/>
+                android:text="Followers"
+                android:textSize="30sp"/>
             <ListView
                 android:id="@+id/followersList"
                 android:layout_width="match_parent"
@@ -44,7 +46,8 @@
                 android:id="@+id/requests"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Requests"/>
+                android:text="Requests"
+                android:textSize="30sp"/>
             <ListView
                 android:id="@+id/requestsList"
                 android:layout_width="match_parent"
