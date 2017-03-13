@@ -48,7 +48,7 @@ public class FollowHubActivity extends AppCompatActivity {
 
     protected void onStart() {
         super.onStart();
-
+        fetchData();
         followersAdapter = new FollowAdapter(followers, this);
         followingAdapter = new FollowAdapter(following, this);
         requestsAdapter = new RequestAdapter(requests, this);
@@ -57,10 +57,8 @@ public class FollowHubActivity extends AppCompatActivity {
         followingList.setAdapter(followingAdapter);
         requestsList.setAdapter(requestsAdapter);
 
-        fetchData();
-
     }
-    
+
     //TODO grab the information from elastic search and place it into lists
     protected void fetchData() {
         // currently using static data to prove concept works

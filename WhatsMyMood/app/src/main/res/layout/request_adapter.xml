@@ -3,10 +3,33 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
     <TextView
         android:text="Username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/usernameText"
         android:textSize="30sp"/>
+        <Button
+            android:layout_width="192px"
+            android:layout_height="192px"
+            android:layout_marginRight="20sp"
+            android:id="@+id/accept"
+            android:background="@drawable/ic_check_circle"
+            android:onClick="acceptRequest"
+            android:visibility="visible">
+        </Button>
+        <Button
+            android:layout_width="192px"
+            android:layout_height="192px"
+            android:layout_marginRight="10sp"
+            android:id="@+id/decline"
+            android:background="@drawable/ic_remove_circle"
+            android:onClick="declineRequest"
+            android:visibility="visible">
+        </Button>
+    </LinearLayout>
 </LinearLayout>
