@@ -92,8 +92,7 @@ public class MainActivity extends AppCompatActivity {
                 if (!mFollower.isEmpty()) {
                     UserAccount temp = mFollower.get(mFollower.size()-1);
                     MoodList tempMoodList = temp.getMoodList();
-                    //moods.add(temp.getMoodList().getRecentMood());
-                    moods.add(new Mood(temp.getUsername(), tempMoodList.getRecentMood().getMoodType()));
+                    moods.add(temp.getMoodList().getRecentMood());
                 } else {
                     //TODO: Handle exception
                     //Tbh even if we don't handle it nothing goes wrong
