@@ -103,16 +103,6 @@ public class FooterHandler {
         this.v.findViewById(R.id.home).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO handle case where home activity is in the stack multiple times in a row
-
-                /*
-                Log.d("intent", "intent main");
-                Intent intent = new Intent(mContext, MainActivity.class);
-                mContext.startActivity(intent);
-                */
-
-
-
                 ArrayList<String> runningactivities = new ArrayList<String>();
 
                 ActivityManager activityManager = (ActivityManager) mContext.getSystemService (Context.ACTIVITY_SERVICE);
@@ -124,7 +114,7 @@ public class FooterHandler {
                 }
 
                 if(runningactivities.contains("ComponentInfo{com.example.whatsmymood/com.example.whatsmymood.MainActivity}")==true){
-                    Toast.makeText(mContext, "Currently In Home", Toast.LENGTH_LONG).show();
+                    Toast.makeText(mContext, "Currently In Home", Toast.LENGTH_SHORT).show();
                 } else {
                     Intent intent = new Intent(mContext, MainActivity.class);
                     mContext.startActivity(intent);
