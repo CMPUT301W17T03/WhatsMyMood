@@ -12,6 +12,9 @@ import java.util.Date;
  * Created by nathan on 21/02/17.
  */
 
+/**
+ * Mood object that holds mood details
+ */
 public class Mood implements Comparable<Mood>{
     private String moodType;
     private String moodAuthor;
@@ -75,23 +78,10 @@ public class Mood implements Comparable<Mood>{
         this.moodMsg = newmoodMsg;
     }
 
-
-
     // TODO: Use an actual location instead of a string
     public String getLocation() { return location; }
 
     public void setLocation(String newLocation) {this.location = newLocation; }
-
-    /*
-    public Location getLocation() {
-        return location;
-    }
-
-    public void setLocation(Location newLocation) {
-        this.location = newLocation;
-    }
-    */
-
 
 
     public String getSocialSit() {
