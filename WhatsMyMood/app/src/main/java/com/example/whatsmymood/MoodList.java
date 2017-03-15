@@ -4,18 +4,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 /**
- * Created by Malcolm on 2017-02-23.
- */
-
-/**
- * MoodList object holds an arraylist of moods
+ * MoodList object holds an ArrayList of moods
  * to keep track of the moods of each user
  */
 public class MoodList {
     private ArrayList<Mood> moods;
 
     public MoodList() {
-        this.moods = new ArrayList<Mood>();
+        this.moods = new ArrayList<>();
     }
 
     /**
@@ -95,7 +91,7 @@ public class MoodList {
 
     /**
      * Gets the sorted mood list
-     * @return the array list sorted by date sescending
+     * @return the array list sorted by date ascending
      */
     public ArrayList<Mood> getSortedMoodList(){
         Collections.sort(this.moods);
@@ -104,7 +100,7 @@ public class MoodList {
 
     /**
      * Gets the mood list
-     * @return the moodlist
+     * @return the mood list
      */
     public ArrayList<Mood> getMoodList(){
         return this.moods;

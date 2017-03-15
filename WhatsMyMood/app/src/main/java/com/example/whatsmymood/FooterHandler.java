@@ -20,38 +20,31 @@ import java.util.List;
 public class FooterHandler {
     /**
      * FooterHandler handles the footer view that is displayed in activities
-     * Creates on click listners and handles page transitions
+     * Creates on click listeners and handles page transitions
      *
-     * @param v            The footer View to be passed in and handled
+     * @param mView            The footer View to be passed in and handled
      * @param mContext     The context of the main activity which calls the handler
-     * @param dialog       dialog is the dialog the handler displayes on certain button presses
-     * @param dialogActive boolean to see if the dialog is showing :: DEPRECIATED
+     * @param dialog       dialog is the dialog the handler displays on certain button presses
      */
-    private View v;
+    private View mView;
     private Context mContext;
     private Dialog dialog;
     private AddMoodController moodController;
-    private boolean dialogActive;
-
-    /**
-     * Blank Constructor
-     */
-    public FooterHandler(){};
-
+    
     /**
      * Constructor to attach a view and context as well as initialize boolean values
-     * build is called at the end to initialize the onclick listners
+     * build is called at the end to initialize the onclick listeners
      *
      * @param mContext The context of the main activity which calls the handler
-     * @param v        The footer View to be passed in and handled
+     * @param view        The footer View to be passed in and handled
      * @see build
      */
-    public FooterHandler(Context mContext, View v){
-        this.v = v;
+    public FooterHandler(Context mContext, View view){
+        this.mView = view;
         this.mContext = mContext;
         dialog = new Dialog(mContext);
         dialog.setContentView(R.layout.add_mood_popup);
-        moodController = new AddMoodController(mContext,dialog,v);
+        moodController = new AddMoodController(mContext,dialog,view);
         build();
     }
 
@@ -71,7 +64,7 @@ public class FooterHandler {
      * @see build
      */
     public void setView(View v){
-        this.v = v;
+        this.mView = v;
         build();
     }
 
@@ -80,7 +73,7 @@ public class FooterHandler {
      */
     private void build(){
         //TODO implementation
-        this.v.findViewById(R.id.follow).setOnClickListener(new View.OnClickListener() {
+        this.mView.findViewById(R.id.follow).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //TODO need a follow hub activity
@@ -90,7 +83,7 @@ public class FooterHandler {
             }
         });
 
-        this.v.findViewById(R.id.profile).setOnClickListener(new View.OnClickListener() {
+        this.mView.findViewById(R.id.profile).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //TODO need a profile activity
@@ -100,20 +93,20 @@ public class FooterHandler {
 
 
         // http://stackoverflow.com/questions/5934050/check-whether-activity-is-active March 13, 2017 15:17
-        this.v.findViewById(R.id.home).setOnClickListener(new View.OnClickListener() {
+        this.mView.findViewById(R.id.home).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ArrayList<String> runningactivities = new ArrayList<String>();
+                ArrayList<String> runningActivities = new ArrayList<>();
 
                 ActivityManager activityManager = (ActivityManager) mContext.getSystemService (Context.ACTIVITY_SERVICE);
 
                 List<ActivityManager.RunningTaskInfo> services = activityManager.getRunningTasks(Integer.MAX_VALUE);
 
                 for (int i1 = 0; i1 < services.size(); i1++) {
-                    runningactivities.add(0,services.get(i1).topActivity.toString());
+                    runningActivities.add(0,services.get(i1).topActivity.toString());
                 }
 
-                if(runningactivities.contains("ComponentInfo{com.example.whatsmymood/com.example.whatsmymood.MainActivity}")==true){
+                if(runningActivities.contains("ComponentInfo{com.example.whatsmymood/com.example.whatsmymood.MainActivity}")){
                     Toast.makeText(mContext, "Currently In Home", Toast.LENGTH_SHORT).show();
                 } else {
                     Intent intent = new Intent(mContext, MainActivity.class);
@@ -123,7 +116,7 @@ public class FooterHandler {
             }
         });
 
-        this.v.findViewById(R.id.map).setOnClickListener(new View.OnClickListener() {
+        this.mView.findViewById(R.id.map).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.d("intent", "intent map");
@@ -132,7 +125,7 @@ public class FooterHandler {
             }
         });
 
-        this.v.findViewById(R.id.add).setOnClickListener(new View.OnClickListener() {
+        this.mView.findViewById(R.id.add).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.d("intent", "intent dialog");

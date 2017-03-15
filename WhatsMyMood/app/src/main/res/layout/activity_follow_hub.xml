@@ -26,6 +26,7 @@
                 android:textSize="30sp"/>
             <ListView
                 android:id="@+id/followingList"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -38,6 +39,7 @@
                 android:textSize="30sp"/>
             <ListView
                 android:id="@+id/followersList"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -50,6 +52,7 @@
                 android:textSize="30sp"/>
             <ListView
                 android:id="@+id/requestsList"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -67,7 +70,5 @@
                 android:text="add"/>
 
         </LinearLayout>
-
-
     </RelativeLayout>
 </ScrollView>

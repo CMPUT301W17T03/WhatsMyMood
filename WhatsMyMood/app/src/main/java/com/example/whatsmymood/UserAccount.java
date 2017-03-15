@@ -2,7 +2,7 @@ package com.example.whatsmymood;
 
 import android.graphics.Bitmap;
 
-import java.util.ArrayList;
+import io.searchbox.annotations.JestId;
 
 //import io.searchbox.annotations.JestId;
 
@@ -27,11 +27,11 @@ public class UserAccount {
     private String password;
     private String name;
     private Bitmap profilePicture;
+    private Follows follows;
     public MoodList moodList;
-    public Follows follows;
 
 
-    //@JestId
+    @JestId
     private String id;
 
     public UserAccount(String username, String password) {
@@ -66,7 +66,7 @@ public class UserAccount {
      *@param newPassword              The password to change to, stored as hash
      */
     public void setPassword(String oldPassword, String newPassword){
-        if(this.password == oldPassword) {
+        if(this.password.equals(oldPassword)) {
             this.password = newPassword;
         }
     }

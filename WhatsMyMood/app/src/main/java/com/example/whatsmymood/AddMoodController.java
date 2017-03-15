@@ -4,38 +4,23 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
-import android.util.Log;
-import android.location.LocationManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.google.android.gms.games.video.Videos;
-
-import static android.content.Context.LOCATION_SERVICE;
-
-/**
- * Created by nathan on 07/03/17.
- */
-
+import java.io.ByteArrayOutputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Takes user input and converts it into a relevant mood
@@ -56,9 +41,6 @@ public class AddMoodController extends AppCompatActivity{
     private int cameraPermissionCheck;
 
     private Dialog dialog;
-    private Context mContext;
-
-    private Mood mood;
 
     private String moodType;
 
@@ -84,7 +66,6 @@ public class AddMoodController extends AppCompatActivity{
      */
     public AddMoodController(final Context mContext, Dialog d, View view) {
         this.dialog = d;
-        this.mContext = mContext;
 
         /**
          * Get access to the camera in android on user click
@@ -95,7 +76,8 @@ public class AddMoodController extends AppCompatActivity{
         photoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // http://stackoverflow.com/questions/38980647/i-need-to-get-the-activity-in-order-to-request-permissions March 13th,2017 1:48
+                // http://stackoverflow.com/questions/38980647/i-need-to-get-the-activity-in-order-to-request-permissions
+                // March 13th,2017 1:48
                 cameraPermissionCheck = ContextCompat.checkSelfPermission(mContext, android.Manifest.permission.CAMERA);
                 if (cameraPermissionCheck != PackageManager.PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions((Activity) mContext, new String[]{android.Manifest.permission.CAMERA}, PERMISSIONS_REQUEST_ACCESS_CAMERA);
@@ -150,20 +132,19 @@ public class AddMoodController extends AppCompatActivity{
                 ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
                 photo.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
                 byte[] imageBytes = outputStream.toByteArray();
-                String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
 
-                this.photo = encodedImage;
+                this.photo = Base64.encodeToString(imageBytes, Base64.DEFAULT);
             }
         }
     }
 
     /**
      * Main controller actions
-     * Takes each inputi and converts it into
+     * Takes each input and converts it into
      * their respective variables
      * @return
      */
-    public Mood getMood() {
+    private Mood getMood() {
 
         Spinner spinner = (Spinner) this.dialog.findViewById(R.id.select_mood);
 
@@ -205,8 +186,7 @@ public class AddMoodController extends AppCompatActivity{
             check.setLenient(false);
 
             try {
-                Date moodDate = check.parse(date.getText().toString());
-                this.date = moodDate;
+                this.date = check.parse(date.getText().toString());
             } catch(ParseException e) {
                 e.printStackTrace();
                 DATE_INVALID = true;
@@ -216,8 +196,7 @@ public class AddMoodController extends AppCompatActivity{
         if (SELECT_MOOD_INVALID) {
 
             // TODO: Find a better way to output the error
-            Spinner mSpinner = (Spinner) this.dialog.findViewById(R.id.select_mood);
-            TextView textview = (TextView) mSpinner.getSelectedView();
+            TextView textview = (TextView) spinner.getSelectedView();
             textview.setError("");
             textview.setTextColor(Color.RED);//just to highlight that this is an error
             textview.setText("Invalid Mood Selected");
@@ -226,8 +205,7 @@ public class AddMoodController extends AppCompatActivity{
             // SELECT_MOOD_INVALID is always set to true unless we manually set it to false
             SELECT_MOOD_INVALID = false;
         } else if (DATE_INVALID) {
-            TextView textview = (TextView) this.dialog.findViewById(R.id.enter_date);
-            textview.setError("Invalid Date Inputed (yyyy-MM-DD)");
+            date.setError("Invalid Date Inputed (yyyy-MM-DD)");
 
             // TODO: Handle invalid date properly
             // DATE_INVALID is always set to true unless we manually set it to false
@@ -244,17 +222,18 @@ public class AddMoodController extends AppCompatActivity{
     /**
      * Creates the mood
      * Automatically creates a date to the current date
-     * if there is no date specifeid
+     * if there is no date specified
      * @return
      */
-    public Mood makeMood() {
+    private Mood makeMood() {
+        Mood mood;
 
         // If the date is null, automatically set the date to the current date
         if (this.date == null) {
             Date newDate = new Date();
-            this.mood = new Mood(this.moodAuthor,this.moodType, newDate);
+            mood = new Mood(this.moodAuthor,this.moodType, newDate);
         } else {
-            this.mood = new Mood(this.moodAuthor,this.moodType, this.date);
+            mood = new Mood(this.moodAuthor,this.moodType, this.date);
         }
 
         mood.setMoodMsg(this.moodMsg);
