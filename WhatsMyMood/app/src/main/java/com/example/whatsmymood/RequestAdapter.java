@@ -3,7 +3,6 @@ package com.example.whatsmymood;
 import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -80,7 +79,8 @@ public class RequestAdapter extends ArrayAdapter<String> {
                 follows.removeFromFollowRequests(user);
                 requestFollows.addToFollowing(mUser.getUsername());
 
-                updateData();
+                updateData(mUser);
+                updateData(mRequestUser);
 
                 setAdapters();
             }
@@ -93,7 +93,7 @@ public class RequestAdapter extends ArrayAdapter<String> {
 
                 follows.removeFromFollowRequests(user);
 
-                updateData();
+                updateData(mUser);
 
                 ArrayAdapter<String> requestsAdapter = new RequestAdapter(follows.getFollowRequestsList(), mContext);
                 requestsList.setAdapter(requestsAdapter);
@@ -126,9 +126,9 @@ public class RequestAdapter extends ArrayAdapter<String> {
         }
     }
 
-    private void updateData() {
+    private void updateData(UserAccount user) {
         ElasticSearchUserController.UpdateUser updateUser = new ElasticSearchUserController.UpdateUser();
-        updateUser.execute(mUser);
+        updateUser.execute(user);
     }
 
     private void setAdapters() {
