@@ -2,7 +2,6 @@ package com.example.whatsmymood;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -20,20 +19,14 @@ import java.util.concurrent.ExecutionException;
 public class FollowHubActivity extends AppCompatActivity {
     private final CurrentUser current = CurrentUser.getInstance();
 
-    private TextView followersText;
     private ListView followersList;
     private ArrayList<String> followers;
-    private ArrayAdapter<String> followersAdapter;
 
-    private TextView followingText;
     private ListView followingList;
     private ArrayList<String> following;
-    private ArrayAdapter<String> followingAdapter;
 
-    private TextView requestsText;
     private ListView requestsList;
     private ArrayList<String> requests;
-    private ArrayAdapter<String> requestsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,9 +41,9 @@ public class FollowHubActivity extends AppCompatActivity {
         followingList = (ListView) findViewById(R.id.followingList);
         requestsList = (ListView) findViewById(R.id.requestsList);
 
-        followersText = (TextView) findViewById(R.id.followers);
-        followingText = (TextView) findViewById(R.id.following);
-        requestsText = (TextView) findViewById(R.id.requests);
+        TextView followersText = (TextView) findViewById(R.id.followers);
+        TextView followingText = (TextView) findViewById(R.id.following);
+        TextView requestsText = (TextView) findViewById(R.id.requests);
 
         followersText.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,9 +65,6 @@ public class FollowHubActivity extends AppCompatActivity {
                 toggleVisibility(requestsList);
             }
         });
-
-
-
     }
 
     protected void onStart() {
@@ -82,9 +72,9 @@ public class FollowHubActivity extends AppCompatActivity {
 
         fetchData();
 
-        followersAdapter = new FollowAdapter(followers, this);
-        followingAdapter = new FollowAdapter(following, this);
-        requestsAdapter = new RequestAdapter(requests, this);
+        ArrayAdapter<String> followersAdapter = new FollowAdapter(followers, this);
+        ArrayAdapter<String> followingAdapter = new FollowAdapter(following, this);
+        ArrayAdapter<String> requestsAdapter = new RequestAdapter(requests, this);
 
         followersList.setAdapter(followersAdapter);
         followingList.setAdapter(followingAdapter);
@@ -93,7 +83,6 @@ public class FollowHubActivity extends AppCompatActivity {
         justifyListViewHeightBasedOnChildren(followersList);
         justifyListViewHeightBasedOnChildren(followingList);
         justifyListViewHeightBasedOnChildren(requestsList);
-
     }
 
     /**
@@ -115,7 +104,6 @@ public class FollowHubActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-
 
     /**
      * Justify list view height based on children.
