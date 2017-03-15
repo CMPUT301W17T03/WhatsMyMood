@@ -65,20 +65,25 @@ public class FollowHubActivity extends AppCompatActivity {
     protected void fetchData() {
         // currently using static data to prove concept works
 
+        UserAccount currentUser = CurrentUser.getInstance().getCurrentUser();
 
+        followers = currentUser.getFollows().getFollowedByList();
+//        Log.d("fetch","Fetching data...");
+//        followers.add("John Doe");
+//        followers.add("Jane Doe");
+//        followers.add("Malcolm");
 
-        Log.d("fetch","Fetching data...");
-        followers.add("John Doe");
-        followers.add("Jane Doe");
-        followers.add("Malcolm");
+        following = currentUser.getFollows().getFollowingList();
+//        following.add("person1");
+//        following.add("person2");
+//        following.add("person3");
 
-        following.add("person1");
-        following.add("person2");
-        following.add("person3");
+        requests = currentUser.getFollows().getFollowRequestsList();
 
-        requests.add("person4");
-        requests.add("person5");
-        requests.add("person6");
+//        requests.add("person4");
+//        requests.add("person5");
+//        requests.add("person6");
+
     }
 
 }

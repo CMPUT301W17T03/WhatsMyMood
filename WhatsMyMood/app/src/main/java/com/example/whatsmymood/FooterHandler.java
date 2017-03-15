@@ -31,7 +31,7 @@ public class FooterHandler {
     /**
      * Blank Constructor
      */
-    public FooterHandler(){};
+    public FooterHandler(){}
 
     /**
      * Constructor to attach a view and context as well as initialize boolean values
@@ -39,7 +39,6 @@ public class FooterHandler {
      *
      * @param mContext The context of the main activity which calls the handler
      * @param v        The footer View to be passed in and handled
-     * @see build
      */
     public FooterHandler(Context mContext, View v){
         this.v = v;
@@ -63,7 +62,6 @@ public class FooterHandler {
      * Setter to set the view to be handled build is called after a view shift
      *
      * @param v The footer View to be passed in and handled
-     * @see build
      */
     public void setView(View v){
         this.v = v;

@@ -77,7 +77,7 @@ public class ElasticSearchUserController {
                     "        \"match\" : " +
                     "               { \"username\" : \"" + "%s" + "\" }\n" +
                     "    }\n" +
-                    "}", search_parameters[0].toString().trim());
+                    "}", search_parameters[0].trim());
 
             Search search = new Search.Builder(query).addIndex("cmput301w17t03").addType("user").build();
 

@@ -52,9 +52,7 @@ public class AddMoodController extends AppCompatActivity{
     private int cameraPermissionCheck;
 
     private Dialog dialog;
-    private Context mContext;
 
-    private Mood mood;
 
     private String moodType;
 
@@ -70,7 +68,6 @@ public class AddMoodController extends AppCompatActivity{
 
     public AddMoodController(final Context mContext, Dialog d, View view) {
         this.dialog = d;
-        this.mContext = mContext;
 
         /**
          * Get access to the camera in android on user click
@@ -189,8 +186,7 @@ public class AddMoodController extends AppCompatActivity{
         if (SELECT_MOOD_INVALID) {
 
             // TODO: Find a better way to output the error
-            Spinner mSpinner = (Spinner) this.dialog.findViewById(R.id.select_mood);
-            TextView textview = (TextView) mSpinner.getSelectedView();
+            TextView textview = (TextView) spinner.getSelectedView();
             textview.setError("");
             textview.setTextColor(Color.RED);//just to highlight that this is an error
             textview.setText("Invalid Mood Selected");
@@ -199,8 +195,7 @@ public class AddMoodController extends AppCompatActivity{
             // SELECT_MOOD_INVALID is always set to true unless we manually set it to false
             SELECT_MOOD_INVALID = false;
         } else if (DATE_INVALID) {
-            TextView textview = (TextView) this.dialog.findViewById(R.id.enter_date);
-            textview.setError("Invalid Date Inputed");
+            date.setError("Invalid Date Inputed");
 
             // TODO: Handle invalid date properly
             // DATE_INVALID is always set to true unless we manually set it to false
@@ -212,13 +207,13 @@ public class AddMoodController extends AppCompatActivity{
     }
 
     public Mood makeMood() {
-
+        Mood mood;
         // If the date is null, automatically set the date to the current date
         if (this.date == null) {
             Date newDate = new Date();
-            this.mood = new Mood(this.moodAuthor,this.moodType, newDate);
+            mood = new Mood(this.moodAuthor,this.moodType, newDate);
         } else {
-            this.mood = new Mood(this.moodAuthor,this.moodType, this.date);
+            mood = new Mood(this.moodAuthor,this.moodType, this.date);
         }
 
         mood.setMoodMsg(this.moodMsg);
