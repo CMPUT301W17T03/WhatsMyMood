@@ -11,12 +11,15 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 /**
  * The type Follow hub activity.
  * Created by ejtang on 7/03/2017
  */
 public class FollowHubActivity extends AppCompatActivity {
+    private final CurrentUser current = CurrentUser.getInstance();
+
     private TextView followersText;
     private ListView followersList;
     private ArrayList<String> followers;
@@ -77,8 +80,8 @@ public class FollowHubActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        //TODO Fetch data periodically e.i. observer/observable
         fetchData();
+
         followersAdapter = new FollowAdapter(followers, this);
         followingAdapter = new FollowAdapter(following, this);
         requestsAdapter = new RequestAdapter(requests, this);
@@ -98,19 +101,19 @@ public class FollowHubActivity extends AppCompatActivity {
      */
     //TODO grab the information from elastic search and place it into lists
     private void fetchData() {
-        // currently using static data to prove concept works
-        Log.d("fetch","Fetching data...");
-        followers.add("John Doe");
-        followers.add("Jane Doe");
-        followers.add("Malcolm");
+        ElasticSearchUserController.GetUserTask getUserTask = new ElasticSearchUserController.GetUserTask();
+        getUserTask.execute(current.getCurrentUser().getUsername());
 
-        following.add("person1");
-        following.add("person2");
-        following.add("person3");
+        try {
+            ArrayList<UserAccount> userList = getUserTask.get();
 
-        requests.add("person4");
-        requests.add("person5");
-        requests.add("person6");
+            followers = userList.get(0).getFollows().getFollowedByList();
+            following = userList.get(0).getFollows().getFollowingList();
+            requests = userList.get(0).getFollows().getFollowRequestsList();
+
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
 

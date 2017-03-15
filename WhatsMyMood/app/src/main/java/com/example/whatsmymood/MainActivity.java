@@ -39,24 +39,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        ElasticSearchUserController.GetUserTask getUserTask = new ElasticSearchUserController.GetUserTask();
-        getUserTask.execute(current.getCurrentUser().getUsername());
-
-        try {
-            ArrayList<UserAccount> userList = getUserTask.get();
-
-            // Should be one user
-            // If there is more than one user then the world is dying
-            for (UserAccount User : userList) {
-                followers = User.getFollows().getFollowingList();
-            }
-
-        } catch (ExecutionException | InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        moods = new ArrayList<>();
-
         fetchData();
 
         ArrayAdapter<Mood> moodAdapter = new MoodAdapter(moods,this);
@@ -72,6 +54,21 @@ public class MainActivity extends AppCompatActivity {
      * to an ArrayList to be displayed
      */
     private void fetchData() {
+
+        ElasticSearchUserController.GetUserTask getUserTask = new ElasticSearchUserController.GetUserTask();
+        getUserTask.execute(current.getCurrentUser().getUsername());
+
+        try {
+            ArrayList<UserAccount> userList = getUserTask.get();
+
+            followers = userList.get(0).getFollows().getFollowingList();
+
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        moods = new ArrayList<>();
+
         for (String follower : followers) {
             ElasticSearchUserController.GetUserTask getFollowersTask = new ElasticSearchUserController.GetUserTask();
             getFollowersTask.execute(follower);
