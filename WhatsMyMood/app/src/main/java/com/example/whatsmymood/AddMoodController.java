@@ -10,14 +10,13 @@ import android.graphics.Color;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import java.io.ByteArrayOutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -35,12 +34,14 @@ public class AddMoodController extends AppCompatActivity{
 
     // Activity Result Codes
     private final static int CAPTURE_IMAGE_REQUEST_CODE = 2;
-    private final static int CONFIRM = 3;
 
     // Variable for camera permission checks
     private int cameraPermissionCheck;
 
-    private Dialog dialog;
+    // Interface
+    private static ImageButton photoButton;
+
+    private final Dialog dialog;
 
     private String moodType;
 
@@ -54,7 +55,7 @@ public class AddMoodController extends AppCompatActivity{
     private Date date;
 
     // TODO: Figure out how we're handling photos
-    private String photo;
+    private static String mPhoto;
 
     /**
      * Passes the dialog and context
@@ -67,11 +68,11 @@ public class AddMoodController extends AppCompatActivity{
     public AddMoodController(final Context mContext, Dialog d, View view) {
         this.dialog = d;
 
-        /**
-         * Get access to the camera in android on user click
-         */
+        // Get Access to the Camera
 
-        Button photoButton = (Button) dialog.findViewById(R.id.load_picture);
+        photoButton = (ImageButton) dialog.findViewById(R.id.load_picture);
+
+        photoButton.setBackgroundResource(R.mipmap.camera);
 
         photoButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,9 +90,7 @@ public class AddMoodController extends AppCompatActivity{
             }
         });
 
-        /**
-         * Sets the mood on post button click
-         */
+        // Sets the mood on post button click
 
         Button post = (Button) dialog.findViewById(R.id.post);
 
@@ -114,26 +113,16 @@ public class AddMoodController extends AppCompatActivity{
         });
     }
 
-    /**
-     * Grabs the result from the camera activity
-     * // TODO: Get the bitmap image successfully
-     * @param requestCode
-     * @param resultCode
-     * @param intent
-     */
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        super.onActivityResult(requestCode, resultCode, intent);
+    public static void processResult(int requestCode, int resultCode, Intent intent) {
         if (requestCode == CAPTURE_IMAGE_REQUEST_CODE) {
-            if (resultCode == CONFIRM) {
+            if (resultCode == RESULT_OK) {
                 Bitmap photo = (Bitmap) intent.getExtras().get("data");
 
-                // Used for decoding the image for later storage
-                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-                photo.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
-                byte[] imageBytes = outputStream.toByteArray();
+                photoButton.setImageBitmap(photo);
 
-                this.photo = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+                PhotoController photoController = new PhotoController();
+
+                mPhoto = photoController.encodePhoto(photo);
             }
         }
     }
@@ -239,7 +228,7 @@ public class AddMoodController extends AppCompatActivity{
         mood.setMoodMsg(this.moodMsg);
         mood.setLocation(this.location);
         mood.setSocialSit(this.socialSit);
-        mood.setPhoto(this.photo);
+        mood.setPhoto(mPhoto);
 
         return mood;
     }

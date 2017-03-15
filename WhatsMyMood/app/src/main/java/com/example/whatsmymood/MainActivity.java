@@ -1,7 +1,9 @@
 package com.example.whatsmymood;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -15,6 +17,9 @@ import java.util.concurrent.ExecutionException;
  * Also implements a footer that handles different activities
  */
 public class MainActivity extends AppCompatActivity {
+    private LinearLayout footer;
+    private FooterHandler handler;
+
     private final CurrentUser current = CurrentUser.getInstance();
 
     private ArrayList<String> followers;
@@ -26,8 +31,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
-        LinearLayout footer = (LinearLayout)findViewById(R.id.footer);
-        FooterHandler handler = new FooterHandler(this, footer);
+        footer = (LinearLayout)findViewById(R.id.footer);
     }
 
     /**
@@ -39,8 +43,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
+        FooterHandler handler = new FooterHandler(this, footer);
+
         fetchData();
         setAdapters();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+        AddMoodController.processResult(requestCode, resultCode, intent);
     }
 
     private void setAdapters() {
