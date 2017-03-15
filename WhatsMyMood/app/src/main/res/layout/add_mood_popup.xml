@@ -26,7 +26,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:gravity="center"
-        android:hint="@string/enter_descript"
+        android:hint="@string/enter_description"
         android:textSize="12sp"
         android:textColorHint="@color/popup_text"
         android:background="@color/popup_background"/>
@@ -37,7 +37,7 @@
         android:orientation="horizontal"
         android:layout_below="@+id/enter_description"
         android:weightSum="1"
-        android:gravity="right">
+        android:gravity="end">
 
         <EditText
             android:id="@+id/enter_location"
@@ -61,7 +61,7 @@
         android:orientation="horizontal"
         android:layout_below="@+id/enter_description"
         android:weightSum="1"
-        android:gravity="right">
+        android:gravity="end">
 
         <EditText
             android:id="@+id/enter_tags"
@@ -85,7 +85,7 @@
         android:orientation="horizontal"
         android:layout_below="@+id/enter_description"
         android:weightSum="1"
-        android:gravity="right">
+        android:gravity="end">
 
         <EditText
             android:id="@+id/enter_date"
@@ -97,6 +97,7 @@
             android:layout_weight="0.5"
             android:gravity="center"
             android:hint="@string/enter_date"
+            android:inputType="date"
             android:textSize="12sp"
             android:textColorHint="@color/popup_text"
             android:background="@color/popup_background"/>
@@ -109,7 +110,7 @@
         android:orientation="horizontal"
         android:layout_below="@+id/enter_description"
         android:weightSum="1"
-        android:gravity="left"
+        android:gravity="start"
         android:id="@+id/linearLayout">
 
         <Button

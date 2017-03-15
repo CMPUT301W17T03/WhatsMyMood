@@ -4,31 +4,31 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
     <TextView
-        android:text="Author"
+        android:text="@string/mood_author"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/author"
         android:textSize="30sp"/>
     <TextView
-        android:text="Mood"
+        android:text="@string/mood_type"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/mood"
         android:textSize="20sp"/>
     <TextView
-        android:text="No Message"
+        android:text="@string/blank_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/moodMessage"
         android:textSize="20sp"/>
     <TextView
-        android:text="No Social Situation Entered"
+        android:text="@string/blank_social_sit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/moodSocialSituation"
         android:textSize="20sp"/>
     <TextView
-        android:text="Date"
+        android:text="@string/mood_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/moodDate"

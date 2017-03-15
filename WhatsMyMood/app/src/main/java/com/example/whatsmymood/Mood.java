@@ -1,16 +1,8 @@
 package com.example.whatsmymood;
 
-import android.graphics.Bitmap;
-import android.location.Location;
+import android.support.annotation.NonNull;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
-
-
-
-/**
- * Created by nathan on 21/02/17.
- */
 
 /**
  * Mood object that holds mood details
@@ -66,8 +58,8 @@ public class Mood implements Comparable<Mood>{
         return moodAuthor;
     }
 
-    public void setMoodAuthor(String newmoodAuthor) {
-        this.moodAuthor = newmoodAuthor;
+    public void setMoodAuthor(String newMoodAuthor) {
+        this.moodAuthor = newMoodAuthor;
     }
 
     public String getMoodMsg() {
@@ -88,16 +80,16 @@ public class Mood implements Comparable<Mood>{
         return socialSit;
     }
 
-    public void setSocialSit(String newsocialSit) {
-        this.socialSit = newsocialSit;
+    public void setSocialSit(String newSocialSit) {
+        this.socialSit = newSocialSit;
     }
 
     public Date getDate() {
         return date;
     }
 
-    public void setDate(Date newdate) {
-        this.date = newdate;
+    public void setDate(Date newDate) {
+        this.date = newDate;
     }
 
     public String getPhoto() {
@@ -110,7 +102,7 @@ public class Mood implements Comparable<Mood>{
 
     //http://stackoverflow.com/questions/5927109/sort-objects-in-arraylist-by-date
     //February 26th, 2016 - 1:02pm
-    public int compareTo(Mood o) {
+    public int compareTo(@NonNull Mood o) {
         return getDate().compareTo(o.getDate());
     }
 }

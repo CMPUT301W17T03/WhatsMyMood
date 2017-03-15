@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">WhatsMyMood</string>
-    <string name="title_activity_login">Sign In/Create</string>
 
     <!-- Strings related to login -->
     <string name="prompt_username">Username</string>
@@ -9,16 +8,31 @@
     <string name="action_sign_in">Sign in</string>
     <string name="action_sign_in_short">Sign In</string>
     <string name="create_account">Create Account</string>
-    <string name="cancel">Cancel</string>
-    <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
 
-    <!-- Strings related to the action bar -->
-    <string name="add_mood">Add Mood</string>
+    <!-- Strings related to the follow hub -->
+    <string name="users_followed">Following</string>
+    <string name="users_following">Followers</string>
+    <string name="follow_requests">Request</string>
+    <string name="request_to_follow">Add</string>
+
+    <!-- Strings related to the creating a user -->
+    <string name="create_user">Create</string>
+    <string name="cancel_create_user">Cancel</string>
+
+    <!-- Strings related to the follow adapter -->
+    <string name="username">Username</string>
+
+    <!-- Strings related to the mood adapter -->
+    <string name="mood_author">Author</string>
+    <string name="mood_type">Mood</string>
+    <string name="blank_message">No Message Entered</string>
+    <string name="blank_social_sit">No Social Situation Entered</string>
+    <string name="mood_date">Date</string>
+
 
     <!-- Strings related to the add mood popup -->
-    <string name="select_mood">Select Mood</string>
-    <string name="enter_descript">Enter Description Here</string>
+    <string name="enter_description">Enter Description Here</string>
     <string name="enter_location">Location</string>
     <string name="enter_tag">Tag people you are with</string>
     <string name="enter_date">Enter the date</string>
@@ -35,7 +49,7 @@
         <item>Disgusted</item>
         <item>Scared</item>
         <item>Shame</item>
-        <item>Surpise</item>
+        <item>Surprise</item>
     </string-array>
     <string name="title_activity_maps">Map</string>
 

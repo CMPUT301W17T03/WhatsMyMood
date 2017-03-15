@@ -1,22 +1,16 @@
 package com.example.whatsmymood;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.ListViewCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-
-import static android.R.attr.id;
 
 /**
  * The type Follow hub activity.
@@ -42,9 +36,9 @@ public class FollowHubActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        followers = new ArrayList<String>();
-        following = new ArrayList<String>();
-        requests = new ArrayList<String>();
+        followers = new ArrayList<>();
+        following = new ArrayList<>();
+        requests = new ArrayList<>();
 
         setContentView(R.layout.activity_follow_hub);
         followersList = (ListView) findViewById(R.id.followersList);
@@ -83,7 +77,7 @@ public class FollowHubActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        //TODO Fecth data periodically e.i. observer/observable
+        //TODO Fetch data periodically e.i. observer/observable
         fetchData();
         followersAdapter = new FollowAdapter(followers, this);
         followingAdapter = new FollowAdapter(following, this);
@@ -102,8 +96,8 @@ public class FollowHubActivity extends AppCompatActivity {
     /**
      * Fetch data.
      */
-//TODO grab the information from elastic search and place it into lists
-    protected void fetchData() {
+    //TODO grab the information from elastic search and place it into lists
+    private void fetchData() {
         // currently using static data to prove concept works
         Log.d("fetch","Fetching data...");
         followers.add("John Doe");
@@ -129,17 +123,16 @@ public class FollowHubActivity extends AppCompatActivity {
      *
      * @param listView the list view
      */
-    public void justifyListViewHeightBasedOnChildren (ListView listView) {
+    private void justifyListViewHeightBasedOnChildren (ListView listView) {
 
         ListAdapter adapter = listView.getAdapter();
 
         if (adapter == null) {
             return;
         }
-        ViewGroup vg = listView;
         int totalHeight = 0;
         for (int i = 0; i < adapter.getCount(); i++) {
-            View listItem = adapter.getView(i, null, vg);
+            View listItem = adapter.getView(i, null, listView);
             listItem.measure(0, 0);
             totalHeight += listItem.getMeasuredHeight();
         }

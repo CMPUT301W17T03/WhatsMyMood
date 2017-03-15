@@ -4,10 +4,6 @@ import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 /**
- * Created by Malcolm on 2017-03-11.
- */
-
-/**
  * Creates the User
  */
 public class CreateUserController {
@@ -17,7 +13,7 @@ public class CreateUserController {
     }
 
     /**
-     * Checks that the username is unique in the elastic search index
+     *
      * @param username
      * @param password
      * @return
@@ -37,9 +33,7 @@ public class CreateUserController {
                 addUserTask.execute(user);
                 return true;
             }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
+        } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
         return false;

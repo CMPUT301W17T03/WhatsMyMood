@@ -1,8 +1,7 @@
 package com.example.whatsmymood;
 
-import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,7 +16,7 @@ public class UserCreateActivity extends AppCompatActivity {
     private CreateUserController userController;
 
     /**
-     * Instantiates each edittext and grabs the user input values
+     * Instantiates each EditText and grabs the user input values
      * @param savedInstanceState
      */
     @Override
@@ -33,7 +32,7 @@ public class UserCreateActivity extends AppCompatActivity {
 
         this.userController = new CreateUserController();
 
-        // Error checking if the usernmae already exists
+        // Error checking if the username already exists
         createAccount.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (password.getText().toString().equals(passwordConfirm.getText().toString())) {
