@@ -11,8 +11,8 @@
     <string name="error_field_required">This field is required</string>
 
     <!-- Strings related to the follow hub -->
-    <string name="users_followed">Following</string>
     <string name="users_following">Followers</string>
+    <string name="users_followed">Following</string>
     <string name="follow_requests">Request</string>
     <string name="request_to_follow">Add</string>
 

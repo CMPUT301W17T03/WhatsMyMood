@@ -2,6 +2,7 @@ package com.example.whatsmymood;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -40,7 +41,10 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
 
         fetchData();
+        setAdapters();
+    }
 
+    private void setAdapters() {
         ArrayAdapter<Mood> moodAdapter = new MoodAdapter(moods,this);
 
         // Sets the adapter

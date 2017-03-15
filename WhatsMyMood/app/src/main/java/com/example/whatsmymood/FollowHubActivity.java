@@ -2,9 +2,12 @@ package com.example.whatsmymood;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -19,31 +22,28 @@ import java.util.concurrent.ExecutionException;
 public class FollowHubActivity extends AppCompatActivity {
     private final CurrentUser current = CurrentUser.getInstance();
 
+    private Follows follows;
+    private Follows requestFollows;
+
     private ListView followersList;
-    private ArrayList<String> followers;
-
     private ListView followingList;
-    private ArrayList<String> following;
-
     private ListView requestsList;
-    private ArrayList<String> requests;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        followers = new ArrayList<>();
-        following = new ArrayList<>();
-        requests = new ArrayList<>();
-
         setContentView(R.layout.activity_follow_hub);
-        followersList = (ListView) findViewById(R.id.followersList);
         followingList = (ListView) findViewById(R.id.followingList);
+        followersList = (ListView) findViewById(R.id.followersList);
         requestsList = (ListView) findViewById(R.id.requestsList);
 
-        TextView followersText = (TextView) findViewById(R.id.followers);
         TextView followingText = (TextView) findViewById(R.id.following);
+        TextView followersText = (TextView) findViewById(R.id.followers);
         TextView requestsText = (TextView) findViewById(R.id.requests);
+
+        final EditText addRequestText = (EditText) findViewById(R.id.body);
+        Button addRequest = (Button) findViewById(R.id.add);
 
         followersText.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,16 +65,44 @@ public class FollowHubActivity extends AppCompatActivity {
                 toggleVisibility(requestsList);
             }
         });
+
+        addRequest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ElasticSearchUserController.GetUserTask getRequestUserTask = new ElasticSearchUserController.GetUserTask();
+                getRequestUserTask.execute(addRequestText.getText().toString());
+
+                try {
+                    UserAccount user = getRequestUserTask.get().get(0);
+                    requestFollows = user.getFollows();
+
+                    if (!user.getFollows().isFollowedBy(current.getCurrentUser().getUsername())) {
+                        requestFollows.addToFollowRequests(current.getCurrentUser().getUsername());
+                        ElasticSearchUserController.UpdateUser updateUser = new ElasticSearchUserController.UpdateUser();
+                        updateUser.execute(user);
+                    } else {
+                        addRequestText.setError("Already following User");
+                    }
+                } catch (ExecutionException | IndexOutOfBoundsException e) {
+                    addRequestText.setError("User Doesn't Exist");
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
+    @Override
     protected void onStart() {
         super.onStart();
-
         fetchData();
+        setAdapters();
+    }
 
-        ArrayAdapter<String> followersAdapter = new FollowAdapter(followers, this);
-        ArrayAdapter<String> followingAdapter = new FollowAdapter(following, this);
-        ArrayAdapter<String> requestsAdapter = new RequestAdapter(requests, this);
+    private void setAdapters() {
+        ArrayAdapter<String> followersAdapter = new FollowAdapter(follows.getFollowedByList(), this);
+        ArrayAdapter<String> followingAdapter = new FollowAdapter(follows.getFollowingList(), this);
+        ArrayAdapter<String> requestsAdapter = new RequestAdapter(follows.getFollowRequestsList(), this);
 
         followersList.setAdapter(followersAdapter);
         followingList.setAdapter(followingAdapter);
@@ -88,7 +116,6 @@ public class FollowHubActivity extends AppCompatActivity {
     /**
      * Fetch data.
      */
-    //TODO grab the information from elastic search and place it into lists
     private void fetchData() {
         ElasticSearchUserController.GetUserTask getUserTask = new ElasticSearchUserController.GetUserTask();
         getUserTask.execute(current.getCurrentUser().getUsername());
@@ -96,9 +123,7 @@ public class FollowHubActivity extends AppCompatActivity {
         try {
             ArrayList<UserAccount> userList = getUserTask.get();
 
-            followers = userList.get(0).getFollows().getFollowedByList();
-            following = userList.get(0).getFollows().getFollowingList();
-            requests = userList.get(0).getFollows().getFollowRequestsList();
+            follows = userList.get(0).getFollows();
 
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();

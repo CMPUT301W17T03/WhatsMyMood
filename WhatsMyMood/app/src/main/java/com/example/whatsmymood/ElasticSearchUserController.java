@@ -20,10 +20,9 @@ import io.searchbox.core.SearchResult;
  * user objects
  */
 public class ElasticSearchUserController {
+    private static final String TAG = "Error";
 
     private static JestDroidClient client;
-
-    private static final String TAG = "Error";
 
     //https://github.com/AlexCzeto/lonelyTwitter/blob/elasticsearch/app/src/main/java/ca/ualberta/cs/lonelytwitter/ElasticsearchTweetController.java
     //03-11-2017

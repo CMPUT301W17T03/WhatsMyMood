@@ -22,7 +22,7 @@
                 android:id="@+id/following"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/users_following"
+                android:text="@string/users_followed"
                 android:textSize="30sp"/>
             <ListView
                 android:id="@+id/followingList"
@@ -35,7 +35,7 @@
                 android:id="@+id/followers"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/users_followed"
+                android:text="@string/users_following"
                 android:textSize="30sp"/>
             <ListView
                 android:id="@+id/followersList"
