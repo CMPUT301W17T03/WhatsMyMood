@@ -2,11 +2,11 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_main"
+    android:id="@+id/activity_profile"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.whatsmymood.MainActivity">
+    tools:context="com.example.whatsmymood.ProfileActivty">
 
     <!---<ScrollView
         android:id="@+id/main_view"
@@ -15,16 +15,16 @@
         android:layout_weight="0"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">-->
-        <LinearLayout
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <ListView
+            android:id="@+id/moodListView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-            <ListView
-                android:id="@+id/moodListView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-                </ListView>
-        </LinearLayout>
+            android:layout_height="match_parent">
+        </ListView>
+    </LinearLayout>
     <!---</ScrollView>-->
 
     <include

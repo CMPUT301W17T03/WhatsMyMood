@@ -28,8 +28,8 @@ class FooterHandler {
      */
     private View mView;
     private Context mContext;
-    private final Dialog dialog;
-    private final AddMoodController moodController;
+    private Dialog dialog;
+    private AddMoodController moodController;
     /**
      * Constructor to attach a view and context as well as initialize boolean values
      * build is called at the end to initialize the onclick listeners
@@ -40,9 +40,6 @@ class FooterHandler {
     public FooterHandler(Context mContext, View view){
         this.mView = view;
         this.mContext = mContext;
-        dialog = new Dialog(mContext);
-        dialog.setContentView(R.layout.add_mood_popup);
-        moodController = new AddMoodController(mContext,dialog);
         build();
     }
 
@@ -83,8 +80,23 @@ class FooterHandler {
         this.mView.findViewById(R.id.profile).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO need a profile activity
-                Log.d("intent", "intent profile");
+                ArrayList<String> runningActivities = new ArrayList<>();
+
+                ActivityManager activityManager = (ActivityManager) mContext.getSystemService (Context.ACTIVITY_SERVICE);
+
+                List<ActivityManager.RunningTaskInfo> services = activityManager.getRunningTasks(Integer.MAX_VALUE);
+
+                for (int i1 = 0; i1 < services.size(); i1++) {
+                    runningActivities.add(0,services.get(i1).topActivity.toString());
+                }
+
+                // TODO: Make the profile screen refresh on button press
+                if(runningActivities.contains("ComponentInfo{com.example.whatsmymood/com.example.whatsmymood.Profile Activity}")){
+                    Toast.makeText(mContext, "Currently In Profile", Toast.LENGTH_SHORT).show();
+                } else {
+                    Intent intent = new Intent(mContext, ProfileActivty.class);
+                    mContext.startActivity(intent);
+                }
             }
         });
 
@@ -103,13 +115,13 @@ class FooterHandler {
                     runningActivities.add(0,services.get(i1).topActivity.toString());
                 }
 
+                // TODO: Make the home screen refresh on button press
                 if(runningActivities.contains("ComponentInfo{com.example.whatsmymood/com.example.whatsmymood.MainActivity}")){
                     Toast.makeText(mContext, "Currently In Home", Toast.LENGTH_SHORT).show();
                 } else {
                     Intent intent = new Intent(mContext, MainActivity.class);
                     mContext.startActivity(intent);
                 }
-
             }
         });
 
@@ -125,8 +137,10 @@ class FooterHandler {
         this.mView.findViewById(R.id.add).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("intent", "intent dialog");
+                dialog = new Dialog(mContext);
+                dialog.setContentView(R.layout.add_mood_popup);
                 if(!dialog.isShowing()) {
+                    moodController = new AddMoodController(mContext,dialog);
                     dialog.show();
                 }else{
                     dialog.dismiss();

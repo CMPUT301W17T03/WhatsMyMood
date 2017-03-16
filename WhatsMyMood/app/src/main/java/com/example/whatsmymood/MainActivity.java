@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
         ArrayAdapter<Mood> moodAdapter = new MoodAdapter(moods,this);
 
         // Sets the adapter
-        ListView moodList = (ListView) findViewById(R.id.moodList);
+        ListView moodList = (ListView) findViewById(R.id.moodListView);
 
         moodList.setAdapter(moodAdapter);
     }
