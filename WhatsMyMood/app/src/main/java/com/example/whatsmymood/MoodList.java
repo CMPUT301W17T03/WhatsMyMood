@@ -8,7 +8,7 @@ import java.util.Collections;
  * to keep track of the moods of each user
  */
 public class MoodList {
-    private ArrayList<Mood> moods;
+    private final ArrayList<Mood> moods;
 
     public MoodList() {
         this.moods = new ArrayList<>();

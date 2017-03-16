@@ -17,7 +17,7 @@ import java.util.List;
  *
  */
 
-public class FooterHandler {
+class FooterHandler {
     /**
      * FooterHandler handles the footer view that is displayed in activities
      * Creates on click listeners and handles page transitions
@@ -28,21 +28,21 @@ public class FooterHandler {
      */
     private View mView;
     private Context mContext;
-    private Dialog dialog;
-    private AddMoodController moodController;
+    private final Dialog dialog;
+    private final AddMoodController moodController;
     /**
      * Constructor to attach a view and context as well as initialize boolean values
      * build is called at the end to initialize the onclick listeners
      *
      * @param mContext The context of the main activity which calls the handler
-     * @param v        The footer View to be passed in and handled
+     * @param view        The footer View to be passed in and handled
      */
     public FooterHandler(Context mContext, View view){
         this.mView = view;
         this.mContext = mContext;
         dialog = new Dialog(mContext);
         dialog.setContentView(R.layout.add_mood_popup);
-        moodController = new AddMoodController(mContext,dialog,view);
+        moodController = new AddMoodController(mContext,dialog);
         build();
     }
 

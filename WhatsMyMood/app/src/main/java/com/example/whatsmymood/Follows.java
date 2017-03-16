@@ -8,9 +8,9 @@ import java.util.ArrayList;
  * Created by YiJi on 2017-02-21.
  */
 public class Follows {
-    private ArrayList<String> followingList = new ArrayList<>();
-    private ArrayList<String> followedByList = new ArrayList<>();
-    private ArrayList<String> followRequestsList = new ArrayList<>();
+    private final ArrayList<String> followingList = new ArrayList<>();
+    private final ArrayList<String> followedByList = new ArrayList<>();
+    private final ArrayList<String> followRequestsList = new ArrayList<>();
 
     /**
      * Testing Methods

@@ -1,6 +1,7 @@
 package com.example.whatsmymood;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +14,9 @@ import java.util.ArrayList;
  * The type Follow adapter.
  * Created by ejtang on 7/03/2017
  */
-public class FollowAdapter extends ArrayAdapter<String> {
-    private ArrayList<String> usernames;
-    private Context context;
+class FollowAdapter extends ArrayAdapter<String> {
+    private final ArrayList<String> usernames;
+    private final Context context;
 
     /**
      * Instantiates a new Follow adapter.
@@ -34,8 +35,9 @@ public class FollowAdapter extends ArrayAdapter<String> {
      * @return
      */
     //TODO possibly adjust custom adapter to click on the username to get to their profile
+    @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         LayoutInflater followInflator = LayoutInflater.from(getContext());
         View customView = followInflator.inflate(R.layout.follow_adapter, parent, false);
 

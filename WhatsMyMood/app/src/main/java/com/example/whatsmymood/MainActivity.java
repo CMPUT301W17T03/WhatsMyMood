@@ -3,7 +3,6 @@ package com.example.whatsmymood;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -93,15 +92,10 @@ public class MainActivity extends AppCompatActivity {
                 if (!mFollower.isEmpty()) {
                     UserAccount temp = mFollower.get(mFollower.size()-1);
                     moods.add(temp.getMoodList().getRecentMood());
-                } else {
-                    //TODO: Handle exception
-                    //Tbh even if we don't handle it nothing goes wrong
                 }
             } catch (ExecutionException | InterruptedException e) {
                 e.printStackTrace();
             }
         }
     }
-
-
 }

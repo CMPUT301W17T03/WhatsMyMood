@@ -9,7 +9,6 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,14 +19,17 @@ import android.widget.TextView;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Takes user input and converts it into a relevant mood
  */
-public class AddMoodController extends AppCompatActivity{
+class AddMoodController{
     // Invalid User Selections
     private boolean DATE_INVALID = false;
     private boolean SELECT_MOOD_INVALID = false;
+
+    private static final int RESULT_OK = -1;
 
     // Permissions for the camera
     private static final int PERMISSIONS_REQUEST_ACCESS_CAMERA = 1;
@@ -42,6 +44,7 @@ public class AddMoodController extends AppCompatActivity{
     private static ImageButton photoButton;
 
     private final Dialog dialog;
+    private final Context context;
 
 
     private String moodType;
@@ -58,16 +61,17 @@ public class AddMoodController extends AppCompatActivity{
     // TODO: Figure out how we're handling photos
     private static String mPhoto;
 
+
     /**
      * Passes the dialog and context
      * Sets up the click functionality for
      * the camera button and the post button
-     * @param mContext
-     * @param d
-     * @param view
+     * @param mContext Base context of the activity from main
+     * @param mDialog Dialog created in footer handler
      */
-    public AddMoodController(final Context mContext, Dialog d, View view) {
-        this.dialog = d;
+    public AddMoodController(Context mContext, Dialog mDialog) {
+        this.dialog = mDialog;
+        this.context = mContext;
 
         // Get Access to the Camera
 
@@ -80,13 +84,13 @@ public class AddMoodController extends AppCompatActivity{
             public void onClick(View view) {
                 // http://stackoverflow.com/questions/38980647/i-need-to-get-the-activity-in-order-to-request-permissions
                 // March 13th,2017 1:48
-                cameraPermissionCheck = ContextCompat.checkSelfPermission(mContext, android.Manifest.permission.CAMERA);
+                cameraPermissionCheck = ContextCompat.checkSelfPermission(context, android.Manifest.permission.CAMERA);
                 if (cameraPermissionCheck != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions((Activity) mContext, new String[]{android.Manifest.permission.CAMERA}, PERMISSIONS_REQUEST_ACCESS_CAMERA);
+                    ActivityCompat.requestPermissions((Activity) context, new String[]{android.Manifest.permission.CAMERA}, PERMISSIONS_REQUEST_ACCESS_CAMERA);
                 }
                 else {
                     Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-                    ((Activity) mContext).startActivityForResult(intent, CAPTURE_IMAGE_REQUEST_CODE);
+                    ((Activity) context).startActivityForResult(intent, CAPTURE_IMAGE_REQUEST_CODE);
                 }
             }
         });
@@ -114,11 +118,17 @@ public class AddMoodController extends AppCompatActivity{
         });
     }
 
+
     public static void processResult(int requestCode, int resultCode, Intent intent) {
         if (requestCode == CAPTURE_IMAGE_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 Bitmap photo = (Bitmap) intent.getExtras().get("data");
 
+
+                // TODO: Figure out a way to not create memory leaks from this line
+                // Basically photo's work but this line sets the image to the thumbnail of
+                // the photo you just took. This is kind of optional, it's only so the user
+                // knows that a photo was actually taken
                 photoButton.setImageBitmap(photo);
 
                 PhotoController photoController = new PhotoController();
@@ -132,7 +142,7 @@ public class AddMoodController extends AppCompatActivity{
      * Main controller actions
      * Takes each input and converts it into
      * their respective variables
-     * @return
+     * @return Calls make mood to make a mood object
      */
     private Mood getMood() {
 
@@ -172,7 +182,7 @@ public class AddMoodController extends AppCompatActivity{
         // the date format is correct
         if (!date.getText().toString().isEmpty()) {
 
-            SimpleDateFormat check = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat check = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
             check.setLenient(false);
 
             try {
@@ -189,14 +199,14 @@ public class AddMoodController extends AppCompatActivity{
             TextView textview = (TextView) spinner.getSelectedView();
             textview.setError("");
             textview.setTextColor(Color.RED);//just to highlight that this is an error
-            textview.setText("Invalid Mood Selected");
+            textview.setText(R.string.invalid_mood);
 
             // TODO: Handle invalid mood properly
             // SELECT_MOOD_INVALID is always set to true unless we manually set it to false
             SELECT_MOOD_INVALID = false;
         } else if (DATE_INVALID) {
 
-            date.setError("Invalid Date Inputed (yyyy-MM-DD)");
+            date.setError("Invalid Date Inputted (yyyy-MM-DD)");
 
             // TODO: Handle invalid date properly
             // DATE_INVALID is always set to true unless we manually set it to false
@@ -214,7 +224,7 @@ public class AddMoodController extends AppCompatActivity{
      * Creates the mood
      * Automatically creates a date to the current date
      * if there is no date specified
-     * @return
+     * @return Returns a mood object
      */
     private Mood makeMood() {
         Mood mood;

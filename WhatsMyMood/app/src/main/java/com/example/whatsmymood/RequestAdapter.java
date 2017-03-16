@@ -31,7 +31,7 @@ public class RequestAdapter extends ArrayAdapter<String> {
     private ListView followingList;
     private ListView requestsList;
 
-    private ArrayList<String> mUsernames;
+    private final ArrayList<String> mUsernames;
     private final Context mContext;
 
     /**

@@ -6,7 +6,7 @@ import java.util.concurrent.ExecutionException;
 /**
  * Creates the User
  */
-public class CreateUserController {
+class CreateUserController {
 
     // Blank Constructor for instantiating
     public CreateUserController(){

@@ -36,6 +36,7 @@
     <string name="enter_location">Location</string>
     <string name="enter_tag">Tag people you are with</string>
     <string name="enter_date">Enter the date</string>
+    <string name="invalid_mood">Inavlid Mood Selected</string>
     <string name="upload_photo">Upload Photo</string>
     <string name="post">Post</string>
 

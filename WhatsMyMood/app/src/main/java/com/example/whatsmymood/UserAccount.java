@@ -4,8 +4,6 @@ import android.graphics.Bitmap;
 
 import io.searchbox.annotations.JestId;
 
-//import io.searchbox.annotations.JestId;
-
 /**
  * Created by Alex on 2/21/2017.
  * User account class
@@ -23,7 +21,7 @@ public class UserAccount {
      * @param follows        A class which contains methods for following users
      * @see   Follows
      */
-    private String username;
+    private final String username;
     private String password;
     private String name;
     private Bitmap profilePicture;
