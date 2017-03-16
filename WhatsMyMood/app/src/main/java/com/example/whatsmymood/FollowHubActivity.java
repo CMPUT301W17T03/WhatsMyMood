@@ -90,12 +90,11 @@ public class FollowHubActivity extends AppCompatActivity {
 
                             Toast.makeText(getBaseContext(),successString, Toast.LENGTH_SHORT).show();
                         }
-                        else{
-                            //Todo SOMEONE PLEASE FIX MY ENGLISH I CAN'T
-                            addRequestText.setError("User already requested to allow follow");
+                        else {
+                            addRequestText.setError("Already requested to follow user");
                         }
                     } else {
-                        addRequestText.setError("Already following User");
+                        addRequestText.setError("Already following user");
                     }
 
 

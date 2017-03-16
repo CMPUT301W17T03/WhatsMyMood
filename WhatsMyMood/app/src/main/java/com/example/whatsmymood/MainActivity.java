@@ -16,10 +16,10 @@ import java.util.concurrent.ExecutionException;
  * Also implements a footer that handles different activities
  */
 public class MainActivity extends AppCompatActivity {
+    private final CurrentUser current = CurrentUser.getInstance();
+
     private LinearLayout footer;
     private FooterHandler handler;
-
-    private final CurrentUser current = CurrentUser.getInstance();
 
     private ArrayList<String> followers;
 
@@ -58,9 +58,9 @@ public class MainActivity extends AppCompatActivity {
         ArrayAdapter<Mood> moodAdapter = new MoodAdapter(moods,this);
 
         // Sets the adapter
-        ListView moodList = (ListView) findViewById(R.id.moodList);
+        ListView moodListView = (ListView) findViewById(R.id.moodListView);
 
-        moodList.setAdapter(moodAdapter);
+        moodListView.setAdapter(moodAdapter);
     }
 
     /**
@@ -73,9 +73,9 @@ public class MainActivity extends AppCompatActivity {
         getUserTask.execute(current.getCurrentUser().getUsername());
 
         try {
-            ArrayList<UserAccount> userList = getUserTask.get();
+            UserAccount user = getUserTask.get().get(0);
 
-            followers = userList.get(0).getFollows().getFollowingList();
+            followers = user.getFollows().getFollowingList();
 
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
@@ -91,7 +91,12 @@ public class MainActivity extends AppCompatActivity {
                 ArrayList<UserAccount> mFollower = getFollowersTask.get();
                 if (!mFollower.isEmpty()) {
                     UserAccount temp = mFollower.get(mFollower.size()-1);
-                    moods.add(temp.getMoodList().getRecentMood());
+
+                    // Exception
+                    // If you follow one person and they have no moods
+                    if (!(temp.getMoodList().getSize() == 0)) {
+                        moods.add(temp.getMoodList().getRecentMood());
+                    }
                 }
             } catch (ExecutionException | InterruptedException e) {
                 e.printStackTrace();
