@@ -2,6 +2,7 @@ package com.example.whatsmymood;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -11,7 +12,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.concurrent.ExecutionException;
 
-public class ProfileActivty extends AppCompatActivity {
+public class ProfileActivity extends AppCompatActivity {
     private final CurrentUser current = CurrentUser.getInstance();
 
     private LinearLayout footer;
@@ -67,9 +68,10 @@ public class ProfileActivty extends AppCompatActivity {
                 moods.add(moodList.get(i));
             }
 
-            Collections.sort(moods, new Comparator<Mood>() {
+            Collections.sort(moods, new Comparator<Mood>()
+            {
                 public int compare(Mood mood1, Mood mood2) {
-                    return mood1.getDate().compareTo(mood2.getDate());
+                    return mood2.getDate().compareTo(mood1.getDate());
                 }
             });
 

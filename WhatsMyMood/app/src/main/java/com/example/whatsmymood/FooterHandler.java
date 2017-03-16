@@ -91,10 +91,10 @@ class FooterHandler {
                 }
 
                 // TODO: Make the profile screen refresh on button press
-                if(runningActivities.contains("ComponentInfo{com.example.whatsmymood/com.example.whatsmymood.Profile Activity}")){
+                if(runningActivities.contains("ComponentInfo{com.example.whatsmymood/com.example.whatsmymood.ProfileActivity}")){
                     Toast.makeText(mContext, "Currently In Profile", Toast.LENGTH_SHORT).show();
                 } else {
-                    Intent intent = new Intent(mContext, ProfileActivty.class);
+                    Intent intent = new Intent(mContext, ProfileActivity.class);
                     mContext.startActivity(intent);
                 }
             }
