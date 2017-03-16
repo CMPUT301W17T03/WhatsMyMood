@@ -2,9 +2,9 @@ package com.example.whatsmymood;
 
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -23,7 +23,7 @@ import com.google.android.gms.maps.model.LatLng;
 
 
 /**
- * FROM https://developers.google.com/maps/documentation/android-api/current-place-tutorial
+ * https://developers.google.com/maps/documentation/android-api/current-place-tutorial March 10, 2017 1:00
  */
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleApiClient.OnConnectionFailedListener, ConnectionCallbacks {
     private GoogleMap mMap;

@@ -5,14 +5,11 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
-
 import android.os.AsyncTask;
-
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -24,7 +21,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
 
 
@@ -178,15 +174,14 @@ public class LoginActivity extends AppCompatActivity{
 
         private final String mUsername;
         private final String mPassword;
-        private ElasticSearchUserController.GetUserTask getUserTask;
+        private final ElasticSearchUserController.GetUserTask getUserTask;
 
         UserLoginTask(String username, String password) {
             mUsername = username;
             mPassword = password;
 
             getUserTask = new ElasticSearchUserController.GetUserTask();
-            String search = mUsername;
-            getUserTask.execute(search);
+            getUserTask.execute(mUsername);
         }
 
         @Override
@@ -196,17 +191,16 @@ public class LoginActivity extends AppCompatActivity{
                 if (userList.isEmpty()) {
                     return false;
                 }
-                for (UserAccount User : userList) {
-                    if (User.getUsername().equals(mUsername) && User.getPassword().equals(mPassword)) {
-                        CurrentUser.getInstance().setCurrentUser(User);
-                        return true;
-                    } else {
-                        return false;
-                    }
+
+                UserAccount User = userList.get(0);
+                if (User.getUsername().equals(mUsername) && User.getPassword().equals(mPassword)) {
+                    CurrentUser.getInstance().setCurrentUser(User);
+                    return true;
+                } else {
+                    return false;
                 }
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
+
+            } catch (ExecutionException | InterruptedException e) {
                 e.printStackTrace();
             }
             return true;

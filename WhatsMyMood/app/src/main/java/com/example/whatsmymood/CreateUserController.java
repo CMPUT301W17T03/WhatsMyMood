@@ -4,18 +4,21 @@ import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 /**
- * Created by Malcolm on 2017-03-11.
+ * Creates the User
  */
-
 public class CreateUserController {
 
+    // Blank Constructor for instantiating
     public CreateUserController(){
     }
 
+    /**
+     *
+     * @param username
+     * @param password
+     * @return
+     */
     public boolean create(String username, String password) {
-
-        // Check that user name is unique in elastic search index
-
         ElasticSearchUserController.GetUserTask getUserTask = new ElasticSearchUserController.GetUserTask();
         getUserTask.execute(username);
 
@@ -24,14 +27,13 @@ public class CreateUserController {
             if (!userList.isEmpty()) {
                 return false;
             } else {
+                // Adds a user on success
                 UserAccount user = new UserAccount(username, password);
                 ElasticSearchUserController.AddUserTask addUserTask = new ElasticSearchUserController.AddUserTask();
                 addUserTask.execute(user);
                 return true;
             }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
+        } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
         return false;

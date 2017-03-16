@@ -1,6 +1,6 @@
 package com.example.whatsmymood;
 
-import android.icu.util.ValueIterator;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -11,94 +11,93 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
+/**
+ * Main Activity
+ * Used for displaying the moods of the people you follow
+ * Also implements a footer that handles different activities
+ */
 public class MainActivity extends AppCompatActivity {
-    private ListView moodList;
+    private LinearLayout footer;
+    private FooterHandler handler;
 
-    private ArrayList<UserAccount> userList;
-    private CurrentUser current = CurrentUser.getInstance();
+    private final CurrentUser current = CurrentUser.getInstance();
 
     private ArrayList<String> followers;
-    private ArrayList<UserAccount> mFollower;
 
     private ArrayList<Mood> moods;
-    private ArrayAdapter<Mood> moodAdapter;
-
-    //temporary
-    private UserAccount user;
-    private Follows templist;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        /**
-         * USE THIS TO MANUALLY ADD A FOLLOWER
-         * STEPS:
-         * 1. TYPE THE USER YOU WANT TO FOLLOW
-         * 2. LAUNCH THE APP AND LOGIN
-         * 3. MAKE A SINGULAR MOOD
-         * 4. LOG OUT
-         * 5. COMMENT
-         */
-        //user = current.getCurrentUser();
-        //user.getFollows().addToFollowing("John");
-
         setContentView(R.layout.activity_main);
-        LinearLayout footer = (LinearLayout)findViewById(R.id.footer);
+        footer = (LinearLayout)findViewById(R.id.footer);
+    }
+
+    /**
+     * Sets the first query up every time main activity
+     * is viewed. This ensures that we get the most updated
+     * user.
+     */
+    @Override
+    protected void onStart() {
+        super.onStart();
+
         FooterHandler handler = new FooterHandler(this, footer);
+
+        fetchData();
+        setAdapters();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+        AddMoodController.processResult(requestCode, resultCode, intent);
+    }
+
+    private void setAdapters() {
+        ArrayAdapter<Mood> moodAdapter = new MoodAdapter(moods,this);
+
+        // Sets the adapter
+        ListView moodList = (ListView) findViewById(R.id.moodList);
+
+        moodList.setAdapter(moodAdapter);
+    }
+
+    /**
+     * Fetches the moods from each follower and adds them
+     * to an ArrayList to be displayed
+     */
+    private void fetchData() {
 
         ElasticSearchUserController.GetUserTask getUserTask = new ElasticSearchUserController.GetUserTask();
         getUserTask.execute(current.getCurrentUser().getUsername());
 
         try {
-            userList = getUserTask.get();
+            ArrayList<UserAccount> userList = getUserTask.get();
 
-            // Should be one user
-            // If there is more than one user then the world is dying
-            for (UserAccount User : userList) {
-                followers = User.getFollows().getFollowingList();
-            }
+            followers = userList.get(0).getFollows().getFollowingList();
 
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
+        } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
 
-        // Instantiate out adapter and set```` view for viewing moods
-        moods = new ArrayList<Mood>();
+        moods = new ArrayList<>();
 
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        fetchData();
-        moodList = (ListView) findViewById(R.id.moodList);
-        moodAdapter = new MoodAdapter(moods,this);
-
-        moodList.setAdapter(moodAdapter);
-    }
-
-    protected void fetchData() {
         for (String follower : followers) {
             ElasticSearchUserController.GetUserTask getFollowersTask = new ElasticSearchUserController.GetUserTask();
             getFollowersTask.execute(follower);
 
             try {
-                mFollower = getFollowersTask.get();
+                ArrayList<UserAccount> mFollower = getFollowersTask.get();
                 if (!mFollower.isEmpty()) {
                     UserAccount temp = mFollower.get(mFollower.size()-1);
-                    MoodList tempMoodList = temp.getMoodList();
-                    //moods.add(temp.getMoodList().getRecentMood());
-                    moods.add(new Mood(temp.getUsername(), tempMoodList.getRecentMood().getMoodType()));
+                    moods.add(temp.getMoodList().getRecentMood());
                 } else {
                     //TODO: Handle exception
                     //Tbh even if we don't handle it nothing goes wrong
                 }
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
+            } catch (ExecutionException | InterruptedException e) {
                 e.printStackTrace();
             }
         }

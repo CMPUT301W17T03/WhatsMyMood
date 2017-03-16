@@ -2,16 +2,13 @@ package com.example.whatsmymood;
 
 import android.graphics.Bitmap;
 
-import java.util.ArrayList;
+import io.searchbox.annotations.JestId;
 
 //import io.searchbox.annotations.JestId;
 
 /**
  * Created by Alex on 2/21/2017.
- *
- *@author czeto
- *@author mtfische
- *
+ * User account class
  */
 public class UserAccount {
     /**
@@ -30,11 +27,11 @@ public class UserAccount {
     private String password;
     private String name;
     private Bitmap profilePicture;
+    private Follows follows;
     public MoodList moodList;
-    public Follows follows;
 
 
-    //@JestId
+    @JestId
     private String id;
 
     public UserAccount(String username, String password) {
@@ -67,13 +64,10 @@ public class UserAccount {
     /**
      *@param oldPassword              The password currently in use, stored as hash
      *@param newPassword              The password to change to, stored as hash
-     *@throws WrongPasswordException  If the old password does not match the one in use
      */
-    public void setPassword(String oldPassword, String newPassword) throws WrongPasswordException {
-        if(this.password == oldPassword){
+    public void setPassword(String oldPassword, String newPassword){
+        if(this.password.equals(oldPassword)) {
             this.password = newPassword;
-        }else{
-            throw new WrongPasswordException();
         }
     }
 
