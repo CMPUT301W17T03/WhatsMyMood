@@ -80,13 +80,17 @@ public class MoodList {
      * @return the mood with the earliest date
      */
     public Mood getRecentMood(){
-        Mood mostRecentMood = moods.get(0);
-        for (int i = 1; i < this.getSize(); i++) {
-            if (moods.get(i).getDate().after(mostRecentMood.getDate())) {
-                mostRecentMood = moods.get(i);
+        if (moods.size() == 0) {
+            return null;
+        } else {
+            Mood mostRecentMood = moods.get(0);
+            for (int i = 1; i < this.getSize(); i++) {
+                if (moods.get(i).getDate().after(mostRecentMood.getDate())) {
+                    mostRecentMood = moods.get(i);
+                }
             }
+            return mostRecentMood;
         }
-        return mostRecentMood;
     }
 
     /**

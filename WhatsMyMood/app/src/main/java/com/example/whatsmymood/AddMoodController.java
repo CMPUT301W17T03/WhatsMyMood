@@ -58,7 +58,7 @@ class AddMoodController{
 
     private Date date;
 
-    // TODO: Figure out how we're handling photos
+    // TODO: Make this nonstatic
     private static String mPhoto;
 
 
@@ -76,8 +76,6 @@ class AddMoodController{
         // Get Access to the Camera
 
         photoButton = (ImageButton) dialog.findViewById(R.id.load_picture);
-
-        photoButton.setBackgroundResource(R.mipmap.camera);
 
         photoButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,7 +121,6 @@ class AddMoodController{
         if (requestCode == CAPTURE_IMAGE_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 Bitmap photo = (Bitmap) intent.getExtras().get("data");
-
 
                 // TODO: Figure out a way to not create memory leaks from this line
                 // Basically photo's work but this line sets the image to the thumbnail of
