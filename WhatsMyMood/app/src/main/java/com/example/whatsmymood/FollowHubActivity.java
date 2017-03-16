@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
@@ -77,12 +78,27 @@ public class FollowHubActivity extends AppCompatActivity {
                     requestFollows = user.getFollows();
 
                     if (!user.getFollows().isFollowedBy(current.getCurrentUser().getUsername())) {
-                        requestFollows.addToFollowRequests(current.getCurrentUser().getUsername());
-                        ElasticSearchUserController.UpdateUser updateUser = new ElasticSearchUserController.UpdateUser();
-                        updateUser.execute(user);
+                        if(!user.getFollows().hasRequests(current.getCurrentUser().getUsername())) {
+                            requestFollows.addToFollowRequests(current.getCurrentUser().getUsername());
+                            ElasticSearchUserController.UpdateUser updateUser = new ElasticSearchUserController.UpdateUser();
+                            updateUser.execute(user);
+
+                            //Todo this will have to be altered with offline
+                            String successString = "Request Sent";
+                            //Toast successMessage = Toast.makeText(FollowHubActivity.this, successString, Toast.LENGTH_SHORT);
+                            //successMessage.show();
+
+                            Toast.makeText(getBaseContext(),successString, Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            //Todo SOMEONE PLEASE FIX MY ENGLISH I CAN'T
+                            addRequestText.setError("User already requested to allow follow");
+                        }
                     } else {
                         addRequestText.setError("Already following User");
                     }
+
+
                 } catch (ExecutionException | IndexOutOfBoundsException e) {
                     addRequestText.setError("User Doesn't Exist");
                 } catch (InterruptedException e) {
