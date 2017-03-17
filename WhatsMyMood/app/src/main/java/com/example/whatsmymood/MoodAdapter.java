@@ -10,12 +10,22 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+/**
+ * The type Mood adapter.
+ * Created by ejtang
+ *
+ * An adapter that will adapt the view to display mood information about the mood that is to
+ * be adapted
+ */
 class MoodAdapter extends ArrayAdapter<Mood> {
     private final ArrayList<Mood> moods;
     private final Context context;
 
     /**
      * Instantiates a new Follow adapter.
+     *
+     * @param moods   the moods
+     * @param context the context
      */
     public MoodAdapter(ArrayList<Mood> moods, Context context) {
         super(context, R.layout.mood_adapter, moods);
