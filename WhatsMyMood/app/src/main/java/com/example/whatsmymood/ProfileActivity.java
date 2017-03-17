@@ -12,6 +12,12 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.concurrent.ExecutionException;
 
+/**
+ * The type Profile activity.
+ * This activity will allow the user to view the profile of other users
+ * we will also display the moods posted by the user who's profile is
+ * being viewed
+ */
 public class ProfileActivity extends AppCompatActivity {
     private final CurrentUser current = CurrentUser.getInstance();
 
