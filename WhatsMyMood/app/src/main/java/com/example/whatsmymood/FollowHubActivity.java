@@ -19,6 +19,8 @@ import java.util.concurrent.ExecutionException;
 /**
  * The type Follow hub activity.
  * Created by ejtang on 7/03/2017
+ * This is an activity that will allow the user to view who they are following
+ * who is following them, and who is requesting to follow the user.
  */
 public class FollowHubActivity extends AppCompatActivity {
     private final CurrentUser current = CurrentUser.getInstance();
