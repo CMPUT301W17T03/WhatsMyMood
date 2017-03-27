@@ -19,15 +19,18 @@ import java.util.concurrent.ExecutionException;
 /**
  * The type Follow hub activity.
  * Created by ejtang on 7/03/2017
+ *
+ *
+ *
+ * @author Mtfische
+ *
  * This is an activity that will allow the user to view who they are following
  * who is following them, and who is requesting to follow the user.
  */
 public class FollowHubActivity extends AppCompatActivity {
     private final CurrentUser current = CurrentUser.getInstance();
 
-
-    private Relations relations;
-    private Relations requestRelations;
+    //private Relations requestRelations;
 
     private ListView followersList;
     private ListView followingList;
@@ -44,7 +47,6 @@ public class FollowHubActivity extends AppCompatActivity {
         requestsList = (ListView) findViewById(R.id.requestsList);
 
         setTouchListners();
-        //fetchData();
         setAdapters();
 
         final EditText addRequestText = (EditText) findViewById(R.id.body);
@@ -58,11 +60,11 @@ public class FollowHubActivity extends AppCompatActivity {
 
                 try {
                     UserAccount user = getRequestUserTask.get().get(0);
-                    requestRelations = user.relations;
 
                     if (!user.relations.isFollowedBy(current.getCurrentUser().getUsername())) {
                         if(!user.relations.hasRequests(current.getCurrentUser().getUsername())) {
-                            requestRelations.addToFollowRequests(current.getCurrentUser().getUsername());
+                            user.relations.addToFollowRequests(current.getCurrentUser().getUsername());
+
                             ElasticSearchUserController.UpdateUser updateUser = new ElasticSearchUserController.UpdateUser();
                             updateUser.execute(user);
 

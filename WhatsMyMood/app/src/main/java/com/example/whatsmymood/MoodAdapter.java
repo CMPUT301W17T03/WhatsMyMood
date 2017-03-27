@@ -18,19 +18,14 @@ import java.util.ArrayList;
  * be adapted
  */
 class MoodAdapter extends ArrayAdapter<Mood> {
-    private final ArrayList<Mood> moods;
-    private final Context context;
-
     /**
-     * Instantiates a new Follow adapter.
+     * Instantiates a new Mood adapter.
      *
      * @param moods   the moods
      * @param context the context
      */
     public MoodAdapter(ArrayList<Mood> moods, Context context) {
         super(context, R.layout.mood_adapter, moods);
-        this.moods = moods;
-        this.context = context;
     }
 
     /**
