@@ -25,8 +25,9 @@ import java.util.concurrent.ExecutionException;
 public class FollowHubActivity extends AppCompatActivity {
     private final CurrentUser current = CurrentUser.getInstance();
 
-    private Follows follows;
-    private Follows requestFollows;
+
+    private Relations relations;
+    private Relations requestRelations;
 
     private ListView followersList;
     private ListView followingList;
@@ -37,16 +38,82 @@ public class FollowHubActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_follow_hub);
+
         followingList = (ListView) findViewById(R.id.followingList);
         followersList = (ListView) findViewById(R.id.followersList);
         requestsList = (ListView) findViewById(R.id.requestsList);
 
-        TextView followingText = (TextView) findViewById(R.id.following);
-        TextView followersText = (TextView) findViewById(R.id.followers);
-        TextView requestsText = (TextView) findViewById(R.id.requests);
+        setTouchListners();
+        //fetchData();
+        setAdapters();
 
         final EditText addRequestText = (EditText) findViewById(R.id.body);
         Button addRequest = (Button) findViewById(R.id.add);
+
+        addRequest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ElasticSearchUserController.GetUserTask getRequestUserTask = new ElasticSearchUserController.GetUserTask();
+                getRequestUserTask.execute(addRequestText.getText().toString());
+
+                try {
+                    UserAccount user = getRequestUserTask.get().get(0);
+                    requestRelations = user.relations;
+
+                    if (!user.relations.isFollowedBy(current.getCurrentUser().getUsername())) {
+                        if(!user.relations.hasRequests(current.getCurrentUser().getUsername())) {
+                            requestRelations.addToFollowRequests(current.getCurrentUser().getUsername());
+                            ElasticSearchUserController.UpdateUser updateUser = new ElasticSearchUserController.UpdateUser();
+                            updateUser.execute(user);
+
+                            //Todo this will have to be altered with offline
+                            String successString = "Request Sent";
+                            Toast.makeText(getBaseContext(),successString, Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            addRequestText.setError("Already requested to follow user");
+                        }
+                    } else {
+                        addRequestText.setError("Already following user");
+                    }
+
+
+                } catch (ExecutionException | IndexOutOfBoundsException e) {
+                    addRequestText.setError("User Doesn't Exist");
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    /**
+     * To be called when we wish to refresh the lists.
+     */
+    private void refresh(){
+        ((ArrayAdapter)followersList.getAdapter()).notifyDataSetChanged();
+        ((ArrayAdapter)followingList.getAdapter()).notifyDataSetChanged();
+        ((ArrayAdapter)requestsList.getAdapter()).notifyDataSetChanged();
+    }
+    private void setAdapters() {
+        ArrayAdapter<String> followersAdapter = new FollowAdapter(current.getCurrentUser().relations.getFollowedByList(), this);
+        ArrayAdapter<String> followingAdapter = new FollowAdapter(current.getCurrentUser().relations.getFollowingList(), this);
+        ArrayAdapter<String> requestsAdapter = new RequestAdapter(current.getCurrentUser().relations.getFollowRequestsList(), this);
+
+
+        followersList.setAdapter(followersAdapter);
+        followingList.setAdapter(followingAdapter);
+        requestsList.setAdapter(requestsAdapter);
+
+        justifyListViewHeightBasedOnChildren(followersList);
+        justifyListViewHeightBasedOnChildren(followingList);
+        justifyListViewHeightBasedOnChildren(requestsList);
+    }
+
+    private void setTouchListners() {
+        TextView followingText = (TextView) findViewById(R.id.following);
+        TextView followersText = (TextView) findViewById(R.id.followers);
+        TextView requestsText = (TextView) findViewById(R.id.requests);
 
         followersText.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,86 +136,7 @@ public class FollowHubActivity extends AppCompatActivity {
             }
         });
 
-        addRequest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ElasticSearchUserController.GetUserTask getRequestUserTask = new ElasticSearchUserController.GetUserTask();
-                getRequestUserTask.execute(addRequestText.getText().toString());
-
-                try {
-                    UserAccount user = getRequestUserTask.get().get(0);
-                    requestFollows = user.getFollows();
-
-                    if (!user.getFollows().isFollowedBy(current.getCurrentUser().getUsername())) {
-                        if(!user.getFollows().hasRequests(current.getCurrentUser().getUsername())) {
-                            requestFollows.addToFollowRequests(current.getCurrentUser().getUsername());
-                            ElasticSearchUserController.UpdateUser updateUser = new ElasticSearchUserController.UpdateUser();
-                            updateUser.execute(user);
-
-                            //Todo this will have to be altered with offline
-                            String successString = "Request Sent";
-                            //Toast successMessage = Toast.makeText(FollowHubActivity.this, successString, Toast.LENGTH_SHORT);
-                            //successMessage.show();
-
-                            Toast.makeText(getBaseContext(),successString, Toast.LENGTH_SHORT).show();
-                        }
-                        else {
-                            addRequestText.setError("Already requested to follow user");
-                        }
-                    } else {
-                        addRequestText.setError("Already following user");
-                    }
-
-
-                } catch (ExecutionException | IndexOutOfBoundsException e) {
-                    addRequestText.setError("User Doesn't Exist");
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
     }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        fetchData();
-        setAdapters();
-    }
-
-    private void setAdapters() {
-        ArrayAdapter<String> followersAdapter = new FollowAdapter(follows.getFollowedByList(), this);
-        ArrayAdapter<String> followingAdapter = new FollowAdapter(follows.getFollowingList(), this);
-        ArrayAdapter<String> requestsAdapter = new RequestAdapter(follows.getFollowRequestsList(), this);
-
-        followersList.setAdapter(followersAdapter);
-        followingList.setAdapter(followingAdapter);
-        requestsList.setAdapter(requestsAdapter);
-
-        justifyListViewHeightBasedOnChildren(followersList);
-        justifyListViewHeightBasedOnChildren(followingList);
-        justifyListViewHeightBasedOnChildren(requestsList);
-    }
-
-    /**
-     * Fetch data.
-     */
-    private void fetchData() {
-        ElasticSearchUserController.GetUserTask getUserTask = new ElasticSearchUserController.GetUserTask();
-        getUserTask.execute(current.getCurrentUser().getUsername());
-
-        try {
-
-            // This line is the reason why opening the follow hub is slow by the way
-            ArrayList<UserAccount> userList = getUserTask.get();
-
-
-            follows = userList.get(0).getFollows();
-        } catch (ExecutionException | InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
     /**
      * Justify list view height based on children.
      *
@@ -158,6 +146,7 @@ public class FollowHubActivity extends AppCompatActivity {
      *
      * @param listView the list view
      */
+    //TODO this function is to be removed upon change of xml
     private void justifyListViewHeightBasedOnChildren (ListView listView) {
 
         ListAdapter adapter = listView.getAdapter();

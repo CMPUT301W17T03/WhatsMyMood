@@ -21,26 +21,19 @@ import java.util.concurrent.ExecutionException;
  */
 public class RequestAdapter extends ArrayAdapter<String> {
     private final CurrentUser current = CurrentUser.getInstance();
-    private UserAccount mUser;
-    private UserAccount mRequestUser;
+    private UserAccount fetchedUser;
 
-    private Follows follows;
-    private Follows requestFollows;
-
-    private ListView followersList;
-    private ListView followingList;
-    private ListView requestsList;
-
-    private final ArrayList<String> mUsernames;
     private final Context mContext;
+    private ListView followersList;
 
     /**
      * Instantiates a new Request adapter.
      */
-    public RequestAdapter(ArrayList<String> usernames, Context context) {
-        super(context, R.layout.request_adapter, usernames);
-        this.mUsernames = usernames;
+    public RequestAdapter(ArrayList<String> names, Context context) {
+        super(context, R.layout.request_adapter, names);
         this.mContext = context;
+
+        followersList = (ListView) ((Activity) mContext).findViewById(R.id.followersList);
     }
 
     /**
@@ -50,54 +43,48 @@ public class RequestAdapter extends ArrayAdapter<String> {
      * @param parent
      * @return
      */
-    //TODO create accept and delete buttons in custom adapter
     @NonNull
     @Override
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
+
         LayoutInflater requestsInflator = LayoutInflater.from(getContext());
         View customView = requestsInflator.inflate(R.layout.request_adapter, parent, false);
 
         Button acceptButton = (Button) customView.findViewById(R.id.acceptButton);
         Button declineButton = (Button) customView.findViewById(R.id.declineButton);
 
-        followersList = (ListView) ((Activity) mContext).findViewById(R.id.followersList);
-        followingList = (ListView) ((Activity) mContext).findViewById(R.id.followingList);
-        requestsList = (ListView) ((Activity) mContext).findViewById(R.id.requestsList);
-
         final String user = getItem(position);
         TextView usernameText = (TextView) customView.findViewById(R.id.usernameText);
         usernameText.setText(user);
 
-        mUser = current.getCurrentUser();
-
         acceptButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                current.getCurrentUser().relations.addToFollowedBy(user);
+                current.getCurrentUser().relations.removeFromFollowRequests(user);
+                ((ArrayAdapter)followersList.getAdapter()).notifyDataSetChanged();
+                notifyDataSetChanged();
+
                 fetchData(user);
+                fetchedUser.relations.addToFollowing(current.getCurrentUser().getUsername());
+                updateData(current.getCurrentUser());
+                updateData(fetchedUser);
 
-                follows.addToFollowedBy(user);
-                follows.removeFromFollowRequests(user);
-                requestFollows.addToFollowing(mUser.getUsername());
-
-                updateData(mUser);
-                updateData(mRequestUser);
-
-                setAdapters();
+                ((ArrayAdapter)followersList.getAdapter()).notifyDataSetChanged();
+                notifyDataSetChanged();
             }
         });
 
         declineButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fetchData(user);
+                current.getCurrentUser().relations.removeFromFollowRequests(user);
+                notifyDataSetChanged();
 
-                follows.removeFromFollowRequests(user);
-
-                updateData(mUser);
-
-                ArrayAdapter<String> requestsAdapter = new RequestAdapter(follows.getFollowRequestsList(), mContext);
-                requestsList.setAdapter(requestsAdapter);
-                justifyListViewHeightBasedOnChildren(requestsList);
+                fetchData(current.getCurrentUser().getName());
+                current.setCurrentUser(fetchedUser);
+                updateData(current.getCurrentUser());
             }
         });
 
@@ -106,20 +93,11 @@ public class RequestAdapter extends ArrayAdapter<String> {
 
     private void fetchData(String requestUser) {
         ElasticSearchUserController.GetUserTask getUserTask = new ElasticSearchUserController.GetUserTask();
-        ElasticSearchUserController.GetUserTask getRequestUserTask = new ElasticSearchUserController.GetUserTask();
 
-        getUserTask.execute(mUser.getUsername());
-        getRequestUserTask.execute(requestUser);
+        getUserTask.execute(requestUser);
 
         try {
-            ArrayList<UserAccount> userList = getUserTask.get();
-            ArrayList<UserAccount> requestUserList = getRequestUserTask.get();
-
-            mUser = userList.get(0);
-            mRequestUser = requestUserList.get(0);
-
-            follows = mUser.getFollows();
-            requestFollows = mRequestUser.getFollows();
+            fetchedUser = getUserTask.get().get(0);
 
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
@@ -131,20 +109,7 @@ public class RequestAdapter extends ArrayAdapter<String> {
         updateUser.execute(user);
     }
 
-    private void setAdapters() {
-        ArrayAdapter<String> followersAdapter = new FollowAdapter(follows.getFollowedByList(), mContext);
-        ArrayAdapter<String> followingAdapter = new FollowAdapter(follows.getFollowingList(), mContext);
-        ArrayAdapter<String> requestsAdapter = new RequestAdapter(follows.getFollowRequestsList(), mContext);
-
-        followersList.setAdapter(followersAdapter);
-        followingList.setAdapter(followingAdapter);
-        requestsList.setAdapter(requestsAdapter);
-
-        justifyListViewHeightBasedOnChildren(followersList);
-        justifyListViewHeightBasedOnChildren(followingList);
-        justifyListViewHeightBasedOnChildren(requestsList);
-    }
-
+    //TODO remove this function and change xml to different format
     private void justifyListViewHeightBasedOnChildren (ListView listView) {
 
         ListAdapter adapter = listView.getAdapter();
@@ -164,5 +129,4 @@ public class RequestAdapter extends ArrayAdapter<String> {
         listView.setLayoutParams(par);
         listView.requestLayout();
     }
-
 }

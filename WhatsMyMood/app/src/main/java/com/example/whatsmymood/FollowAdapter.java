@@ -15,16 +15,14 @@ import java.util.ArrayList;
  * Created by ejtang on 7/03/2017
  */
 class FollowAdapter extends ArrayAdapter<String> {
-    private final ArrayList<String> usernames;
-    private final Context context;
+    private final Context mContext;
 
     /**
      * Instantiates a new Follow adapter.
      */
     public FollowAdapter(ArrayList<String> usernames, Context context) {
         super(context, R.layout.follow_adapter, usernames);
-        this.usernames = usernames;
-        this.context = context;
+        this.mContext = context;
     }
 
     /**

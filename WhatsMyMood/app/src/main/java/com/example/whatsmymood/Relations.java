@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * you are following as well as your follow requests
  * Created by YiJi on 2017-02-21.
  */
-public class Follows {
+public class Relations {
     private final ArrayList<String> followingList = new ArrayList<>();
     private final ArrayList<String> followedByList = new ArrayList<>();
     private final ArrayList<String> followRequestsList = new ArrayList<>();

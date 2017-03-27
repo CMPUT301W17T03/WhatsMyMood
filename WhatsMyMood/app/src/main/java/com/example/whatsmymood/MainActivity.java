@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
         try {
             UserAccount user = getUserTask.get().get(0);
 
-            followers = user.getFollows().getFollowingList();
+            followers = user.getRelations().getFollowingList();
 
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();

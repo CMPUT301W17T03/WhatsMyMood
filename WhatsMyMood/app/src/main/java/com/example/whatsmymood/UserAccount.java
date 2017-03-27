@@ -18,14 +18,14 @@ public class UserAccount {
      * @param profilePicture An image added by the user to describe themselves
      * @param moodlist       A class which contains methods to store moods
      * @see   MoodList
-     * @param follows        A class which contains methods for following users
-     * @see   Follows
+     * @param relations      A class which contains methods for following users
+     * @see   Relations
      */
     private final String username;
     private String password;
     private String name;
     private Bitmap profilePicture;
-    private Follows follows;
+    public Relations relations;
     public MoodList moodList;
 
 
@@ -36,7 +36,7 @@ public class UserAccount {
         this.username = username;
         this.password = password;
         moodList = new MoodList();
-        follows = new Follows();
+        relations = new Relations();
     }
 
     public void setPassword(String password) {this.password = password;}
@@ -109,12 +109,12 @@ public class UserAccount {
         this.moodList = moodList;
     }
 
-    public Follows getFollows() {
-        return follows;
+    public Relations getRelations() {
+        return relations;
     }
 
-    public void setFollows(Follows follows) {
-        this.follows = follows;
+    public void setRelations(Relations relations) {
+        this.relations = relations;
     }
 
 }

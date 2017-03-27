@@ -15,7 +15,7 @@ public class FollowsTest extends ActivityInstrumentationTestCase2{
     }
 
     public void testGetFollowingList() {
-        Follows user = new Follows();
+        Relations user = new Relations();
         String username1 = "Supreme Overlord";
         String username2 = "Dictator";
         String username3 = "Master";
@@ -31,7 +31,7 @@ public class FollowsTest extends ActivityInstrumentationTestCase2{
     }
 
     public void testGetFollowedByList() {
-        Follows user = new Follows();
+        Relations user = new Relations();
         String username1 = "Super Minion";
         String username2 = "Minion";
         String username3 = "Reserve Minion";
@@ -47,7 +47,7 @@ public class FollowsTest extends ActivityInstrumentationTestCase2{
     }
 
     public void testGetFollowRequestsList() {
-        Follows user = new Follows();
+        Relations user = new Relations();
         String username1 = "Persistent Minion-To-Be";
         String username2 = "Annoying Minion-To-Be";
         String username3 = "Desperate Minion-To-Be";
@@ -63,7 +63,7 @@ public class FollowsTest extends ActivityInstrumentationTestCase2{
     }
 
     public void testAddToFollowing(){
-        Follows user = new Follows();
+        Relations user = new Relations();
         String username = "Master";
 
         user.addToFollowing(username);
@@ -71,7 +71,7 @@ public class FollowsTest extends ActivityInstrumentationTestCase2{
     }
 
     public void testAddToFollowedBy(){
-        Follows user = new Follows();
+        Relations user = new Relations();
         String username = "Minion";
 
         user.addToFollowedBy(username);
@@ -79,7 +79,7 @@ public class FollowsTest extends ActivityInstrumentationTestCase2{
     }
 
     public void testAddToFollowRequests(){
-        Follows user = new Follows();
+        Relations user = new Relations();
         String username = "Minion-To-Be";
 
         user.addToFollowRequests(username);
@@ -87,7 +87,7 @@ public class FollowsTest extends ActivityInstrumentationTestCase2{
     }
 
     public void testRemoveFromFollowing(){
-        Follows user = new Follows();
+        Relations user = new Relations();
         String username = "Unreasonable Tyrant";
 
         user.addToFollowing(username);
@@ -97,7 +97,7 @@ public class FollowsTest extends ActivityInstrumentationTestCase2{
     }
 
     public void testRemoveFromFollowedBy(){
-        Follows user = new Follows();
+        Relations user = new Relations();
         String username = "Useless Minion";
 
         user.addToFollowedBy(username);
@@ -107,7 +107,7 @@ public class FollowsTest extends ActivityInstrumentationTestCase2{
     }
 
     public void testRemoveFromFollowRequests(){
-        Follows user = new Follows();
+        Relations user = new Relations();
         String username = "Rejected Minion";
 
         user.addToFollowRequests(username);
