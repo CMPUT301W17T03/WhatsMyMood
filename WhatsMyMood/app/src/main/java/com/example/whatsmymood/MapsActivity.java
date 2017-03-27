@@ -20,21 +20,18 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 
 /**
  * https://developers.google.com/maps/documentation/android-api/current-place-tutorial March 10, 2017 1:00
  */
-public class MapsActivity extends AppCompatActivity
-        implements OnMapReadyCallback
-        /*GoogleApiClient.OnConnectionFailedListener, ConnectionCallbacks*/ {
+public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleApiClient.OnConnectionFailedListener, ConnectionCallbacks {
     private GoogleMap mMap;
 
     private GoogleApiClient mGoogleApiClient;
 
     private CameraPosition mCameraPosition;
-    /*
+
     // Latitude and Longitude of Edmonton, AB
     private final LatLng mDefaultLocation = new LatLng(53.5444, -113.323975);
     private static final int DEFAULT_ZOOM = 13;
@@ -47,7 +44,7 @@ public class MapsActivity extends AppCompatActivity
 
     private static final String TAG = "hello";
 
-    private Location mLastKnownLocation;*/
+    private Location mLastKnownLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,24 +56,24 @@ public class MapsActivity extends AppCompatActivity
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        /*
+
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(
-                        this // FragmentActivity,
-                        this // OnConnectionFailedListener)
+                        this /* FragmentActivity */,
+                        this /* OnConnectionFailedListener */)
                 .addConnectionCallbacks(this)
                 .addApi(LocationServices.API)
                 .addApi(Places.GEO_DATA_API)
                 .addApi(Places.PLACE_DETECTION_API)
                 .build();
-        mGoogleApiClient.connect();*/
+        mGoogleApiClient.connect();
     }
 
     /**
      * Saves the state of the map when the activity is paused.
      * DOESN'T WORK RIGHT NOW
      */
-    /*@Override
+    @Override
     protected void onSaveInstanceState(Bundle outState) {
         if (mMap != null) {
             outState.putParcelable(KEY_CAMERA_POSITION, mMap.getCameraPosition());
@@ -84,7 +81,7 @@ public class MapsActivity extends AppCompatActivity
             Log.d(TAG, "saved");
             super.onSaveInstanceState(outState);
         }
-    }*/
+    }
 
     /**
      * Manipulates the map once available.
@@ -99,22 +96,20 @@ public class MapsActivity extends AppCompatActivity
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        //getDeviceLocation();
-
+        getDeviceLocation();
+        /*
         LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney)
-                .title("Marker in Sydney"));
+        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-
+        */
     }
 
-    /*
     private void getDeviceLocation() {
-
-         // Request location permission, so that we can get the location of the
-         // device. The result of the permission request is handled by a callback,
-         // onRequestPermissionsResult.
-
+        /*
+         * Request location permission, so that we can get the location of the
+         * device. The result of the permission request is handled by a callback,
+         * onRequestPermissionsResult.
+         */
         if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
                 android.Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
@@ -124,10 +119,10 @@ public class MapsActivity extends AppCompatActivity
                     new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
                     PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
         }
-
-         // Get the best and most recent location of the device, which may be null in rare
-         // cases when a location is not available.
-
+        /*
+         * Get the best and most recent location of the device, which may be null in rare
+         * cases when a location is not available.
+         */
 
         if (mLocationPermissionGranted) {
             mLastKnownLocation = LocationServices.FusedLocationApi
@@ -148,8 +143,8 @@ public class MapsActivity extends AppCompatActivity
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM));
         }
     }
-*/
-    /*@Override
+
+    @Override
     public void onConnected(Bundle connectionHint) {
         // Build the map.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -168,5 +163,5 @@ public class MapsActivity extends AppCompatActivity
         // be returned in onConnectionFailed.
         Log.d(TAG, "Play services connection failed: ConnectionResult.getErrorCode() = "
                 + result.getErrorCode());
-    }*/
+    }
 }

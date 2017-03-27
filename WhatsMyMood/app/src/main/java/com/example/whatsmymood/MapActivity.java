@@ -21,6 +21,8 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.apache.commons.lang3.ObjectUtils;
+
 /**
  * An activity that displays a Google map with a marker (pin) to indicate a particular location.
  */
@@ -41,8 +43,6 @@ public class MapActivity extends AppCompatActivity
     // Keys for storing activity state.
     private static final String KEY_CAMERA_POSITION = "camera_position";
     private static final String KEY_LOCATION = "location";
-
-    private static final String TAG = "hello";
 
     private Location mLastKnownLocation;
 
@@ -97,6 +97,38 @@ public class MapActivity extends AppCompatActivity
 
         // Get the current location of the device and set the position of the map.
         getDeviceLocation();
+        //mMap.addMarker(new MarkerOptions().position(mDefaultLocation)
+        //        .title("Default Location Marker"));
+        //mMap.moveCamera(CameraUpdateFactory.newLatLng(mDefaultLocation));
+        setMarker();
+    }
+
+    private void setMarker() {
+        mMap.addMarker(new MarkerOptions().position(new LatLng(37.421998,-122.084000))
+                .title("Default Location Marker"));
+
+        if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
+                android.Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            mLocationPermissionGranted = true;
+        } else {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+        }
+
+        if (mLocationPermissionGranted) {
+            mLastKnownLocation = LocationServices.FusedLocationApi
+                    .getLastLocation(mGoogleApiClient);
+            if (mLastKnownLocation != null){
+                mMap.addMarker(new MarkerOptions().position(new LatLng(mLastKnownLocation.getLatitude(),mLastKnownLocation.getLongitude()))
+                        .title("Default Location Marker"));
+                Log.d("Add Marker", String.valueOf(mLastKnownLocation));
+
+            }
+
+        }
+
     }
 
     private void getDeviceLocation() {
@@ -106,9 +138,20 @@ public class MapActivity extends AppCompatActivity
      * Get the best and most recent location of the device, which may be
      * null in rare cases when a location is not available.
      */
+        if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
+                android.Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            mLocationPermissionGranted = true;
+        } else {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+        }
+
         if (mLocationPermissionGranted) {
             mLastKnownLocation = LocationServices.FusedLocationApi
                     .getLastLocation(mGoogleApiClient);
+            Log.d("Last Known Location", String.valueOf(mLastKnownLocation));
         }
 
         // Set the map's camera position to the current location of the device.
@@ -119,7 +162,7 @@ public class MapActivity extends AppCompatActivity
                     new LatLng(mLastKnownLocation.getLatitude(),
                             mLastKnownLocation.getLongitude()), DEFAULT_ZOOM));
         } else {
-            Log.d(TAG, "Current location is null. Using defaults.");
+            Log.d("Location", "Current location is null. Using defaults.");
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM));
             mMap.getUiSettings().setMyLocationButtonEnabled(false);
         }
@@ -154,14 +197,14 @@ public class MapActivity extends AppCompatActivity
 
     @Override
     public void onConnectionSuspended(int cause) {
-        Log.d(TAG, "Play services connection suspended");
+        Log.d("ConnectionSuspended", "Play services connection suspended");
     }
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult result) {
         // Refer to the reference doc for ConnectionResult to see what error codes might
         // be returned in onConnectionFailed.
-        Log.d(TAG, "Play services connection failed: ConnectionResult.getErrorCode() = "
+        Log.d("ConnectionFailed", "Play services connection failed: ConnectionResult.getErrorCode() = "
                 + result.getErrorCode());
     }
 
