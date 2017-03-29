@@ -1,14 +1,19 @@
 package com.example.whatsmymood;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * The type Mood adapter.
@@ -48,12 +53,19 @@ class MoodAdapter extends ArrayAdapter<Mood> {
         TextView moodMessageText = (TextView) customView.findViewById(R.id.moodMessage);
         TextView socialSituationText = (TextView) customView.findViewById(R.id.moodSocialSituation);
         TextView dateText = (TextView) customView.findViewById(R.id.moodDate);
+        ImageView emoticon = (ImageView) customView.findViewById(R.id.moodEmoticon);
+        ImageView image = (ImageView) customView.findViewById(R.id.moodImage);
+
+        emoticon.setImageResource(R.drawable.def_emoticon);
+        image.setImageResource(R.drawable.def_pic_vert);
 
         authorText.setText(mood.getMoodAuthor());
         moodTypeText.setText(mood.getMoodType());
         moodMessageText.setText(mood.getMoodMsg());
         socialSituationText.setText(mood.getSocialSit());
-        dateText.setText(mood.getDate().toString());
+        Date date = mood.getDate();
+        dateText.setText(DateFormat.getDateTimeInstance(
+                DateFormat.MEDIUM, DateFormat.SHORT).format(mood.getDate()));
 
         return customView;
     }

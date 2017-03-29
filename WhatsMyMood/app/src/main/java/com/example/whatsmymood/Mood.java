@@ -15,7 +15,6 @@ public class Mood implements Comparable<Mood>{
     // TODO: Use an actual location instead of a string
     //private Location location;
     private String location;
-
     private String socialSit;
     private Date date;
     private String photo;
