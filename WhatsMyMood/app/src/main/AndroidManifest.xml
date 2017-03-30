@@ -54,16 +54,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".FollowHubActivity" />
+        <activity android:name=".FollowHubActivityOld" />
         <activity android:name=".UserCreateActivity" />
-
         <activity
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps" />
         <activity android:name=".ProfileActivity" />
-        <activity android:name=".MapActivity">
-
-        </activity>
+        <activity android:name=".MapActivity"></activity>
+        <activity
+            android:name=".FollowHubActivity"
+            android:label="@string/title_activity_follow_hub"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
     </application>
 
 </manifest>
