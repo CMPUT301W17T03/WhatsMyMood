@@ -15,6 +15,11 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import java.util.concurrent.ExecutionException;
 
 
 public class FollowHubActivity extends AppCompatActivity {
@@ -33,6 +38,11 @@ public class FollowHubActivity extends AppCompatActivity {
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
+
+    /**
+     * The current logged in User
+     */
+    private final CurrentUser current = CurrentUser.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +71,46 @@ public class FollowHubActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });*/
+
+
+        final EditText addRequestText = (EditText) findViewById(R.id.body);
+        Button addRequest = (Button) findViewById(R.id.add);
+
+        addRequest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ElasticSearchUserController.GetUserTask getRequestUserTask = new ElasticSearchUserController.GetUserTask();
+                getRequestUserTask.execute(addRequestText.getText().toString());
+
+                try {
+                    UserAccount user = getRequestUserTask.get().get(0);
+
+                    if (!user.relations.isFollowedBy(current.getCurrentUser().getUsername())) {
+                        if(!user.relations.hasRequests(current.getCurrentUser().getUsername())) {
+                            user.relations.addToFollowRequests(current.getCurrentUser().getUsername());
+
+                            ElasticSearchUserController.UpdateUser updateUser = new ElasticSearchUserController.UpdateUser();
+                            updateUser.execute(user);
+
+                            //Todo this will have to be altered with offline
+                            String successString = "Request Sent";
+                            Toast.makeText(getBaseContext(),successString, Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            addRequestText.setError("Already requested to follow user");
+                        }
+                    } else {
+                        addRequestText.setError("Already following user");
+                    }
+
+
+                } catch (ExecutionException | IndexOutOfBoundsException e) {
+                    addRequestText.setError("User Doesn't Exist");
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
     }
 
