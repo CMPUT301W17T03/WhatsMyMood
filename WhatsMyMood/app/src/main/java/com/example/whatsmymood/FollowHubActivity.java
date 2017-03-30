@@ -177,11 +177,11 @@ public class FollowHubActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "SECTION 1";
+                    return "Followers";
                 case 1:
-                    return "SECTION 2";
+                    return "Following";
                 case 2:
-                    return "SECTION 3";
+                    return "Requests";
             }
             return null;
         }
