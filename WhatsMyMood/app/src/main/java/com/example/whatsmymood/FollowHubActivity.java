@@ -22,6 +22,14 @@ import android.widget.Toast;
 import java.util.concurrent.ExecutionException;
 
 
+/**
+ * The type Follow hub activity.
+ * Created by ejtang
+ *
+ * Referenced off of https://www.youtube.com/watch?v=00LLd7qr9sA for ideas and what to do
+ * to get our tabs working
+ * Obtained Mar 29, 2017
+ */
 public class FollowHubActivity extends AppCompatActivity {
 
     /**
@@ -145,6 +153,11 @@ public class FollowHubActivity extends AppCompatActivity {
      */
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
+        /**
+         * Instantiates a new Sections pager adapter.
+         *
+         * @param fm the fm
+         */
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
         }

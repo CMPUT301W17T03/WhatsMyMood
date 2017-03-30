@@ -10,6 +10,10 @@ import android.widget.ListView;
 
 /**
  * Created by ejtang on 2017-03-29.
+ *
+ * Referenced off of https://www.youtube.com/watch?v=00LLd7qr9sA for ideas and what to do
+ * to get our tabs working
+ * Obtained Mar 29, 2017
  */
 
 public class FollowHubActivityTab3Requests extends Fragment {
