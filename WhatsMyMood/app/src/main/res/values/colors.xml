@@ -1,5 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!-- Default Theme Colours -->
+    <color name="defaultTextColor">#878585</color>
+    <color name="defaultTextColorPrimary">#878585</color>
+    <color name="defaultTextColorTertiary">#878585</color>
+    <color name="defaultWindowBackground">#FFFFFF</color>
+
+    <!-- Happy Theme Colours -->
+    <color name="happyTextColor">#00004D</color>
+    <color name="happyTextColorPrimary">#00004D</color>
+    <color name="happyTextColorTertiary">#FF000000</color>
+    <color name="happyWindowBackground">#FFFF66</color>
+
+    <!-- Messing Around -->
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
@@ -11,4 +25,5 @@
     <!-- Popup Colors -->
     <color name="popup_background">#4F4F4F</color>
     <color name="popup_text">#8E8E93</color>
+
 </resources>

@@ -41,8 +41,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
         FooterHandler handler = new FooterHandler(this, footer);
+
+        ThemeController.onActivityStartSetTheme(this, current.getCurrentUser().getMoodList().getRecentMood().getMoodType());
 
         fetchData();
         setAdapters();

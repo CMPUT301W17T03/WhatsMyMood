@@ -1,15 +1,37 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+    <style name="DefaultTheme" parent="Theme.AppCompat.Light.NoActionBar">
+
+        <!-- Sets the colour of the text for any given view - AKA Text we display -->
+        <item name="android:textColor">@color/defaultTextColor</item>
+
+        <!-- This is the text colour we type in large TextViews and enabled buttons -->
+        <item name="android:textColorPrimary">@color/defaultTextColorPrimary</item>
+
+        <!--T This is the text colour of the buttons Sign in and Create -->
+        <item name="android:textColorTertiary">@color/defaultTextColorTertiary</item>
+
+        <!-- This is the background colour for everything -->
+        <item name="android:windowBackground">@color/defaultWindowBackground</item>
+
     </style>
+
+
+    <!-- Happy Theme -->
+    <style name="HappyTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:textColor">@color/happyTextColor</item>
+        <item name="android:textColorPrimary">@color/happyTextColorPrimary</item>
+        <item name="android:textColorTertiary">@color/happyTextColorTertiary</item>
+        <item name="android:windowBackground">@color/happyWindowBackground</item>
+    </style>
+
+
+
 
     <style name="MyToolbarStyle" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="android:minWidth">20dip</item>
         <item name="android:padding">0dip</item>
     </style>
+
 </resources>

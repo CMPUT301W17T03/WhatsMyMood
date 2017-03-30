@@ -40,7 +40,6 @@ public class ProfileActivity extends AppCompatActivity {
         super.onStart();
 
         FooterHandler handler = new FooterHandler(this, footer);
-
         fetchData();
         setAdapters();
     }

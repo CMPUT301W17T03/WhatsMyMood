@@ -44,7 +44,7 @@ class AddMoodController{
     private static ImageButton photoButton;
 
     private final Dialog dialog;
-    private final Context context;
+    private final Context mContext;
 
 
     private String moodType;
@@ -66,12 +66,12 @@ class AddMoodController{
      * Passes the dialog and context
      * Sets up the click functionality for
      * the camera button and the post button
-     * @param mContext Base context of the activity from main
+     * @param context Base context of the activity from main
      * @param mDialog Dialog created in footer handler
      */
-    public AddMoodController(Context mContext, Dialog mDialog) {
+    public AddMoodController(Context context, Dialog mDialog) {
         this.dialog = mDialog;
-        this.context = mContext;
+        this.mContext = context;
 
         // Get Access to the Camera
 
@@ -82,13 +82,13 @@ class AddMoodController{
             public void onClick(View view) {
                 // http://stackoverflow.com/questions/38980647/i-need-to-get-the-activity-in-order-to-request-permissions
                 // March 13th,2017 1:48
-                cameraPermissionCheck = ContextCompat.checkSelfPermission(context, android.Manifest.permission.CAMERA);
+                cameraPermissionCheck = ContextCompat.checkSelfPermission(mContext, android.Manifest.permission.CAMERA);
                 if (cameraPermissionCheck != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions((Activity) context, new String[]{android.Manifest.permission.CAMERA}, PERMISSIONS_REQUEST_ACCESS_CAMERA);
+                    ActivityCompat.requestPermissions((Activity) mContext, new String[]{android.Manifest.permission.CAMERA}, PERMISSIONS_REQUEST_ACCESS_CAMERA);
                 }
                 else {
                     Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-                    ((Activity) context).startActivityForResult(intent, CAPTURE_IMAGE_REQUEST_CODE);
+                    ((Activity) mContext).startActivityForResult(intent, CAPTURE_IMAGE_REQUEST_CODE);
                 }
             }
         });
@@ -104,6 +104,7 @@ class AddMoodController{
                 moodAuthor = CurrentUser.getInstance().getCurrentUser().getUsername();
                 UserAccount user = current.getCurrentUser();
                 Mood m = getMood();
+
                 if(m != null) {
                     user.moodList.addMood(getMood());
 
@@ -112,6 +113,7 @@ class AddMoodController{
 
                     dialog.dismiss();
                 }
+
             }
         });
     }
