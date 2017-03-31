@@ -122,10 +122,10 @@ class AddMoodController{
             @Override
             public void onClick(View view) {
                 moodAuthor = current.getCurrentUser().getUsername();
+                Mood mood = getMood();
 
                 if (!(context instanceof ProfileActivity)) {
                     user = current.getCurrentUser();
-                    Mood mood = getMood();
                     if (mood != null) {
                         user.moodList.addMood(mood);
 
@@ -136,7 +136,6 @@ class AddMoodController{
                     }
                 }
                 else {
-                    Mood mood = getMood();
                     if (mood != null) {
                         ListView moodListView = (ListView) ((ProfileActivity) context).findViewById(R.id.moodListView);
                         ((ArrayAdapter) moodListView.getAdapter()).notifyDataSetChanged();
