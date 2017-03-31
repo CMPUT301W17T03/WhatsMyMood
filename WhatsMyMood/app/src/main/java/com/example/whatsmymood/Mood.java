@@ -2,6 +2,8 @@ package com.example.whatsmymood;
 
 import android.support.annotation.NonNull;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.util.Date;
 
 /**
@@ -14,7 +16,7 @@ public class Mood implements Comparable<Mood>{
 
     // TODO: Use an actual location instead of a string
     //private Location location;
-    private String location;
+    private LatLng location;
     private String socialSit;
     private Date date;
     private String photo;
@@ -70,9 +72,9 @@ public class Mood implements Comparable<Mood>{
     }
 
     // TODO: Use an actual location instead of a string
-    public String getLocation() { return location; }
+    public LatLng getLocation() { return location; }
 
-    public void setLocation(String newLocation) {this.location = newLocation; }
+    public void setLocation(LatLng newLocation) {this.location = newLocation; }
 
 
     public String getSocialSit() {

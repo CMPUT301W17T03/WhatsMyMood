@@ -1,13 +1,18 @@
 package com.example.whatsmymood;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -19,17 +24,18 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import org.apache.commons.lang3.ObjectUtils;
-
 /**
- * An activity that displays a Google map with a marker (pin) to indicate a particular location.
+ * Created by ejtang on 2017-03-30.
  */
-public class MapActivity extends AppCompatActivity
+
+public class AddLocationActivity extends AppCompatActivity
         implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener {
+        GoogleApiClient.OnConnectionFailedListener,
+        GoogleMap.OnMapLongClickListener{
 
     private GoogleApiClient mGoogleApiClient;
     private GoogleMap mMap;
@@ -46,11 +52,14 @@ public class MapActivity extends AppCompatActivity
 
     private Location mLastKnownLocation;
 
+    private LatLng inputLocation;
+    private Marker inputLocationMarker;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Retrieve the content view that renders the map.
-        setContentView(R.layout.activity_map);
+        setContentView(R.layout.activity_add_location);
         // Get the SupportMapFragment and request notification
         // when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -70,6 +79,23 @@ public class MapActivity extends AppCompatActivity
                 .addApi(Places.PLACE_DETECTION_API)
                 .build();
         mGoogleApiClient.connect();
+
+        FloatingActionButton add = (FloatingActionButton) findViewById(R.id.accept);
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(inputLocation != null) {
+                    Intent output = new Intent();
+                    output.putExtra("Lat",inputLocation.latitude);
+                    output.putExtra("Lng",inputLocation.longitude);
+                    setResult(RESULT_OK, output);
+                    finish();
+                } else {
+                    Toast.makeText(getApplicationContext(),
+                            "No Location Selected", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     /**
@@ -90,6 +116,8 @@ public class MapActivity extends AppCompatActivity
     public void onMapReady(GoogleMap map) {
         mMap = map;
 
+        mMap.setOnMapLongClickListener(this);
+
         // Do other setup activities here too, as described elsewhere in this tutorial.
 
         // Turn on the My Location layer and the related control on the map.
@@ -97,16 +125,11 @@ public class MapActivity extends AppCompatActivity
 
         // Get the current location of the device and set the position of the map.
         getDeviceLocation();
-        //mMap.addMarker(new MarkerOptions().position(mDefaultLocation)
-        //        .title("Default Location Marker"));
-        //mMap.moveCamera(CameraUpdateFactory.newLatLng(mDefaultLocation));
-        setMarker();
+
+        setCurrentLocation();
     }
 
-    private void setMarker() {
-        mMap.addMarker(new MarkerOptions().position(new LatLng(37.421998,-122.084000))
-                .title("Default Location Marker"));
-
+    private void setCurrentLocation() {
         if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
                 android.Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
@@ -121,14 +144,17 @@ public class MapActivity extends AppCompatActivity
             mLastKnownLocation = LocationServices.FusedLocationApi
                     .getLastLocation(mGoogleApiClient);
             if (mLastKnownLocation != null){
-                mMap.addMarker(new MarkerOptions().position(new LatLng(mLastKnownLocation.getLatitude(),mLastKnownLocation.getLongitude()))
-                        .title("Default Location Marker"));
+                inputLocation = new LatLng(mLastKnownLocation.getLatitude(),
+                        mLastKnownLocation.getLongitude());
+
+                inputLocationMarker = mMap.addMarker(new MarkerOptions()
+                        .position(inputLocation)
+                        .title("Location to add"));
                 Log.d("Add Marker", String.valueOf(mLastKnownLocation));
 
             }
 
         }
-
     }
 
     private void getDeviceLocation() {
@@ -206,6 +232,17 @@ public class MapActivity extends AppCompatActivity
         // be returned in onConnectionFailed.
         Log.d("ConnectionFailed", "Play services connection failed: ConnectionResult.getErrorCode() = "
                 + result.getErrorCode());
+    }
+
+    @Override
+    public void onMapLongClick(LatLng location) {
+        if(inputLocationMarker != null) {
+            inputLocationMarker.remove();
+        }
+        inputLocationMarker = mMap.addMarker(new MarkerOptions()
+                                    .position(location)
+                                    .title("Location to add"));
+        inputLocation = location;
     }
 
     private void updateLocationUI() {
