@@ -84,6 +84,7 @@ public class AddLocationActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 if(inputLocation != null) {
+
                     finish();
                 } else {
                     Toast.makeText(getApplicationContext(),
