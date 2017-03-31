@@ -14,11 +14,13 @@ import android.support.v4.app.ActivityCompat;
 
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -27,6 +29,7 @@ import com.google.android.gms.maps.model.LatLng;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import static java.security.AccessController.getContext;
@@ -35,6 +38,9 @@ import static java.security.AccessController.getContext;
  * Takes user input and converts it into a relevant mood
  */
 class AddMoodController{
+    private CurrentUser current = CurrentUser.getInstance();
+    private UserAccount user;
+
     // Invalid User Selections
     private boolean DATE_INVALID = false;
     private boolean SELECT_MOOD_INVALID = false;
@@ -69,7 +75,6 @@ class AddMoodController{
     // Dialog Layouts
     private Spinner spinner;
     private EditText editMoodMsg;
-    private EditText editLocation;
     private EditText editSocialSit;
     private EditText editDate;
 
@@ -116,17 +121,31 @@ class AddMoodController{
         post.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CurrentUser current = CurrentUser.getInstance();
-                moodAuthor = CurrentUser.getInstance().getCurrentUser().getUsername();
-                UserAccount user = current.getCurrentUser();
-                Mood m = getMood();
-                if(m != null) {
-                    user.moodList.addMood(getMood());
+                moodAuthor = current.getCurrentUser().getUsername();
 
-                    ElasticSearchUserController.UpdateUser updateUser = new ElasticSearchUserController.UpdateUser();
-                    updateUser.execute(user);
+                if (!(context instanceof ProfileActivity)) {
+                    user = current.getCurrentUser();
+                    Mood mood = getMood();
+                    if (mood != null) {
+                        user.moodList.addMood(mood);
 
-                    dialog.dismiss();
+                        ElasticSearchUserController.UpdateUser updateUser = new ElasticSearchUserController.UpdateUser();
+                        updateUser.execute(user);
+
+                        dialog.dismiss();
+                    }
+                }
+                else {
+                    Mood mood = getMood();
+                    if (mood != null) {
+                        ListView moodListView = (ListView) ((ProfileActivity) context).findViewById(R.id.moodListView);
+                        ((ArrayAdapter) moodListView.getAdapter()).notifyDataSetChanged();
+
+                        ElasticSearchUserController.UpdateUser updateUser = new ElasticSearchUserController.UpdateUser();
+                        updateUser.execute(user);
+
+                        dialog.dismiss();
+                    }
                 }
             }
         });
@@ -136,31 +155,11 @@ class AddMoodController{
         addLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext,AddLocationActivity.class);
-                ((Activity) mContext).startActivityForResult(intent,SECOND_ACTIVITY_RESULT_CODE);
+                Intent intent = new Intent(context,AddLocationActivity.class);
+                ((Activity) context).startActivityForResult(intent,SECOND_ACTIVITY_RESULT_CODE);
             }
         });
     }
-
-    // This method is called when the second activity finishes
-    /*@Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        // check that it is the SecondActivity with an OK result
-        if (requestCode == SECOND_ACTIVITY_RESULT_CODE) {
-            if (resultCode == RESULT_OK) {
-                Log.d("Location","Got location");
-
-                // get String data from Intent
-                String returnString = data.getStringExtra("keyName");
-
-                // set text view with string
-                TextView textView = (TextView) findViewById(R.id.textView);
-                textView.setText(returnString);
-            }
-        }
-    }*/
 
     public static void processResult(int requestCode, int resultCode, Intent intent) {
         if (requestCode == CAPTURE_IMAGE_REQUEST_CODE) {
@@ -181,7 +180,10 @@ class AddMoodController{
     }
 
     public void preFill(Mood mood) {
-        this.mood = mood;
+        // Gets the mood for updating
+        this.user = current.getCurrentUser();
+        int index = user.getMoodList().getIndex(mood);
+        this.mood = current.getCurrentUser().getMoodList().get(index);
 
         // http://stackoverflow.com/questions/2390102/how-to-set-selected-item-of-spinner-by-value-not-by-position
         // March 30th, 2017
@@ -233,8 +235,6 @@ class AddMoodController{
         // TODO: Make this an actual location
         // TODO: Handle exception where user does not input a location/invalid locations
 
-
-
         /*EditText location = (EditText) this.dialog.findViewById(R.id.enter_location);
 
         if (!location.getText().toString().isEmpty()) {
@@ -271,7 +271,12 @@ class AddMoodController{
             DATE_INVALID = false;
 
         } else {
-            return makeMood();
+            if (!(this.context instanceof ProfileActivity)) {
+                return makeMood();
+            }
+            else {
+                return updateMood();
+            }
         }
 
         return null;
@@ -284,7 +289,6 @@ class AddMoodController{
      * @return Returns a mood object
      */
     private Mood makeMood() {
-        // If the date is null, automatically set the date to the current date
         if (this.date == null) {
             Date newDate = new Date();
             mood = new Mood(this.moodAuthor,this.moodType, newDate);
@@ -295,6 +299,17 @@ class AddMoodController{
         mood.setMoodMsg(this.moodMsg);
         mood.setLocation(this.location);
         mood.setSocialSit(this.socialSit);
+        mood.setPhoto(mPhoto);
+
+        return mood;
+    }
+
+    private Mood updateMood() {
+        mood.setMoodType(this.moodType);
+        mood.setMoodMsg(this.moodMsg);
+        mood.setLocation(this.location);
+        mood.setSocialSit(this.socialSit);
+        mood.setDate(this.date);
         mood.setPhoto(mPhoto);
 
         return mood;
