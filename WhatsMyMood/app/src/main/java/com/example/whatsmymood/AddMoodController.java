@@ -11,6 +11,8 @@ import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.app.ActivityCompat;
 
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,10 +20,14 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+
+import static java.security.AccessController.getContext;
 
 /**
  * Takes user input and converts it into a relevant mood
@@ -30,6 +36,7 @@ class AddMoodController{
     // Invalid User Selections
     private boolean DATE_INVALID = false;
     private boolean SELECT_MOOD_INVALID = false;
+    private static final int SECOND_ACTIVITY_RESULT_CODE = 0;
 
     private static final int RESULT_OK = -1;
 
@@ -55,7 +62,7 @@ class AddMoodController{
 
     // Set to null because they are not mandatory
     private String moodMsg = null;
-    private String location = null;
+    private LatLng location = null;
     private String socialSit = null;
 
     private Date date;
@@ -71,7 +78,7 @@ class AddMoodController{
      * @param mContext Base context of the activity from main
      * @param mDialog Dialog created in footer handler
      */
-    public AddMoodController(Context mContext, Dialog mDialog) {
+    public AddMoodController(final Context mContext, Dialog mDialog) {
         this.dialog = mDialog;
         this.context = mContext;
 
@@ -116,7 +123,37 @@ class AddMoodController{
                 }
             }
         });
+
+        Button addLocation = (Button) dialog.findViewById(R.id.enter_location);
+
+        addLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext,AddLocationActivity.class);
+                ((Activity) mContext).startActivityForResult(intent,SECOND_ACTIVITY_RESULT_CODE);
+            }
+        });
     }
+
+    // This method is called when the second activity finishes
+    /*@Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // check that it is the SecondActivity with an OK result
+        if (requestCode == SECOND_ACTIVITY_RESULT_CODE) {
+            if (resultCode == RESULT_OK) {
+                Log.d("Location","Got location");
+
+                // get String data from Intent
+                String returnString = data.getStringExtra("keyName");
+
+                // set text view with string
+                TextView textView = (TextView) findViewById(R.id.textView);
+                textView.setText(returnString);
+            }
+        }
+    }*/
 
 
     public static void processResult(int requestCode, int resultCode, Intent intent) {
@@ -162,11 +199,14 @@ class AddMoodController{
 
         // TODO: Make this an actual location
         // TODO: Handle exception where user does not input a location/invalid locations
-        EditText location = (EditText) this.dialog.findViewById(R.id.enter_location);
+
+
+
+        /*EditText location = (EditText) this.dialog.findViewById(R.id.enter_location);
 
         if (!location.getText().toString().isEmpty()) {
             this.location = location.getText().toString();
-        }
+        }*/
 
         EditText socialSit = (EditText) this.dialog.findViewById(R.id.enter_tags);
 

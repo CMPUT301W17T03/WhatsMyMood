@@ -33,7 +33,7 @@
 
     <!-- Strings related to the add mood popup -->
     <string name="enter_description">Enter Description Here</string>
-    <string name="enter_location">Location</string>
+    <string name="enter_location">No Location Added</string>
     <string name="enter_tag">Tag people you are with</string>
     <string name="enter_date">Enter the date</string>
     <string name="invalid_mood">Inavlid Mood Selected</string>

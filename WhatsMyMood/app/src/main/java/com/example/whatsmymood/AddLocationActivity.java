@@ -1,5 +1,6 @@
 package com.example.whatsmymood;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -84,7 +85,10 @@ public class AddLocationActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 if(inputLocation != null) {
-
+                    Intent output = new Intent();
+                    output.putExtra("Lat",inputLocation.latitude);
+                    output.putExtra("Lng",inputLocation.longitude);
+                    setResult(RESULT_OK, output);
                     finish();
                 } else {
                     Toast.makeText(getApplicationContext(),
