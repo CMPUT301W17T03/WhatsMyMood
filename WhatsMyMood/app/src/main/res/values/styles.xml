@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="DefaultTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="DefaultTheme" parent="Theme.AppCompat.Light">
 
         <!-- Sets the colour of the text for any given view - AKA Text we display -->
         <item name="android:textColor">@color/defaultTextColor</item>
@@ -19,14 +19,28 @@
 
 
     <!-- Happy Theme -->
-    <style name="HappyTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="HappyTheme" parent="Theme.AppCompat.Light">
         <item name="android:textColor">@color/happyTextColor</item>
         <item name="android:textColorPrimary">@color/happyTextColorPrimary</item>
         <item name="android:textColorTertiary">@color/happyTextColorTertiary</item>
         <item name="android:windowBackground">@color/happyWindowBackground</item>
     </style>
 
+    <!-- Anger Theme -->
+    <style name="AngerTheme" parent="Theme.AppCompat.Light">
+        <item name="android:textColor">@color/angerTextColor</item>
+        <item name="android:textColorPrimary">@color/angerTextColorPrimary</item>
+        <item name="android:textColorTertiary">@color/angerTextColorTertiary</item>
+        <item name="android:windowBackground">@color/angerWindowBackground</item>
+    </style>
 
+    <!-- Surprised Theme -->
+    <style name="SurprisedTheme" parent="Theme.AppCompat.Light">
+        <item name="android:textColor">@color/surprisedTextColor</item>
+        <item name="android:textColorPrimary">@color/surprisedTextColorPrimary</item>
+        <item name="android:textColorTertiary">@color/surprisedTextColorTertiary</item>
+        <item name="android:windowBackground">@color/surprisedWindowBackground</item>
+    </style>
 
 
     <style name="MyToolbarStyle" parent="Theme.AppCompat.Light.DarkActionBar">

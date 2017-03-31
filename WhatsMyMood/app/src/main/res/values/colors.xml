@@ -8,10 +8,23 @@
     <color name="defaultWindowBackground">#FFFFFF</color>
 
     <!-- Happy Theme Colours -->
-    <color name="happyTextColor">#00004D</color>
-    <color name="happyTextColorPrimary">#00004D</color>
-    <color name="happyTextColorTertiary">#FF000000</color>
+    <color name="happyTextColor">#878585</color>
+    <color name="happyTextColorPrimary">#878585</color>
+    <color name="happyTextColorTertiary">#878585</color>
     <color name="happyWindowBackground">#FFFF66</color>
+
+    <!-- Surprised Theme Colours -->
+    <color name="surprisedTextColor">#878585</color>
+    <color name="surprisedTextColorPrimary">#878585</color>
+    <color name="surprisedTextColorTertiary">#878585</color>
+    <color name="surprisedWindowBackground">#80FFE5</color>
+
+    <!-- Anger Theme Colours -->
+    <color name="angerTextColor">#FFFFFF</color>
+    <color name="angerTextColorPrimary">#FFFFFF</color>
+    <color name="angerTextColorTertiary">#FFFFFF</color>
+    <color name="angerWindowBackground">#B30000</color>
+
 
     <!-- Messing Around -->
     <color name="colorPrimary">#3F51B5</color>
