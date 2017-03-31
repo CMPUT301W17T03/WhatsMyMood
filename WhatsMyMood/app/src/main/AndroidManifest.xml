@@ -61,10 +61,6 @@
             android:name=".UserCreateActivity"
             android:noHistory="true" />
         <activity
-            android:name=".MapsActivity"
-            android:label="@string/title_activity_maps"
-            android:noHistory="true" />
-        <activity
             android:name=".ProfileActivity"
             android:noHistory="true" />
         <activity
