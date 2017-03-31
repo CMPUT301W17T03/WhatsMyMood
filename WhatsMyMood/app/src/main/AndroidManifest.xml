@@ -54,15 +54,25 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".FollowHubActivityOld" />
-        <activity android:name=".UserCreateActivity" />
+        <activity
+            android:name=".FollowHubActivityOld"
+            android:noHistory="true" />
+        <activity
+            android:name=".UserCreateActivity"
+            android:noHistory="true" />
         <activity
             android:name=".MapsActivity"
-            android:label="@string/title_activity_maps" />
-        <activity android:name=".ProfileActivity" />
-        <activity android:name=".MapActivity"></activity>
+            android:label="@string/title_activity_maps"
+            android:noHistory="true" />
+        <activity
+            android:name=".ProfileActivity"
+            android:noHistory="true" />
+        <activity
+            android:name=".MapActivity"
+            android:noHistory="true"/>
         <activity
             android:name=".FollowHubActivity"
+            android:noHistory="true"
             android:label="@string/title_activity_follow_hub"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
     </application>

@@ -248,7 +248,6 @@ class AddMoodController{
      * @return Returns a mood object
      */
     private Mood makeMood() {
-
         // If the date is null, automatically set the date to the current date
         if (this.date == null) {
             Date newDate = new Date();
