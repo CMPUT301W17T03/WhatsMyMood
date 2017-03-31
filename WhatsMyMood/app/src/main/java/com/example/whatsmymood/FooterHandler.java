@@ -29,6 +29,7 @@ class FooterHandler {
     private View mView;
     private Context mContext;
     private Dialog dialog;
+    private Toast toast;
     private AddMoodController moodController;
     /**
      * Constructor to attach a view and context as well as initialize boolean values
@@ -37,9 +38,10 @@ class FooterHandler {
      * @param mContext The context of the main activity which calls the handler
      * @param view        The footer View to be passed in and handled
      */
-    public FooterHandler(Context mContext, View view){
+    public FooterHandler(Context mContext, View view) {
         this.mView = view;
         this.mContext = mContext;
+        this.toast = Toast.makeText(mContext, null, Toast.LENGTH_SHORT);
         build();
     }
 
@@ -57,7 +59,7 @@ class FooterHandler {
      *
      * @param v The footer View to be passed in and handled
      */
-    public void setView(View v){
+    public void setView(View v) {
         this.mView = v;
         build();
     }
@@ -65,13 +67,10 @@ class FooterHandler {
     /**
      * Builder function which initializes the onClickListeners for the footer buttons
      */
-    private void build(){
-        //TODO implementation
+    private void build() {
         this.mView.findViewById(R.id.follow).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO need a follow hub activity
-                Log.d("intent", "intent follow");
                 Intent intent = new Intent(mContext, FollowHubActivity.class);
                 mContext.startActivity(intent);
             }
@@ -80,19 +79,9 @@ class FooterHandler {
         this.mView.findViewById(R.id.profile).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ArrayList<String> runningActivities = new ArrayList<>();
-
-                ActivityManager activityManager = (ActivityManager) mContext.getSystemService (Context.ACTIVITY_SERVICE);
-
-                List<ActivityManager.RunningTaskInfo> services = activityManager.getRunningTasks(Integer.MAX_VALUE);
-
-                for (int i1 = 0; i1 < services.size(); i1++) {
-                    runningActivities.add(0,services.get(i1).topActivity.toString());
-                }
-
-                // TODO: Make the profile screen refresh on button press
-                if(runningActivities.contains("ComponentInfo{com.example.whatsmymood/com.example.whatsmymood.ProfileActivity}")){
-                    Toast.makeText(mContext, "Currently In Profile", Toast.LENGTH_SHORT).show();
+                if (mContext instanceof ProfileActivity) {
+                    toast.setText("Currently In Profile");
+                    toast.show();
                 } else {
                     Intent intent = new Intent(mContext, ProfileActivity.class);
                     mContext.startActivity(intent);
@@ -100,24 +89,13 @@ class FooterHandler {
             }
         });
 
-
         // http://stackoverflow.com/questions/5934050/check-whether-activity-is-active March 13, 2017 15:17
         this.mView.findViewById(R.id.home).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ArrayList<String> runningActivities = new ArrayList<>();
-
-                ActivityManager activityManager = (ActivityManager) mContext.getSystemService (Context.ACTIVITY_SERVICE);
-
-                List<ActivityManager.RunningTaskInfo> services = activityManager.getRunningTasks(Integer.MAX_VALUE);
-
-                for (int i1 = 0; i1 < services.size(); i1++) {
-                    runningActivities.add(0,services.get(i1).topActivity.toString());
-                }
-
-                // TODO: Make the home screen refresh on button press
-                if(runningActivities.contains("ComponentInfo{com.example.whatsmymood/com.example.whatsmymood.MainActivity}")){
-                    Toast.makeText(mContext, "Currently In Home", Toast.LENGTH_SHORT).show();
+                if (mContext instanceof MainActivity) {
+                    toast.setText("Currently In Home");
+                    toast.show();
                 } else {
                     Intent intent = new Intent(mContext, MainActivity.class);
                     mContext.startActivity(intent);
@@ -128,7 +106,6 @@ class FooterHandler {
         this.mView.findViewById(R.id.map).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("intent", "intent map");
                 Intent intent = new Intent (mContext, MapActivity.class);
                 mContext.startActivity(intent);
             }

@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 
+import android.provider.ContactsContract;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.app.ActivityCompat;
 
@@ -144,7 +145,7 @@ class AddMoodController{
         }
     }
 
-    private void preFill(Mood mood) {
+    public void preFill(Mood mood) {
         this.mood = mood;
 
         // http://stackoverflow.com/questions/2390102/how-to-set-selected-item-of-spinner-by-value-not-by-position
@@ -156,21 +157,29 @@ class AddMoodController{
         int position = adapter.getPosition(compareMood);
         this.spinner.setSelection(position);
 
-        if (!this.mood.getMoodMsg().equals(null)) {
+        try {
             this.editMoodMsg.setText(this.mood.getMoodMsg());
+        } catch (NullPointerException e) {
+            e.printStackTrace();
         }
 
-        if (!this.mood.getLocation().equals(null)) {
+        try {
             this.editLocation.setText(this.mood.getLocation());
+        } catch (NullPointerException e) {
+            e.printStackTrace();
         }
 
-        if (!this.mood.getSocialSit().equals(null)) {
+        try {
             this.editSocialSit.setText(this.mood.getSocialSit());
+        } catch (NullPointerException e) {
+            e.printStackTrace();
         }
 
-        if (!this.mood.getDate().equals(null)) {
+        try {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             this.editDate.setText(dateFormat.format(this.mood.getDate()));
+        } catch (NullPointerException e) {
+            e.printStackTrace();
         }
     }
 

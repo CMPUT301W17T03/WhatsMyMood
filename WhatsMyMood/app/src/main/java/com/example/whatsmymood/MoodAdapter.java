@@ -59,7 +59,7 @@ class MoodAdapter extends ArrayAdapter<Mood> {
         LayoutInflater moodInflator = LayoutInflater.from(getContext());
         View customView = moodInflator.inflate(R.layout.mood_adapter, parent, false);
 
-        Mood mood = getItem(position);
+        final Mood mood = getItem(position);
         TextView authorText = (TextView) customView.findViewById(R.id.author);
         TextView moodTypeText = (TextView) customView.findViewById(R.id.mood);
         TextView moodMessageText = (TextView) customView.findViewById(R.id.moodMessage);
@@ -89,6 +89,7 @@ class MoodAdapter extends ArrayAdapter<Mood> {
                     dialog.setContentView(R.layout.add_mood_popup);
                     if (!dialog.isShowing()) {
                         moodController = new AddMoodController(mContext, dialog);
+                        moodController.preFill(mood);
                         dialog.show();
                     } else {
                         dialog.dismiss();
