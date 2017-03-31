@@ -10,12 +10,14 @@ import android.graphics.Color;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -40,27 +42,29 @@ class AddMoodController{
     // Variable for camera permission checks
     private int cameraPermissionCheck;
 
-    // Interface
     private static ImageButton photoButton;
 
     private final Dialog dialog;
     private final Context context;
 
-
     private String moodType;
-
     private String moodAuthor;
-
-    // Set to null because they are not mandatory
     private String moodMsg = null;
     private String location = null;
     private String socialSit = null;
-
     private Date date;
 
     // TODO: Make this nonstatic
     private static String mPhoto;
 
+    // Dialog Layouts
+    private Spinner spinner;
+    private EditText editMoodMsg;
+    private EditText editLocation;
+    private EditText editSocialSit;
+    private EditText editDate;
+
+    private Mood mood;
 
     /**
      * Passes the dialog and context
@@ -73,8 +77,13 @@ class AddMoodController{
         this.dialog = mDialog;
         this.context = mContext;
 
-        // Get Access to the Camera
+        this.spinner = (Spinner) this.dialog.findViewById(R.id.select_mood);
+        this.editMoodMsg = (EditText) this.dialog.findViewById(R.id.enter_description);
+        this.editLocation = (EditText) this.dialog.findViewById(R.id.enter_location);
+        this.editSocialSit = (EditText) this.dialog.findViewById(R.id.enter_tags);
+        this.editDate = (EditText) this.dialog.findViewById(R.id.enter_date);
 
+        // Get Access to the Camera
         photoButton = (ImageButton) dialog.findViewById(R.id.load_picture);
 
         photoButton.setOnClickListener(new View.OnClickListener() {
@@ -94,7 +103,6 @@ class AddMoodController{
         });
 
         // Sets the mood on post button click
-
         Button post = (Button) dialog.findViewById(R.id.post);
 
         post.setOnClickListener(new View.OnClickListener() {
@@ -116,7 +124,6 @@ class AddMoodController{
         });
     }
 
-
     public static void processResult(int requestCode, int resultCode, Intent intent) {
         if (requestCode == CAPTURE_IMAGE_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
@@ -135,6 +142,36 @@ class AddMoodController{
         }
     }
 
+    private void preFill(Mood mood) {
+        this.mood = mood;
+
+        // http://stackoverflow.com/questions/2390102/how-to-set-selected-item-of-spinner-by-value-not-by-position
+        // March 30th, 2017
+        String compareMood = this.mood.getMoodType();
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this.context, R.array.mood_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        this.spinner.setAdapter(adapter);
+        int position = adapter.getPosition(compareMood);
+        this.spinner.setSelection(position);
+
+        if (!this.mood.getMoodMsg().equals(null)) {
+            this.editMoodMsg.setText(this.mood.getMoodMsg());
+        }
+
+        if (!this.mood.getLocation().equals(null)) {
+            this.editLocation.setText(this.mood.getLocation());
+        }
+
+        if (!this.mood.getSocialSit().equals(null)) {
+            this.editSocialSit.setText(this.mood.getSocialSit());
+        }
+
+        if (!this.mood.getDate().equals(null)) {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            this.editDate.setText(dateFormat.format(this.mood.getDate()));
+        }
+    }
+
     /**
      * Main controller actions
      * Takes each input and converts it into
@@ -143,47 +180,31 @@ class AddMoodController{
      */
     private Mood getMood() {
 
-        Spinner spinner = (Spinner) this.dialog.findViewById(R.id.select_mood);
-
         if (!spinner.getSelectedItem().toString().equals("Select a mood")) {
             this.moodType = spinner.getSelectedItem().toString();
         } else {
-            // Set to TRUE if they have no selected an entry
             SELECT_MOOD_INVALID = true;
         }
 
-        EditText msg = (EditText) this.dialog.findViewById(R.id.enter_description);
-
-        if (!msg.getText().toString().isEmpty()) {
-            this.moodMsg = msg.getText().toString();
+        if (!editMoodMsg.getText().toString().isEmpty()) {
+            this.moodMsg = editMoodMsg.getText().toString();
         }
 
-        // TODO: Make this an actual location
-        // TODO: Handle exception where user does not input a location/invalid locations
-        EditText location = (EditText) this.dialog.findViewById(R.id.enter_location);
-
-        if (!location.getText().toString().isEmpty()) {
-            this.location = location.getText().toString();
+        if (!editLocation.getText().toString().isEmpty()) {
+            this.location = editLocation.getText().toString();
         }
 
-        EditText socialSit = (EditText) this.dialog.findViewById(R.id.enter_tags);
-
-        if (!socialSit.getText().toString().isEmpty()) {
-            this.socialSit = socialSit.getText().toString();
+        if (!editSocialSit.getText().toString().isEmpty()) {
+            this.socialSit = editSocialSit.getText().toString();
         }
 
-        EditText date = (EditText) this.dialog.findViewById(R.id.enter_date);
-
-        // Checks if the date is empty
-        // and parses the date to make sure
-        // the date format is correct
-        if (!date.getText().toString().isEmpty()) {
-
+        // Checks if the date is empty and if the format is correct
+        if (!editDate.getText().toString().isEmpty()) {
             SimpleDateFormat check = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
             check.setLenient(false);
 
             try {
-                this.date = check.parse(date.getText().toString());
+                this.date = check.parse(editDate.getText().toString());
             } catch(ParseException e) {
                 e.printStackTrace();
                 DATE_INVALID = true;
@@ -191,29 +212,21 @@ class AddMoodController{
         }
 
         if (SELECT_MOOD_INVALID) {
-
-            // TODO: Find a better way to output the error
             TextView textview = (TextView) spinner.getSelectedView();
             textview.setError("");
-            textview.setTextColor(Color.RED);//just to highlight that this is an error
+            textview.setTextColor(Color.RED);
             textview.setText(R.string.invalid_mood);
 
-            // TODO: Handle invalid mood properly
-            // SELECT_MOOD_INVALID is always set to true unless we manually set it to false
             SELECT_MOOD_INVALID = false;
+
         } else if (DATE_INVALID) {
-
-            date.setError("Invalid Date Inputted (yyyy-MM-DD)");
-
-            // TODO: Handle invalid date properly
-            // DATE_INVALID is always set to true unless we manually set it to false
+            editDate.setError("Invalid Date Inputted (yyyy-MM-DD)");
             DATE_INVALID = false;
 
-            // Makes the mood if there are no errors
         } else {
-
             return makeMood();
         }
+
         return null;
     }
 
@@ -224,7 +237,6 @@ class AddMoodController{
      * @return Returns a mood object
      */
     private Mood makeMood() {
-        Mood mood;
 
         // If the date is null, automatically set the date to the current date
         if (this.date == null) {
