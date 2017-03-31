@@ -1,5 +1,6 @@
 package com.example.whatsmymood;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.DrawableRes;
@@ -8,7 +9,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.text.DateFormat;
@@ -23,6 +26,10 @@ import java.util.Date;
  * be adapted
  */
 class MoodAdapter extends ArrayAdapter<Mood> {
+    private AddMoodController moodController;
+    private Dialog dialog;
+    private Context mContext;
+
     /**
      * Instantiates a new Mood adapter.
      *
@@ -31,6 +38,7 @@ class MoodAdapter extends ArrayAdapter<Mood> {
      */
     public MoodAdapter(ArrayList<Mood> moods, Context context) {
         super(context, R.layout.mood_adapter, moods);
+        this.mContext = context;
     }
 
     /**
@@ -53,11 +61,12 @@ class MoodAdapter extends ArrayAdapter<Mood> {
         TextView moodMessageText = (TextView) customView.findViewById(R.id.moodMessage);
         TextView socialSituationText = (TextView) customView.findViewById(R.id.moodSocialSituation);
         TextView dateText = (TextView) customView.findViewById(R.id.moodDate);
-        ImageView emoticon = (ImageView) customView.findViewById(R.id.moodEmoticon);
-        ImageView image = (ImageView) customView.findViewById(R.id.moodImage);
 
-        emoticon.setImageResource(R.drawable.def_emoticon);
-        image.setImageResource(R.drawable.def_pic_vert);
+        //ImageView emoticon = (ImageView) customView.findViewById(R.id.moodEmoticon);
+        //ImageView image = (ImageView) customView.findViewById(R.id.moodImage);
+
+        //emoticon.setImageResource(R.drawable.def_emoticon);
+        //image.setImageResource(R.drawable.def_pic_vert);
 
         authorText.setText(mood.getMoodAuthor());
         moodTypeText.setText(mood.getMoodType());
@@ -66,6 +75,23 @@ class MoodAdapter extends ArrayAdapter<Mood> {
         Date date = mood.getDate();
         dateText.setText(DateFormat.getDateTimeInstance(
                 DateFormat.MEDIUM, DateFormat.SHORT).format(mood.getDate()));
+
+
+        RelativeLayout moodClick = (RelativeLayout) customView.findViewById(R.id.edit_mood);
+
+        moodClick.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog = new Dialog(mContext);
+                dialog.setContentView(R.layout.add_mood_popup);
+                if(!dialog.isShowing()) {
+                    moodController = new AddMoodController(mContext,dialog);
+                    dialog.show();
+                }else{
+                    dialog.dismiss();
+                }
+            }
+        });
 
         return customView;
     }

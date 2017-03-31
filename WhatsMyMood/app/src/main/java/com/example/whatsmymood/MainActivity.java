@@ -3,6 +3,7 @@ package com.example.whatsmymood;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -25,12 +26,19 @@ public class MainActivity extends AppCompatActivity {
 
     private ArrayList<Mood> moods;
 
+    private ArrayAdapter<Mood> moodAdapter;
+    private ListView moodListView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_main);
+
         footer = (LinearLayout)findViewById(R.id.footer);
+        FooterHandler handler = new FooterHandler(this, footer);
+
+        fetchData();
+        setAdapters();
     }
 
     /**
@@ -42,10 +50,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        FooterHandler handler = new FooterHandler(this, footer);
-
         fetchData();
-        setAdapters();
+        ((ArrayAdapter) moodListView.getAdapter()).notifyDataSetChanged();
     }
 
     @Override
@@ -55,12 +61,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setAdapters() {
-        ArrayAdapter<Mood> moodAdapter = new MoodAdapter(moods,this);
+        this.moodAdapter = new MoodAdapter(moods,this);
 
         // Sets the adapter
-        ListView moodListView = (ListView) findViewById(R.id.moodListView);
-
-        moodListView.setAdapter(moodAdapter);
+        this.moodListView = (ListView) findViewById(R.id.moodListView);
+        this.moodListView.setAdapter(this.moodAdapter);
     }
 
     /**

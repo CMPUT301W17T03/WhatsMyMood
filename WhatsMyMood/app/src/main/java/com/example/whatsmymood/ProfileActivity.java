@@ -20,11 +20,12 @@ import java.util.concurrent.ExecutionException;
  */
 public class ProfileActivity extends AppCompatActivity {
     private final CurrentUser current = CurrentUser.getInstance();
+    private UserAccount user;
 
     private LinearLayout footer;
     private FooterHandler handler;
 
-    private ArrayList<Mood>  moods;
+    private ArrayList<Mood> moods;
     private MoodList moodList;
 
     @Override
@@ -33,15 +34,24 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
 
         footer = (LinearLayout)findViewById(R.id.footer);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
         FooterHandler handler = new FooterHandler(this, footer);
 
-        fetchData();
+        user = current.getCurrentUser();
+        moodList = user.getMoodList();
+        moods = new ArrayList<>();
+
+        for(int i = 0; i < moodList.getSize(); i++) {
+            moods.add(moodList.get(i));
+        }
+
+        Collections.sort(moods, new Comparator<Mood>()
+        {
+            public int compare(Mood mood1, Mood mood2) {
+                return mood2.getDate().compareTo(mood1.getDate());
+            }
+        });
+
+        //fetchData();
         setAdapters();
     }
 
@@ -58,6 +68,7 @@ public class ProfileActivity extends AppCompatActivity {
      * Fetches all moods of the current user and adds them
      * to an ArrayList to be displayed
      */
+    /*
     private void fetchData() {
 
         ElasticSearchUserController.GetUserTask getUserTask = new ElasticSearchUserController.GetUserTask();
@@ -85,4 +96,5 @@ public class ProfileActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+    */
 }
