@@ -120,6 +120,36 @@ public class AddLocationActivity extends AppCompatActivity
 
         // Get the current location of the device and set the position of the map.
         getDeviceLocation();
+
+        setCurrentLocation();
+    }
+
+    private void setCurrentLocation() {
+        if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
+                android.Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            mLocationPermissionGranted = true;
+        } else {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+        }
+
+        if (mLocationPermissionGranted) {
+            mLastKnownLocation = LocationServices.FusedLocationApi
+                    .getLastLocation(mGoogleApiClient);
+            if (mLastKnownLocation != null){
+                inputLocation = new LatLng(mLastKnownLocation.getLatitude(),
+                        mLastKnownLocation.getLongitude());
+
+                inputLocationMarker = mMap.addMarker(new MarkerOptions()
+                        .position(inputLocation)
+                        .title("Location to add"));
+                Log.d("Add Marker", String.valueOf(mLastKnownLocation));
+
+            }
+
+        }
     }
 
     private void getDeviceLocation() {
