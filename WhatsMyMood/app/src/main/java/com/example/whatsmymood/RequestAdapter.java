@@ -49,7 +49,7 @@ public class RequestAdapter extends ArrayAdapter<String> {
 
         LayoutInflater requestsInflator = LayoutInflater.from(getContext());
         View customView = requestsInflator.inflate(R.layout.request_adapter, parent, false);
-
+;
         Button acceptButton = (Button) customView.findViewById(R.id.acceptButton);
         Button declineButton = (Button) customView.findViewById(R.id.declineButton);
 

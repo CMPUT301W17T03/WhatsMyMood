@@ -97,4 +97,23 @@ public class ProfileActivity extends AppCompatActivity {
         }
     }
     */
+
+    /*
+
+        RelativeLayout moodClick = (RelativeLayout) customView.findViewById(R.id.edit_mood);
+
+        moodClick.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog = new Dialog(mContext);
+                dialog.setContentView(R.layout.add_mood_popup);
+                if(!dialog.isShowing()) {
+                    moodController = new AddMoodController(mContext,dialog);
+                    dialog.show();
+                }else{
+                    dialog.dismiss();
+                }
+            }
+        });
+     */
 }

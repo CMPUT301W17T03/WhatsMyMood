@@ -1,7 +1,9 @@
 package com.example.whatsmymood;
 
+import android.app.ActivityManager;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
@@ -13,10 +15,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * The type Mood adapter.
@@ -76,22 +80,22 @@ class MoodAdapter extends ArrayAdapter<Mood> {
         dateText.setText(DateFormat.getDateTimeInstance(
                 DateFormat.MEDIUM, DateFormat.SHORT).format(mood.getDate()));
 
-
-        RelativeLayout moodClick = (RelativeLayout) customView.findViewById(R.id.edit_mood);
-
-        moodClick.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog = new Dialog(mContext);
-                dialog.setContentView(R.layout.add_mood_popup);
-                if(!dialog.isShowing()) {
-                    moodController = new AddMoodController(mContext,dialog);
-                    dialog.show();
-                }else{
-                    dialog.dismiss();
+        if (this.mContext instanceof ProfileActivity) {
+            RelativeLayout moodClick = (RelativeLayout) customView.findViewById(R.id.edit_mood);
+            moodClick.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog = new Dialog(mContext);
+                    dialog.setContentView(R.layout.add_mood_popup);
+                    if (!dialog.isShowing()) {
+                        moodController = new AddMoodController(mContext, dialog);
+                        dialog.show();
+                    } else {
+                        dialog.dismiss();
+                    }
                 }
-            }
-        });
+            });
+        }
 
         return customView;
     }
