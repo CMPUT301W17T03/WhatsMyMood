@@ -65,6 +65,7 @@
             android:name=".FollowHubActivity"
             android:label="@string/title_activity_follow_hub"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
+        <activity android:name=".AddLocationActivity"></activity>
     </application>
 
 </manifest>

@@ -129,7 +129,7 @@ class FooterHandler {
             @Override
             public void onClick(View view) {
                 Log.d("intent", "intent map");
-                Intent intent = new Intent (mContext, MapActivity.class);
+                Intent intent = new Intent (mContext, AddLocationActivity.class);
                 mContext.startActivity(intent);
             }
         });
