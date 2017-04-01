@@ -52,6 +52,11 @@
         <item>Shame</item>
         <item>Surprise</item>
     </string-array>
+
+    <!-- Mood Functions -->
+    <string name="edit_mood">Edit Mood</string>
+    <string name="delete_mood">Delete Mood</string>
+
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_follow_hub">FollowHubActivity</string>
     <string name="action_settings">Settings</string>

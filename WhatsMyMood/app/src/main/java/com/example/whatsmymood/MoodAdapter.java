@@ -3,10 +3,15 @@ package com.example.whatsmymood;
 import android.app.Dialog;
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
+import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -74,6 +79,7 @@ class MoodAdapter extends ArrayAdapter<Mood> {
 
 
         if (this.mContext instanceof ProfileActivity) {
+            /*
             RelativeLayout moodClick = (RelativeLayout) customView.findViewById(R.id.edit_mood);
             moodClick.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -87,6 +93,38 @@ class MoodAdapter extends ArrayAdapter<Mood> {
                     } else {
                         dialog.dismiss();
                     }
+                }
+            });
+            */
+
+            final ImageButton moodButton = (ImageButton) customView.findViewById(R.id.mood_functions);
+            moodButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    PopupMenu popup = new PopupMenu(getContext(), moodButton);
+                    popup.getMenuInflater()
+                            .inflate(R.menu.mood_functions, popup.getMenu());
+                    popup.show();
+
+                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem item) {
+                            switch (item.getItemId()) {
+                                case R.id.edit_mood:
+                                    dialog = new Dialog(mContext);
+                                    dialog.setContentView(R.layout.add_mood_popup);
+                                    if (!dialog.isShowing()) {
+                                        moodController = new AddMoodController(mContext, dialog);
+                                        moodController.preFill(mood);
+                                        dialog.show();
+                                    } else {
+                                        dialog.dismiss();
+                                    }
+                            }
+                            return true;
+                        }
+                    });
+
                 }
             });
         }
