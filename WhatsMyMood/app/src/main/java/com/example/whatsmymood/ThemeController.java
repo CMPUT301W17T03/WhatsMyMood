@@ -25,41 +25,34 @@ public class ThemeController {
     private final static String SHAME_THEME = "Shame";
     private final static String SURPRISE_THEME = "Surprise";
 
-    public static void restartActivity(Activity activity){
-        //activity.finish();
-        //activity.startActivity(new Intent(activity, activity.getClass()));
-    }
-
     public static void onActivityStartSetTheme(Activity activity, String moodType){
         switch(moodType){
             case HAPPY_THEME:
                 activity.setTheme(R.style.HappyTheme);
-                restartActivity(activity);
                 break;
             case SAD_THEME:
-                restartActivity(activity);
+                activity.setTheme(R.style.SadTheme);
                 break;
             case ANGRY_THEME:
-                restartActivity(activity);
+                activity.setTheme(R.style.AngerTheme);
                 break;
             case CONFUSED_THEME:
-                restartActivity(activity);
+                activity.setTheme(R.style.ConfusedTheme);
                 break;
             case DISGUST_THEME:
-                restartActivity(activity);
+                activity.setTheme(R.style.DisgustedTheme);
                 break;
             case SCARED_THEME:
-                restartActivity(activity);
+                activity.setTheme(R.style.ScaredTheme);
                 break;
             case SHAME_THEME:
-                restartActivity(activity);
+                activity.setTheme(R.style.ShameTheme);
                 break;
             case SURPRISE_THEME:
-                restartActivity(activity);
+                activity.setTheme(R.style.SurprisedTheme);
                 break;
             default:
                 activity.setTheme(R.style.DefaultTheme);
-                restartActivity(activity);
                 break;
         }
     }

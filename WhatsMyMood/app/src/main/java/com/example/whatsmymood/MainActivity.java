@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ThemeController.onActivityStartSetTheme(this, current.getCurrentUser().getMoodList().getRecentMood().getMoodType());
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
@@ -42,8 +43,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         FooterHandler handler = new FooterHandler(this, footer);
-
-        ThemeController.onActivityStartSetTheme(this, current.getCurrentUser().getMoodList().getRecentMood().getMoodType());
 
         fetchData();
         setAdapters();

@@ -34,6 +34,7 @@ public class FollowHubActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ThemeController.onActivityStartSetTheme(this, current.getCurrentUser().getMoodList().getRecentMood().getMoodType());
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_follow_hub);

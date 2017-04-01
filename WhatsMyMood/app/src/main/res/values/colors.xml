@@ -2,9 +2,13 @@
 <resources>
 
     <!-- Default Theme Colours -->
+    <!-- Sets the colour of the text for any given view - AKA Text we display -->
     <color name="defaultTextColor">#878585</color>
+    <!-- This is the text colour we type in large TextViews and enabled buttons -->
     <color name="defaultTextColorPrimary">#878585</color>
+    <!-- This is the text colour of the buttons Sign in and Create -->
     <color name="defaultTextColorTertiary">#878585</color>
+    <!-- This is the background colour for everything -->
     <color name="defaultWindowBackground">#FFFFFF</color>
 
     <!-- Happy Theme Colours -->
@@ -13,18 +17,48 @@
     <color name="happyTextColorTertiary">#878585</color>
     <color name="happyWindowBackground">#FFFF66</color>
 
+    <!-- Sad Theme Colours -->
+    <color name="sadTextColor">#878585</color>
+    <color name="sadTextColorPrimary">#878585</color>
+    <color name="sadTextColorTertiary">#878585</color>
+    <color name="sadWindowBackground">#3F51B5</color>
+
+    <!-- Anger Theme Colours -->
+    <!-- #B30000 -->
+    <color name="angerTextColor">#878585</color>
+    <color name="angerTextColorPrimary">#878585</color>
+    <color name="angerTextColorTertiary">#878585</color>
+    <color name="angerWindowBackground">#7F2221</color>
+
+    <!-- Confused Theme Colours -->
+    <color name="confusedTextColor">#878585</color>
+    <color name="confusedTextColorPrimary">#878585</color>
+    <color name="confusedTextColorTertiary">#878585</color>
+    <color name="confusedWindowBackground">#FF4500</color>
+
+    <!-- Disgusted Theme Colours -->
+    <color name="disgustedTextColor">#878585</color>
+    <color name="disgustedTextColorPrimary">#878585</color>
+    <color name="disgustedTextColorTertiary">#878585</color>
+    <color name="disgustedWindowBackground">#7E816E</color>
+
+    <!-- Scared Theme Colours -->
+    <color name="scaredTextColor">#878585</color>
+    <color name="scaredTextColorPrimary">#878585</color>
+    <color name="scaredTextColorTertiary">#878585</color>
+    <color name="scaredWindowBackground">#666699</color>
+
+    <!-- Shame Theme Colours -->
+    <color name="shameTextColor">#878585</color>
+    <color name="shameTextColorPrimary">#878585</color>
+    <color name="shameTextColorTertiary">#878585</color>
+    <color name="shameWindowBackground">#FF4081</color>
+
     <!-- Surprised Theme Colours -->
     <color name="surprisedTextColor">#878585</color>
     <color name="surprisedTextColorPrimary">#878585</color>
     <color name="surprisedTextColorTertiary">#878585</color>
     <color name="surprisedWindowBackground">#80FFE5</color>
-
-    <!-- Anger Theme Colours -->
-    <color name="angerTextColor">#FFFFFF</color>
-    <color name="angerTextColorPrimary">#FFFFFF</color>
-    <color name="angerTextColorTertiary">#FFFFFF</color>
-    <color name="angerWindowBackground">#B30000</color>
-
 
     <!-- Messing Around -->
     <color name="colorPrimary">#3F51B5</color>
