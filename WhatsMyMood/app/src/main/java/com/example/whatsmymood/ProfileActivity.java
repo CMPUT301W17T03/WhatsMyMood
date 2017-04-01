@@ -18,6 +18,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ThemeController.setThemeForRecentMood(this, current.getCurrentUser().getMoodList().getRecentMood().getMoodType());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 

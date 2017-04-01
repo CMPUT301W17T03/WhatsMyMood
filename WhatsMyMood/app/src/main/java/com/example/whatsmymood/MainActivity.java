@@ -3,6 +3,7 @@ package com.example.whatsmymood;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -30,8 +31,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.i("meep", "Main - onCreate");
+        ThemeController.setThemeForRecentMood(this, current.getCurrentUser().getMoodList().getRecentMood().getMoodType());
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_main);
 
         footer = (LinearLayout)findViewById(R.id.footer);
@@ -48,6 +50,8 @@ public class MainActivity extends AppCompatActivity {
      */
     @Override
     protected void onStart() {
+        Log.i("meep", "Main - onStart");
+        //ThemeController.setThemeForRecentMood(this, current.getCurrentUser().getMoodList().getRecentMood().getMoodType());
         super.onStart();
 
         fetchData();
