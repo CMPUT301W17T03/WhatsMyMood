@@ -15,7 +15,7 @@
     <color name="happyTextColor">#878585</color>
     <color name="happyTextColorPrimary">#878585</color>
     <color name="happyTextColorTertiary">#878585</color>
-    <color name="happyWindowBackground">#FFFF66</color>
+    <color name="happyWindowBackground">#FFFF67</color>
 
     <!-- Sad Theme Colours -->
     <color name="sadTextColor">#878585</color>
