@@ -3,6 +3,7 @@ package com.example.whatsmymood;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
@@ -70,6 +72,17 @@ class MoodAdapter extends ArrayAdapter<Mood> {
 
         //emoticon.setImageResource(R.drawable.def_emoticon);
         //image.setImageResource(R.drawable.def_pic_vert);
+
+        ImageView viewLocationButton = (ImageView) customView.findViewById(R.id.locationButton);
+        viewLocationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext,MapActivity.class);
+                intent.putExtra("Lat",mood.getLocation().latitude);
+                intent.putExtra("Lng",mood.getLocation().longitude);
+                mContext.startActivity(intent);
+            }
+        });
 
         authorText.setText(mood.getMoodAuthor());
         moodTypeText.setText(mood.getMoodType());

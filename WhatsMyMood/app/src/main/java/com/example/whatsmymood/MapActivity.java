@@ -1,5 +1,6 @@
 package com.example.whatsmymood;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -87,6 +88,7 @@ public class MapActivity extends AppCompatActivity
     @Override
     public void onMapReady(GoogleMap map) {
         mMap = map;
+        Intent intent = getIntent();
 
         // Do other setup activities here too, as described elsewhere in this tutorial.
 
@@ -98,7 +100,18 @@ public class MapActivity extends AppCompatActivity
         //mMap.addMarker(new MarkerOptions().position(mDefaultLocation)
         //        .title("Default Location Marker"));
         //mMap.moveCamera(CameraUpdateFactory.newLatLng(mDefaultLocation));
-        setMarker();
+
+        try {
+            LatLng moodLocation = new LatLng((Double) intent.getExtras().get("Lat"),
+                    (Double)intent.getExtras().get("Lng"));
+            mMap.addMarker(new MarkerOptions().position(moodLocation)
+                    .title("Mood Marker"));
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(moodLocation));
+            Log.d("Mood Maker", "Added mood marker");
+        } catch (Exception e) {
+            Log.d("Exception", "Nothing in intent, adding markers");
+            setMarker();
+        }
     }
 
     private void setMarker() {
