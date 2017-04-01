@@ -47,7 +47,6 @@ class AddMoodController{
     private static final int PERMISSIONS_REQUEST_ACCESS_CAMERA = 1;
 
     // Activity Result Codes
-    private static final int LOCATION_ACTIVITY_RESULT_CODE = 3;
     private static final int CAPTURE_IMAGE_REQUEST_CODE = 4;
     private static final int RESULT_OK = -1;
 
@@ -179,8 +178,6 @@ class AddMoodController{
                 Intent intent = new Intent(context,AddLocationActivity.class);
 
                 ((Activity) context).startActivityForResult(intent,GET_LOCATION_REQUEST_CODE);
-
-                ((Activity) context).startActivityForResult(intent, LOCATION_ACTIVITY_RESULT_CODE);
 
             }
         });
