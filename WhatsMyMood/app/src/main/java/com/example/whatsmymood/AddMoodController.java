@@ -10,14 +10,18 @@ import android.graphics.Color;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Locale;
 
@@ -43,15 +47,13 @@ class AddMoodController{
     // Interface
     private static ImageButton photoButton;
 
-    private final Dialog dialog;
-    private final Context mContext;
 
+    private Dialog dialog;
+    private Context mContext;
 
     private String moodType;
-
     private String moodAuthor;
 
-    // Set to null because they are not mandatory
     private String moodMsg = null;
     private String location = null;
     private String socialSit = null;
@@ -62,6 +64,16 @@ class AddMoodController{
     private static String mPhoto;
 
 
+    // Dialog Layouts
+    private Spinner spinner;
+    private EditText editMoodMsg;
+    private EditText editSocialSit;
+    private EditText editDate;
+
+    private Mood mood;
+    private Boolean EDIT_MOOD;
+    private CurrentUser current;
+
     /**
      * Passes the dialog and context
      * Sets up the click functionality for
@@ -69,9 +81,17 @@ class AddMoodController{
      * @param context Base context of the activity from main
      * @param mDialog Dialog created in footer handler
      */
+
+
     public AddMoodController(Context context, Dialog mDialog) {
+
         this.dialog = mDialog;
         this.mContext = context;
+
+        this.spinner = (Spinner) this.dialog.findViewById(R.id.select_mood);
+        this.editMoodMsg = (EditText) this.dialog.findViewById(R.id.enter_description);
+        this.editSocialSit = (EditText) this.dialog.findViewById(R.id.enter_tags);
+        this.editDate = (EditText) this.dialog.findViewById(R.id.enter_date);
 
         // Get Access to the Camera
 
@@ -96,10 +116,12 @@ class AddMoodController{
         // Sets the mood on post button click
 
         Button post = (Button) dialog.findViewById(R.id.post);
-
+        final Context ctxt = context;
         post.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
+
                 CurrentUser current = CurrentUser.getInstance();
                 moodAuthor = CurrentUser.getInstance().getCurrentUser().getUsername();
                 UserAccount user = current.getCurrentUser();
@@ -113,6 +135,76 @@ class AddMoodController{
 
                     dialog.dismiss();
                 }
+                        /*
+
+
+
+                Mood mood = getMood();
+
+                if (!EDIT_MOOD) {
+                    if (mood != null) {
+                        user.moodList.addMood(mood);
+                        */
+
+
+                if (m != null) {
+                    user.moodList.addMood(getMood());
+
+
+                    Collections.sort(user.getMoodList().getMoodList(), new Comparator<Mood>() {
+                        public int compare(Mood mood1, Mood mood2) {
+                            return mood2.getDate().compareTo(mood1.getDate());
+                        }
+                    });
+
+
+
+                    ListView moodListView = (ListView) ((Activity) ctxt).findViewById(R.id.moodListView);
+                    ((ArrayAdapter) moodListView.getAdapter()).notifyDataSetChanged();
+
+                    ElasticSearchUserController.UpdateUser updateUser = new ElasticSearchUserController.UpdateUser();
+                    updateUser.execute(user);
+
+                    dialog.dismiss();
+                }
+                else {
+                    if (mood != null) {
+                        EDIT_MOOD = false;
+
+                        /**
+                         * Left this to be optional to add in
+                         * I personally did not add this to the edit mood functionality
+                         * because I don't want a user to edit a date and then have it disappear
+                         * only for them to find it at the bottom of the list if they set the date
+                         * to be far back
+                        Collections.sort(user.getMoodList().getMoodList(), new Comparator<Mood>()
+                        {
+                            public int compare(Mood mood1, Mood mood2) {
+                                return mood2.getDate().compareTo(mood1.getDate());
+                            }
+                        });
+                        */
+
+                        ListView moodListView = (ListView) ((ProfileActivity) ctxt).findViewById(R.id.moodListView);
+                        ((ArrayAdapter) moodListView.getAdapter()).notifyDataSetChanged();
+
+                        ElasticSearchUserController.UpdateUser updateUser = new ElasticSearchUserController.UpdateUser();
+                        updateUser.execute(user);
+
+                        dialog.dismiss();
+                    }
+                }
+
+            }
+        });
+
+        Button addLocation = (Button) dialog.findViewById(R.id.enter_location);
+
+        addLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Intent intent = new Intent(ctxt, AddLocationActivity.class);
+                //((Activity) ctxt).startActivityForResult(intent, LOCATION_ACTIVITY_RESULT_CODE);
 
             }
         });
@@ -134,6 +226,43 @@ class AddMoodController{
 
                 mPhoto = photoController.encodePhoto(photo);
             }
+        }
+    }
+
+    public void preFill(Mood mood) {
+        EDIT_MOOD = true;
+
+        // Gets the mood for updating
+        UserAccount user = current.getCurrentUser();
+        int index = user.getMoodList().getIndex(mood);
+        this.mood = current.getCurrentUser().getMoodList().get(index);
+
+        // http://stackoverflow.com/questions/2390102/how-to-set-selected-item-of-spinner-by-value-not-by-position
+        // March 30th, 2017
+        String compareMood = this.mood.getMoodType();
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this.mContext, R.array.mood_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        this.spinner.setAdapter(adapter);
+        int position = adapter.getPosition(compareMood);
+        this.spinner.setSelection(position);
+
+        try {
+            this.editMoodMsg.setText(this.mood.getMoodMsg());
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            this.editSocialSit.setText(this.mood.getSocialSit());
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+            this.editDate.setText(dateFormat.format(this.mood.getDate()));
+        } catch (NullPointerException e) {
+            e.printStackTrace();
         }
     }
 
@@ -162,7 +291,7 @@ class AddMoodController{
 
         // TODO: Make this an actual location
         // TODO: Handle exception where user does not input a location/invalid locations
-        EditText location = (EditText) this.dialog.findViewById(R.id.enter_location);
+        Button location = (Button) this.dialog.findViewById(R.id.enter_location);
 
         if (!location.getText().toString().isEmpty()) {
             this.location = location.getText().toString();

@@ -39,7 +39,7 @@
         android:weightSum="1"
         android:gravity="end">
 
-        <EditText
+        <Button
             android:id="@+id/enter_location"
             android:layout_width="0dp"
             android:layout_height="20dp"

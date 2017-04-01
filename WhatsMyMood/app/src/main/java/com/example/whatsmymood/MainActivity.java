@@ -44,8 +44,10 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
         FooterHandler handler = new FooterHandler(this, footer);
 
-        fetchData();
-        setAdapters();
+
+        //fetchData(); //crashes?
+        //((ArrayAdapter) moodListView.getAdapter()).notifyDataSetChanged();
+
     }
 
     @Override

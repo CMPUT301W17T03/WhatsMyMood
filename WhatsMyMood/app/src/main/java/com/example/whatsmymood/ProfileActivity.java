@@ -36,12 +36,17 @@ public class ProfileActivity extends AppCompatActivity {
         footer = (LinearLayout)findViewById(R.id.footer);
     }
 
+<<<<<<< Updated upstream
     @Override
     protected void onStart() {
         super.onStart();
 
         FooterHandler handler = new FooterHandler(this, footer);
         fetchData();
+=======
+        //fetchData();
+
+>>>>>>> Stashed changes
         setAdapters();
     }
 
