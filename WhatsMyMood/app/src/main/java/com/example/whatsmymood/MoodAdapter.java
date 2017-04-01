@@ -1,26 +1,18 @@
 package com.example.whatsmymood;
 
-import android.app.ActivityManager;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 /**
  * The type Mood adapter.
@@ -32,7 +24,7 @@ import java.util.List;
 class MoodAdapter extends ArrayAdapter<Mood> {
     private AddMoodController moodController;
     private Dialog dialog;
-    private Context mContext;
+    private final Context mContext;
 
     /**
      * Instantiates a new Mood adapter.
@@ -79,6 +71,7 @@ class MoodAdapter extends ArrayAdapter<Mood> {
         Date date = mood.getDate();
         dateText.setText(DateFormat.getDateTimeInstance(
                 DateFormat.MEDIUM, DateFormat.SHORT).format(mood.getDate()));
+
 
         if (this.mContext instanceof ProfileActivity) {
             RelativeLayout moodClick = (RelativeLayout) customView.findViewById(R.id.edit_mood);

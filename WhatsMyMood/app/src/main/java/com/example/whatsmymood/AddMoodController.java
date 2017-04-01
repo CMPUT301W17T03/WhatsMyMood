@@ -7,14 +7,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-
-import android.provider.ContactsContract;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.app.ActivityCompat;
-
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.LayoutInflater;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -28,31 +22,31 @@ import com.google.android.gms.maps.model.LatLng;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
-
-import static java.security.AccessController.getContext;
 
 /**
  * Takes user input and converts it into a relevant mood
  */
 class AddMoodController{
-    private CurrentUser current = CurrentUser.getInstance();
-    private UserAccount user;
+    private final CurrentUser current = CurrentUser.getInstance();
+    private final UserAccount user = current.getCurrentUser();
+
+    private boolean EDIT_MOOD = false;
 
     // Invalid User Selections
     private boolean DATE_INVALID = false;
     private boolean SELECT_MOOD_INVALID = false;
-    private static final int SECOND_ACTIVITY_RESULT_CODE = 0;
-
-    private static final int RESULT_OK = -1;
 
     // Permissions for the camera
     private static final int PERMISSIONS_REQUEST_ACCESS_CAMERA = 1;
 
     // Activity Result Codes
-    private final static int CAPTURE_IMAGE_REQUEST_CODE = 2;
+    private static final int LOCATION_ACTIVITY_RESULT_CODE = 3;
+    private static final int CAPTURE_IMAGE_REQUEST_CODE = 4;
+    private static final int RESULT_OK = -1;
 
     // Variable for camera permission checks
     private int cameraPermissionCheck;
@@ -63,20 +57,20 @@ class AddMoodController{
     private final Context context;
 
     private String moodType;
-    private String moodAuthor;
+    private final String moodAuthor = user.getUsername();
     private String moodMsg = null;
     private LatLng location = null;
     private String socialSit = null;
     private Date date;
 
-    // TODO: Make this nonstatic
+    // TODO: Make this non-static
     private static String mPhoto;
 
     // Dialog Layouts
-    private Spinner spinner;
-    private EditText editMoodMsg;
-    private EditText editSocialSit;
-    private EditText editDate;
+    private final Spinner spinner;
+    private final EditText editMoodMsg;
+    private final EditText editSocialSit;
+    private final EditText editDate;
 
     private Mood mood;
 
@@ -121,13 +115,21 @@ class AddMoodController{
         post.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                moodAuthor = current.getCurrentUser().getUsername();
                 Mood mood = getMood();
 
-                if (!(context instanceof ProfileActivity)) {
-                    user = current.getCurrentUser();
+                if (!EDIT_MOOD) {
                     if (mood != null) {
                         user.moodList.addMood(mood);
+
+                        Collections.sort(user.getMoodList().getMoodList(), new Comparator<Mood>()
+                        {
+                            public int compare(Mood mood1, Mood mood2) {
+                                return mood2.getDate().compareTo(mood1.getDate());
+                            }
+                        });
+
+                        ListView moodListView = (ListView) ((Activity) context).findViewById(R.id.moodListView);
+                        ((ArrayAdapter) moodListView.getAdapter()).notifyDataSetChanged();
 
                         ElasticSearchUserController.UpdateUser updateUser = new ElasticSearchUserController.UpdateUser();
                         updateUser.execute(user);
@@ -137,6 +139,22 @@ class AddMoodController{
                 }
                 else {
                     if (mood != null) {
+                        EDIT_MOOD = false;
+
+                        /**
+                         * Left this to be optional to add in
+                         * I personally did not add this to the edit mood functionality
+                         * because I don't want a user to edit a date and then have it disappear
+                         * only for them to find it at the bottom of the list if they set the date
+                         * to be far back
+                        Collections.sort(user.getMoodList().getMoodList(), new Comparator<Mood>()
+                        {
+                            public int compare(Mood mood1, Mood mood2) {
+                                return mood2.getDate().compareTo(mood1.getDate());
+                            }
+                        });
+                        */
+
                         ListView moodListView = (ListView) ((ProfileActivity) context).findViewById(R.id.moodListView);
                         ((ArrayAdapter) moodListView.getAdapter()).notifyDataSetChanged();
 
@@ -155,7 +173,7 @@ class AddMoodController{
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context,AddLocationActivity.class);
-                ((Activity) context).startActivityForResult(intent,SECOND_ACTIVITY_RESULT_CODE);
+                ((Activity) context).startActivityForResult(intent, LOCATION_ACTIVITY_RESULT_CODE);
             }
         });
     }
@@ -179,8 +197,10 @@ class AddMoodController{
     }
 
     public void preFill(Mood mood) {
+        EDIT_MOOD = true;
+
         // Gets the mood for updating
-        this.user = current.getCurrentUser();
+        //this.user = current.getCurrentUser();
         int index = user.getMoodList().getIndex(mood);
         this.mood = current.getCurrentUser().getMoodList().get(index);
 
@@ -206,7 +226,7 @@ class AddMoodController{
         }
 
         try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
             this.editDate.setText(dateFormat.format(this.mood.getDate()));
         } catch (NullPointerException e) {
             e.printStackTrace();
@@ -270,14 +290,13 @@ class AddMoodController{
             DATE_INVALID = false;
 
         } else {
-            if (!(this.context instanceof ProfileActivity)) {
+            if (!EDIT_MOOD) {
                 return makeMood();
             }
             else {
                 return updateMood();
             }
         }
-
         return null;
     }
 
@@ -289,10 +308,9 @@ class AddMoodController{
      */
     private Mood makeMood() {
         if (this.date == null) {
-            Date newDate = new Date();
-            mood = new Mood(this.moodAuthor,this.moodType, newDate);
+            mood = new Mood(this.moodAuthor, this.moodType);
         } else {
-            mood = new Mood(this.moodAuthor,this.moodType, this.date);
+            mood = new Mood(this.moodAuthor, this.moodType, this.date);
         }
 
         mood.setMoodMsg(this.moodMsg);
@@ -308,7 +326,13 @@ class AddMoodController{
         mood.setMoodMsg(this.moodMsg);
         mood.setLocation(this.location);
         mood.setSocialSit(this.socialSit);
-        mood.setDate(this.date);
+
+        if (this.date == null) {
+            mood.setDate(new Date());
+        } else {
+            mood.setDate(this.date);
+        }
+
         mood.setPhoto(mPhoto);
 
         return mood;

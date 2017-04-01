@@ -21,8 +21,6 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import org.apache.commons.lang3.ObjectUtils;
-
 /**
  * An activity that displays a Google map with a marker (pin) to indicate a particular location.
  */
