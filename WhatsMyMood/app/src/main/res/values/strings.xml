@@ -36,7 +36,7 @@
     <string name="enter_location">No Location Added</string>
     <string name="enter_tag">Tag people you are with</string>
     <string name="enter_date">Enter the date</string>
-    <string name="invalid_mood">Inavlid Mood Selected</string>
+    <string name="invalid_mood">Invalid Mood Selected</string>
     <string name="upload_photo">Upload Photo</string>
     <string name="post">Post</string>
 
@@ -52,6 +52,11 @@
         <item>Shame</item>
         <item>Surprise</item>
     </string-array>
+
+    <!-- Mood Functions -->
+    <string name="edit_mood">Edit Mood</string>
+    <string name="delete_mood">Delete Mood</string>
+
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_follow_hub">FollowHubActivity</string>
     <string name="action_settings">Settings</string>

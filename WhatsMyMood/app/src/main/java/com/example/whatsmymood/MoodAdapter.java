@@ -1,26 +1,23 @@
 package com.example.whatsmymood;
 
-import android.app.ActivityManager;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ImageView;
+import android.widget.ImageButton;
+import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 /**
  * The type Mood adapter.
@@ -32,7 +29,7 @@ import java.util.List;
 class MoodAdapter extends ArrayAdapter<Mood> {
     private AddMoodController moodController;
     private Dialog dialog;
-    private Context mContext;
+    private final Context mContext;
 
     /**
      * Instantiates a new Mood adapter.
@@ -80,7 +77,9 @@ class MoodAdapter extends ArrayAdapter<Mood> {
         dateText.setText(DateFormat.getDateTimeInstance(
                 DateFormat.MEDIUM, DateFormat.SHORT).format(mood.getDate()));
 
+
         if (this.mContext instanceof ProfileActivity) {
+            /*
             RelativeLayout moodClick = (RelativeLayout) customView.findViewById(R.id.edit_mood);
             moodClick.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -94,6 +93,38 @@ class MoodAdapter extends ArrayAdapter<Mood> {
                     } else {
                         dialog.dismiss();
                     }
+                }
+            });
+            */
+
+            final ImageButton moodButton = (ImageButton) customView.findViewById(R.id.mood_functions);
+            moodButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    PopupMenu popup = new PopupMenu(getContext(), moodButton);
+                    popup.getMenuInflater()
+                            .inflate(R.menu.mood_functions, popup.getMenu());
+                    popup.show();
+
+                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem item) {
+                            switch (item.getItemId()) {
+                                case R.id.edit_mood:
+                                    dialog = new Dialog(mContext);
+                                    dialog.setContentView(R.layout.add_mood_popup);
+                                    if (!dialog.isShowing()) {
+                                        moodController = new AddMoodController(mContext, dialog);
+                                        moodController.preFill(mood);
+                                        dialog.show();
+                                    } else {
+                                        dialog.dismiss();
+                                    }
+                            }
+                            return true;
+                        }
+                    });
+
                 }
             });
         }
