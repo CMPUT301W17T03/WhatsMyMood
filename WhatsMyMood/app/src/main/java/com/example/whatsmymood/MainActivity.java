@@ -60,6 +60,8 @@ public class MainActivity extends AppCompatActivity {
         AddMoodController.processResult(requestCode, resultCode, intent);
     }
 
+
+
     private void setAdapters() {
         this.moodAdapter = new MoodAdapter(moods,this);
 

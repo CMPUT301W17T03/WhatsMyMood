@@ -48,7 +48,7 @@
             android:layout_marginTop="10dp"
             android:layout_weight="0.5"
             android:gravity="center"
-            android:hint="@string/enter_location"
+            android:text="@string/enter_location"
             android:textSize="12sp"
             android:textColorHint="@color/popup_text"
             android:background="@color/popup_background"/>

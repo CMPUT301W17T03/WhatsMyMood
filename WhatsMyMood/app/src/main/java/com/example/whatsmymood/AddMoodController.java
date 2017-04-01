@@ -44,7 +44,7 @@ class AddMoodController{
     // Invalid User Selections
     private boolean DATE_INVALID = false;
     private boolean SELECT_MOOD_INVALID = false;
-    private static final int SECOND_ACTIVITY_RESULT_CODE = 0;
+    private static final int GET_LOCATION_REQUEST_CODE = 0;
 
     private static final int RESULT_OK = -1;
 
@@ -58,6 +58,7 @@ class AddMoodController{
     private int cameraPermissionCheck;
 
     private static ImageButton photoButton;
+    private static Button addLocation;
 
     private final Dialog dialog;
     private final Context context;
@@ -65,7 +66,7 @@ class AddMoodController{
     private String moodType;
     private String moodAuthor;
     private String moodMsg = null;
-    private LatLng location = null;
+    private static LatLng location = null;
     private String socialSit = null;
     private Date date;
 
@@ -149,17 +150,17 @@ class AddMoodController{
             }
         });
 
-        Button addLocation = (Button) dialog.findViewById(R.id.enter_location);
+        addLocation = (Button) dialog.findViewById(R.id.enter_location);
 
         addLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context,AddLocationActivity.class);
-                ((Activity) context).startActivityForResult(intent,SECOND_ACTIVITY_RESULT_CODE);
+                ((Activity) context).startActivityForResult(intent,GET_LOCATION_REQUEST_CODE);
             }
         });
     }
-
+    // I removed the static here but don't know if it will break anything. Check this with nathan after
     public static void processResult(int requestCode, int resultCode, Intent intent) {
         if (requestCode == CAPTURE_IMAGE_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
@@ -176,7 +177,20 @@ class AddMoodController{
                 mPhoto = photoController.encodePhoto(photo);
             }
         }
+
+        if (requestCode == GET_LOCATION_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                double lat = (Double) intent.getExtras().get("Lat");
+                double lng = (Double) intent.getExtras().get("Lng");
+
+                location = new LatLng(lat,lng);
+                addLocation.setText("Location Added!");
+                Log.d("Add Location",location.toString());
+
+            }
+        }
     }
+
 
     public void preFill(Mood mood) {
         // Gets the mood for updating

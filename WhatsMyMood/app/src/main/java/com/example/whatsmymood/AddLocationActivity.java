@@ -89,6 +89,7 @@ public class AddLocationActivity extends AppCompatActivity
                     output.putExtra("Lat",inputLocation.latitude);
                     output.putExtra("Lng",inputLocation.longitude);
                     setResult(RESULT_OK, output);
+                    Log.d("Return", inputLocation.toString());
                     finish();
                 } else {
                     Toast.makeText(getApplicationContext(),
@@ -239,10 +240,10 @@ public class AddLocationActivity extends AppCompatActivity
         if(inputLocationMarker != null) {
             inputLocationMarker.remove();
         }
-        inputLocationMarker = mMap.addMarker(new MarkerOptions()
-                                    .position(location)
-                                    .title("Location to add"));
         inputLocation = location;
+        inputLocationMarker = mMap.addMarker(new MarkerOptions()
+                                    .position(inputLocation)
+                                    .title("Location to add"));
     }
 
     private void updateLocationUI() {
