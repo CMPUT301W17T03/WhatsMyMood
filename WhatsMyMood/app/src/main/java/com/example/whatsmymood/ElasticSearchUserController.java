@@ -94,10 +94,6 @@ public class ElasticSearchUserController {
         }
     }
 
-    /**
-     * Updates a user by deleting and re-inserting a user
-     * Used to update their user attributes
-     */
     public static class UpdateUser extends AsyncTask<UserAccount, Void, Void> {
 
         @Override

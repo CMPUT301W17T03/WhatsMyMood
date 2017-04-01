@@ -178,7 +178,7 @@ class AddMoodController{
             public void onClick(View v) {
                 Intent intent = new Intent(context,AddLocationActivity.class);
 
-                ((Activity) context).startActivityForResult(intent,GET_LOCATION_REQUEST_CODE);
+                ((Activity) context).startActivityForResult(intent, GET_LOCATION_REQUEST_CODE);
 
                 ((Activity) context).startActivityForResult(intent, LOCATION_ACTIVITY_RESULT_CODE);
 

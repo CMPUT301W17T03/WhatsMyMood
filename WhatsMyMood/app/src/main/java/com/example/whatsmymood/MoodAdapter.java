@@ -1,5 +1,6 @@
 package com.example.whatsmymood;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -79,24 +81,6 @@ class MoodAdapter extends ArrayAdapter<Mood> {
 
 
         if (this.mContext instanceof ProfileActivity) {
-            /*
-            RelativeLayout moodClick = (RelativeLayout) customView.findViewById(R.id.edit_mood);
-            moodClick.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    dialog = new Dialog(mContext);
-                    dialog.setContentView(R.layout.add_mood_popup);
-                    if (!dialog.isShowing()) {
-                        moodController = new AddMoodController(mContext, dialog);
-                        moodController.preFill(mood);
-                        dialog.show();
-                    } else {
-                        dialog.dismiss();
-                    }
-                }
-            });
-            */
-
             final ImageButton moodButton = (ImageButton) customView.findViewById(R.id.mood_functions);
             moodButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -120,6 +104,15 @@ class MoodAdapter extends ArrayAdapter<Mood> {
                                     } else {
                                         dialog.dismiss();
                                     }
+                                case R.id.delete_mood:
+                                    UserAccount user = CurrentUser.getInstance().getCurrentUser();
+                                    user.getMoodList().removeMood(mood);
+
+                                    ListView moodListView = (ListView) ((Activity) mContext).findViewById(R.id.moodListView);
+                                    ((ArrayAdapter) moodListView.getAdapter()).notifyDataSetChanged();
+
+                                    ElasticSearchUserController.UpdateUser updateUser = new ElasticSearchUserController.UpdateUser();
+                                    updateUser.execute(user);
                             }
                             return true;
                         }
