@@ -1,5 +1,6 @@
 package com.example.whatsmymood;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ArrayAdapter;
@@ -18,7 +19,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        ThemeController.setThemeForRecentMood(this, current.getCurrentUser().getMoodList().getRecentMood().getMoodType());
+        ThemeController.setThemeForRecentMood(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
@@ -26,6 +27,12 @@ public class ProfileActivity extends AppCompatActivity {
         FooterHandler handler = new FooterHandler(this, footer);
 
         setAdapters();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        //super.onActivityResult(requestCode, resultCode, intent);
+        AddMoodController.processResult(requestCode, resultCode, intent);
     }
 
     private void setAdapters() {

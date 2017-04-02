@@ -103,11 +103,19 @@ class AddMoodController{
                 // March 13th,2017 1:48
                 cameraPermissionCheck = ContextCompat.checkSelfPermission(context, android.Manifest.permission.CAMERA);
                 if (cameraPermissionCheck != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions((Activity) context, new String[]{android.Manifest.permission.CAMERA}, PERMISSIONS_REQUEST_ACCESS_CAMERA);
+                    if (mContext instanceof MainActivity) {
+                        ActivityCompat.requestPermissions((MainActivity) context, new String[]{android.Manifest.permission.CAMERA}, PERMISSIONS_REQUEST_ACCESS_CAMERA);
+                    } else {
+                        ActivityCompat.requestPermissions((ProfileActivity) context, new String[]{android.Manifest.permission.CAMERA}, PERMISSIONS_REQUEST_ACCESS_CAMERA);
+                    }
                 }
                 else {
                     Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-                    ((Activity) context).startActivityForResult(intent, CAPTURE_IMAGE_REQUEST_CODE);
+                    if (mContext instanceof MainActivity) {
+                        ((MainActivity) context).startActivityForResult(intent, CAPTURE_IMAGE_REQUEST_CODE);
+                    } else {
+                        ((ProfileActivity) context).startActivityForResult(intent, CAPTURE_IMAGE_REQUEST_CODE);
+                    }
                 }
             }
         });

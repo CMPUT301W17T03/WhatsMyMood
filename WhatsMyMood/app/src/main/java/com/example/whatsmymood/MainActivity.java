@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.i("meep", "Main - onCreate");
-        ThemeController.setThemeForRecentMood(this, current.getCurrentUser().getMoodList().getRecentMood().getMoodType());
+        ThemeController.setThemeForRecentMood(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 

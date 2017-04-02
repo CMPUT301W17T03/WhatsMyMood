@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,6 +19,8 @@ import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import org.apache.commons.lang3.ObjectUtils;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -68,8 +71,17 @@ class MoodAdapter extends ArrayAdapter<Mood> {
         TextView dateText = (TextView) customView.findViewById(R.id.moodDate);
 
         //ImageView emoticon = (ImageView) customView.findViewById(R.id.moodEmoticon);
-        //ImageView image = (ImageView) customView.findViewById(R.id.moodImage);
 
+
+        try {
+            PhotoController photoController = new PhotoController();
+            Bitmap photo = photoController.decodePhoto(mood.getPhoto());
+
+            ImageView image = (ImageView) customView.findViewById(R.id.moodImage);
+            image.setImageBitmap(photo);
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
         //emoticon.setImageResource(R.drawable.def_emoticon);
         //image.setImageResource(R.drawable.def_pic_vert);
 
@@ -117,6 +129,7 @@ class MoodAdapter extends ArrayAdapter<Mood> {
                                     } else {
                                         dialog.dismiss();
                                     }
+                                    return true;
                                 case R.id.delete_mood:
                                     UserAccount user = CurrentUser.getInstance().getCurrentUser();
                                     user.getMoodList().removeMood(mood);
@@ -126,15 +139,14 @@ class MoodAdapter extends ArrayAdapter<Mood> {
 
                                     ElasticSearchUserController.UpdateUser updateUser = new ElasticSearchUserController.UpdateUser();
                                     updateUser.execute(user);
+                                    return true;
                             }
                             return true;
                         }
                     });
-
                 }
             });
         }
-
         return customView;
     }
 
