@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="DefaultTheme" parent="Theme.AppCompat.Light">
+    <style name="DefaultTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:textColor">@color/defaultTextColor</item>
         <item name="android:textColorPrimary">@color/defaultTextColorPrimary</item>
         <item name="android:textColorTertiary">@color/defaultTextColorTertiary</item>
@@ -10,7 +10,7 @@
     </style>
 
     <!-- Happy Theme -->
-    <style name="HappyTheme" parent="Theme.AppCompat.Light">
+    <style name="HappyTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:textColor">@color/happyTextColor</item>
         <item name="android:textColorPrimary">@color/happyTextColorPrimary</item>
         <item name="android:textColorTertiary">@color/happyTextColorTertiary</item>
@@ -18,7 +18,7 @@
     </style>
 
     <!-- Sad Theme -->
-    <style name="SadTheme" parent="Theme.AppCompat.Light">
+    <style name="SadTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:textColor">@color/sadTextColor</item>
         <item name="android:textColorPrimary">@color/sadTextColorPrimary</item>
         <item name="android:textColorTertiary">@color/sadTextColorTertiary</item>
@@ -26,7 +26,7 @@
     </style>
 
     <!-- Anger Theme -->
-    <style name="AngerTheme" parent="Theme.AppCompat.Light">
+    <style name="AngerTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:textColor">@color/angerTextColor</item>
         <item name="android:textColorPrimary">@color/angerTextColorPrimary</item>
         <item name="android:textColorTertiary">@color/angerTextColorTertiary</item>
@@ -34,7 +34,7 @@
     </style>
 
     <!-- Confused Theme -->
-    <style name="ConfusedTheme" parent="Theme.AppCompat.Light">
+    <style name="ConfusedTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:textColor">@color/confusedTextColor</item>
         <item name="android:textColorPrimary">@color/confusedTextColorPrimary</item>
         <item name="android:textColorTertiary">@color/confusedTextColorTertiary</item>
@@ -42,7 +42,7 @@
     </style>
 
     <!-- Disgusted Theme -->
-    <style name="DisgustedTheme" parent="Theme.AppCompat.Light">
+    <style name="DisgustedTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:textColor">@color/disgustedTextColor</item>
         <item name="android:textColorPrimary">@color/disgustedTextColorPrimary</item>
         <item name="android:textColorTertiary">@color/disgustedTextColorTertiary</item>
@@ -50,7 +50,7 @@
     </style>
 
     <!-- Scared Theme -->
-    <style name="ScaredTheme" parent="Theme.AppCompat.Light">
+    <style name="ScaredTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:textColor">@color/scaredTextColor</item>
         <item name="android:textColorPrimary">@color/scaredTextColorPrimary</item>
         <item name="android:textColorTertiary">@color/scaredTextColorTertiary</item>
@@ -58,7 +58,7 @@
     </style>
 
     <!-- Shame Theme -->
-    <style name="ShameTheme" parent="Theme.AppCompat.Light">
+    <style name="ShameTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:textColor">@color/shameTextColor</item>
         <item name="android:textColorPrimary">@color/shameTextColorPrimary</item>
         <item name="android:textColorTertiary">@color/shameTextColorTertiary</item>
@@ -66,7 +66,7 @@
     </style>
 
     <!-- Surprised Theme -->
-    <style name="SurprisedTheme" parent="Theme.AppCompat.Light">
+    <style name="SurprisedTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:textColor">@color/surprisedTextColor</item>
         <item name="android:textColorPrimary">@color/surprisedTextColorPrimary</item>
         <item name="android:textColorTertiary">@color/surprisedTextColorTertiary</item>
