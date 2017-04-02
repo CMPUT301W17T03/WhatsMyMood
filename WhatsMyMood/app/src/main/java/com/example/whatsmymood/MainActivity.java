@@ -72,7 +72,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        super.onActivityResult(requestCode, resultCode, intent);
         AddMoodController.processResult(requestCode, resultCode, intent);
     }
 
