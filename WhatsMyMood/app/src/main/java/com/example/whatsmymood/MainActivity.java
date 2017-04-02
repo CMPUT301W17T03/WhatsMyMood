@@ -136,7 +136,17 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_recent) {
+            return true;
+        }
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_moodType) {
+            return true;
+        }
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_moodMessage) {
             return true;
         }
 
