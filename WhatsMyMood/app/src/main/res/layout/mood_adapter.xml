@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:paddingBottom="5sp">
         <LinearLayout
+            android:id="@+id/moodValues"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -78,10 +79,11 @@
             android:layout_alignParentRight="true"
             android:layout_below="@+id/moodDate"
             android:id="@+id/moodEmoticon"/>
+        <ImageView
+            android:layout_below="@+id/moodValues"
+            android:layout_width="400dp"
+            android:layout_height="70dp"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/moodImage"/>
     </RelativeLayout>
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:id="@+id/moodImage"/>
 </LinearLayout>

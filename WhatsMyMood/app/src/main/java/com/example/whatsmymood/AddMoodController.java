@@ -15,11 +15,14 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.model.LatLng;
+
+import org.apache.commons.lang3.ObjectUtils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -254,6 +257,15 @@ class AddMoodController{
         try {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
             this.editDate.setText(dateFormat.format(this.mood.getDate()));
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            PhotoController photoController = new PhotoController();
+            Bitmap photo = photoController.decodePhoto(this.mood.getPhoto());
+
+            photoButton.setImageBitmap(photo);
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
