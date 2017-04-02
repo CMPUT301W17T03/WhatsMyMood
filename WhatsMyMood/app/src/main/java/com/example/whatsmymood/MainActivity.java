@@ -49,6 +49,12 @@ public class MainActivity extends AppCompatActivity {
      * user.
      */
     @Override
+    protected void onRestart(){
+        super.onRestart();
+        ThemeController.notifyThemeChange(this);
+    }
+
+    @Override
     protected void onStart() {
         Log.i("meep", "Main - onStart");
         //ThemeController.setThemeForRecentMood(this, current.getCurrentUser().getMoodList().getRecentMood().getMoodType());

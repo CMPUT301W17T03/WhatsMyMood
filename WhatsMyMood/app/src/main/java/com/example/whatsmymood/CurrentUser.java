@@ -9,7 +9,7 @@ public class CurrentUser {
 
     // Sets the current instance to null
     // for the first creation of the singleton
-    private static CurrentUser instance = null ;
+    private static CurrentUser instance = null;
     private UserAccount currentUser ;
     private CurrentUser() {
     }
