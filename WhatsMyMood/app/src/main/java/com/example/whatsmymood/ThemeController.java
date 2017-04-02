@@ -76,12 +76,11 @@ public class ThemeController {
                 break;
         }
     }
-/*
+
     public static void notifyThemeChange(Activity activity)
     {
         activity.finish();
         activity.startActivity(new Intent(activity, activity.getClass()));
     }
-    */
 
 }
