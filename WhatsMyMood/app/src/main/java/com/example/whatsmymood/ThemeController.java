@@ -18,6 +18,7 @@ import android.util.Log;
 public class ThemeController {
 
     private static String moodType;
+   // private Activity mActivity;
 
     private final static String HAPPY_THEME = "Happiness";
     private final static String SAD_THEME = "Sadness";
@@ -29,7 +30,6 @@ public class ThemeController {
     private final static String SURPRISE_THEME = "Surprise";
 
     public static void setThemeForRecentMood(Activity activity){
-
         try
         {
             moodType = CurrentUser.getInstance().getCurrentUser().moodList.getRecentMood().getMoodType();
@@ -76,4 +76,11 @@ public class ThemeController {
                 break;
         }
     }
+
+    public static void notifyThemeChange(Activity activity)
+    {
+        activity.finish();
+        activity.startActivity(new Intent(activity, activity.getClass()));
+    }
+
 }
