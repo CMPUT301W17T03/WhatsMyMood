@@ -200,7 +200,7 @@ class AddMoodController{
                 // Basically photo's work but this line sets the image to the thumbnail of
                 // the photo you just took. This is kind of optional, it's only so the user
                 // knows that a photo was actually taken
-                //photoButton.setImageBitmap(photo);
+                photoButton.setImageBitmap(photo);
 
                 PhotoController photoController = new PhotoController();
 

@@ -63,8 +63,7 @@
             android:name=".UserCreateActivity"
             android:noHistory="true" />
         <activity
-            android:name=".ProfileActivity"
-            android:noHistory="true" />
+            android:name=".ProfileActivity" />
         <activity
             android:name=".MapActivity"
             android:noHistory="true"/>
