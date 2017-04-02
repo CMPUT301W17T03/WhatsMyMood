@@ -17,6 +17,8 @@ import android.util.Log;
 
 public class ThemeController {
 
+    private static String moodType;
+
     private final static String HAPPY_THEME = "Happiness";
     private final static String SAD_THEME = "Sadness";
     private final static String ANGRY_THEME = "Anger";
@@ -26,7 +28,14 @@ public class ThemeController {
     private final static String SHAME_THEME = "Shame";
     private final static String SURPRISE_THEME = "Surprise";
 
-    public static void setThemeForRecentMood(Activity activity, String moodType){
+    public static void setThemeForRecentMood(Activity activity){
+
+        try
+        {
+            moodType = CurrentUser.getInstance().getCurrentUser().moodList.getRecentMood().getMoodType();
+        }catch(NullPointerException e){
+            moodType = "";
+        }
         Log.i("meep", activity.toString());
         switch(moodType){
             case HAPPY_THEME:
