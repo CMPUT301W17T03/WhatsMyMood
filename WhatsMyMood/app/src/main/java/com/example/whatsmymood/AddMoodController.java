@@ -156,19 +156,12 @@ class AddMoodController{
                     if (mood != null) {
                         EDIT_MOOD = false;
 
-                        /**
-                         * Left this to be optional to add in
-                         * I personally did not add this to the edit mood functionality
-                         * because I don't want a user to edit a date and then have it disappear
-                         * only for them to find it at the bottom of the list if they set the date
-                         * to be far back
                         Collections.sort(user.getMoodList().getMoodList(), new Comparator<Mood>()
                         {
                             public int compare(Mood mood1, Mood mood2) {
                                 return mood2.getDate().compareTo(mood1.getDate());
                             }
                         });
-                        */
 
                         ListView moodListView = (ListView) ((ProfileActivity) context).findViewById(R.id.moodListView);
                         ((ArrayAdapter) moodListView.getAdapter()).notifyDataSetChanged();
@@ -356,6 +349,7 @@ class AddMoodController{
         mood.setLocation(this.location);
         mood.setSocialSit(this.socialSit);
         mood.setPhoto(mPhoto);
+        mPhoto = null;
 
         return mood;
     }
@@ -373,6 +367,7 @@ class AddMoodController{
         }
 
         mood.setPhoto(mPhoto);
+        mPhoto = null;
 
         return mood;
     }

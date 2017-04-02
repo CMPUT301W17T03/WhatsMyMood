@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onRestart(){
         super.onRestart();
-        ThemeController.notifyThemeChange(this);
+        //ThemeController.notifyThemeChange(this);
     }
 
     @Override
@@ -77,7 +77,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        super.onActivityResult(requestCode, resultCode, intent);
         AddMoodController.processResult(requestCode, resultCode, intent);
     }
 
