@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -27,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private final CurrentUser current = CurrentUser.getInstance();
 
     private Dialog dialog;
+    private Filter filter;
     private LinearLayout footer;
     private FooterHandler handler;
 
@@ -43,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
         ThemeController.setThemeForRecentMood(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        this.filter = new Filter();
+        this.dialog = new Dialog(this);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
@@ -147,31 +151,41 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_recent) {
-
+            filter.setType(filter.RECENT);
+            return true;
         }
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_moodType) {
-            dialog = new Dialog(this);
             dialog.setContentView(R.layout.mood_filter_popup);
-            if(!dialog.isShowing()) {
-                dialog.show();
-            }else{
-                dialog.dismiss();
-            }
-
             final Button submit =  (Button)dialog.findViewById(R.id.filter);
             submit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Spinner spinner = (Spinner)dialog.findViewById(R.id.select_mood);
-                    spinner.getSelectedItem().toString();
+                    filter.setType(filter.MOOD_TYPE);
+                    filter.setValue(spinner.getSelectedItem().toString());
+                    dialog.dismiss();
                 }
             });
+            dialog.show();
+            return true;
         }
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_moodMessage) {
+            dialog.setContentView(R.layout.message_filter_popup);
+            final Button submit =  (Button)dialog.findViewById(R.id.filter);
+            submit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    EditText text = (EditText) dialog.findViewById(R.id.message);
+                    filter.setType(filter.MOOD_MESSAGE);
+                    filter.setValue(text.getText().toString());
+                    dialog.dismiss();
+                }
+            });
+            dialog.show();
             return true;
         }
 

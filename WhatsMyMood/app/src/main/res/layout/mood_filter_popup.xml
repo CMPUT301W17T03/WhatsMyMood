@@ -20,6 +20,7 @@
         android:id="@+id/filter"
         android:layout_width="match_parent"
         android:layout_height="20dp"
+        android:layout_below="@id/select_mood"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="20dp"

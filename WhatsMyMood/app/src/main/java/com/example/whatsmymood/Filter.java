@@ -18,13 +18,14 @@ import static com.google.android.gms.common.internal.safeparcel.SafeParcelable.N
  */
 
 public class Filter {
-    private final int RECENT = 1;
-    private final int MOOD_TYPE = 2;
-    private final int MOOD_MESSAGE = 3;
+    public final int RECENT = 1;
+    public final int MOOD_TYPE = 2;
+    public final int MOOD_MESSAGE = 3;
 
     private int type;
     private String value = null;
 
+    public Filter(){this.type = 0;}
 
     public Filter(int type) {
         this.type = type;
@@ -52,6 +53,7 @@ public class Filter {
                         filteredList.add(moodList.get(i));
                     }
                 }
+                break;
             // Should make sure value != null ... not sure how to do that yet
             case MOOD_TYPE:
                 try{
@@ -65,6 +67,7 @@ public class Filter {
                     Log.i("error", "Value is null");
                     throw new RuntimeException();
                 }
+                break;
 
             case MOOD_MESSAGE:
                 try{
@@ -78,6 +81,9 @@ public class Filter {
                     Log.i("error", "Value is null");
                     throw new RuntimeException();
                 }
+                break;
+            default:
+                filteredList.addAll(moodList);
         }
         return filteredList;
     }
