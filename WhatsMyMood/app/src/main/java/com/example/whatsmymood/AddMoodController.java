@@ -149,7 +149,7 @@ class AddMoodController{
                         updateUser.execute(user);
 
                         dialog.dismiss();
-                        ThemeController.notifyThemeChange((Activity)mContext);
+                        //ThemeController.notifyThemeChange((Activity)mContext);
                     }
                 }
                 else {

@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onRestart(){
         super.onRestart();
-        ThemeController.notifyThemeChange(this);
+        //ThemeController.notifyThemeChange(this);
     }
 
     @Override
