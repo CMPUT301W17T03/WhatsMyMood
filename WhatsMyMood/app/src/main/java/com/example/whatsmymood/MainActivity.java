@@ -1,5 +1,6 @@
 package com.example.whatsmymood;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -7,9 +8,12 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Spinner;
 
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
@@ -22,6 +26,7 @@ import java.util.concurrent.ExecutionException;
 public class MainActivity extends AppCompatActivity {
     private final CurrentUser current = CurrentUser.getInstance();
 
+    private Dialog dialog;
     private LinearLayout footer;
     private FooterHandler handler;
 
@@ -143,12 +148,27 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_recent) {
-            return true;
+
         }
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_moodType) {
-            return true;
+            dialog = new Dialog(this);
+            dialog.setContentView(R.layout.mood_filter_popup);
+            if(!dialog.isShowing()) {
+                dialog.show();
+            }else{
+                dialog.dismiss();
+            }
+
+            final Button submit =  (Button)dialog.findViewById(R.id.filter);
+            submit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Spinner spinner = (Spinner)dialog.findViewById(R.id.select_mood);
+                    spinner.getSelectedItem().toString();
+                }
+            });
         }
 
         //noinspection SimplifiableIfStatement
