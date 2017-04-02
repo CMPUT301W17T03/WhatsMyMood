@@ -89,6 +89,7 @@ public class ElasticSearchUserController {
             }
             catch (Exception e) {
                 Log.i(TAG, "Something went wrong when we tried to communicate with the elastic search server!");
+                e.printStackTrace();
             }
             return users;
         }
