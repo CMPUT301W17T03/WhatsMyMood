@@ -67,6 +67,8 @@ class MoodAdapter extends ArrayAdapter<Mood> {
         TextView socialSituationText = (TextView) customView.findViewById(R.id.moodSocialSituation);
         TextView dateText = (TextView) customView.findViewById(R.id.moodDate);
 
+        //ImageView image = (ImageView) customView.findViewById(R.id.)
+
         //ImageView emoticon = (ImageView) customView.findViewById(R.id.moodEmoticon);
         //ImageView image = (ImageView) customView.findViewById(R.id.moodImage);
 
@@ -117,6 +119,7 @@ class MoodAdapter extends ArrayAdapter<Mood> {
                                     } else {
                                         dialog.dismiss();
                                     }
+                                    return true;
                                 case R.id.delete_mood:
                                     UserAccount user = CurrentUser.getInstance().getCurrentUser();
                                     user.getMoodList().removeMood(mood);
@@ -126,6 +129,7 @@ class MoodAdapter extends ArrayAdapter<Mood> {
 
                                     ElasticSearchUserController.UpdateUser updateUser = new ElasticSearchUserController.UpdateUser();
                                     updateUser.execute(user);
+                                    return true;
                             }
                             return true;
                         }
