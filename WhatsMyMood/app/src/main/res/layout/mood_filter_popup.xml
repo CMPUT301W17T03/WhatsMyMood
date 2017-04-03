@@ -16,6 +16,7 @@
         android:textAlignment="center"
         android:entries="@array/mood_array"
         android:background="@color/popup_background"/>
+
     <Button
         android:id="@+id/filter"
         android:layout_width="match_parent"
