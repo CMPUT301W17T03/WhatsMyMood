@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 /**
- * Creates the User
+ * Creates a UserAccount object
+ * @author Alex
  */
 class CreateUserController {
 
@@ -13,7 +14,9 @@ class CreateUserController {
     }
 
     /**
-     *
+     * Creates a new UserAccount object.
+     * First checks the database to ensure there are no existing users with the same username.
+     * Adds new UserAccount object to the database.
      * @param username
      * @param password
      * @return

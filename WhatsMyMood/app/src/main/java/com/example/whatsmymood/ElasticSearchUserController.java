@@ -17,8 +17,11 @@ import io.searchbox.core.SearchResult;
 import io.searchbox.indices.CreateIndex;
 
 /**
- * Universal elastic search controller to return
+ * Universal elastic search controller to return, add, and update
  * user objects
+ *
+ * @author  Alex
+ * @version 1.5, 2017-03-11.
  */
 public class ElasticSearchUserController {
     private static final String TAG = "Error";
