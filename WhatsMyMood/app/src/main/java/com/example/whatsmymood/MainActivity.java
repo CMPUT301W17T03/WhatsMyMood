@@ -1,7 +1,13 @@
 package com.example.whatsmymood;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -10,6 +16,7 @@ import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
@@ -32,12 +39,15 @@ public class MainActivity extends AppCompatActivity {
     private ArrayAdapter<Mood> moodAdapter;
     private ListView moodListView;
 
+    private Toast toast;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.i("meep", "Main - onCreate");
         ThemeController.setThemeForRecentMood(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        this.toast = Toast.makeText(getBaseContext(), null, Toast.LENGTH_SHORT);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
@@ -45,8 +55,44 @@ public class MainActivity extends AppCompatActivity {
         footer = (LinearLayout)findViewById(R.id.footer);
         FooterHandler handler = new FooterHandler(this, footer);
 
-        fetchData();
+        ConnectivityManager connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo mWifi = connManager.getActiveNetworkInfo();
+
+        try {
+            mWifi.isConnected();
+            fetchData();
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+
         setAdapters();
+
+        final SwipeRefreshLayout pullToRefresh = (SwipeRefreshLayout) findViewById(R.id.swiperefresh);
+        pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                ConnectivityManager connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+                NetworkInfo mWifi = connManager.getActiveNetworkInfo();
+
+                try {
+                    mWifi.isConnected();
+                    try {
+                        CommandQueue.getInstance().executeAllCommands();
+                    } catch (NullPointerException e) {
+                        Log.d("COMMANDSWOW", "DON'TWORK");
+                        e.printStackTrace();
+                    }
+                    fetchData();
+                    setAdapters();
+                    pullToRefresh.setRefreshing(false);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    toast.setText("No Internet Connection");
+                    toast.show();
+                    pullToRefresh.setRefreshing(false);
+                }
+            }
+        });
     }
 
     /**
@@ -61,21 +107,27 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart() {
-        Log.i("meep", "Main - onStart");
-        //ThemeController.setThemeForRecentMood(this, current.getCurrentUser().getMoodList().getRecentMood().getMoodType());
-        super.onStart();
+    protected void onResume() {
+        super.onResume();
 
-        fetchData();
-        ((ArrayAdapter) moodListView.getAdapter()).notifyDataSetChanged();
+        // Checks the user is connected to wifi
+        ConnectivityManager connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo mWifi = connManager.getActiveNetworkInfo();
+
+        try {
+            mWifi.isConnected();
+            fetchData();
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+
+        setAdapters();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         AddMoodController.processResult(requestCode, resultCode, intent);
     }
-
-
 
     private void setAdapters() {
         this.moodAdapter = new MoodAdapter(moods,this);
