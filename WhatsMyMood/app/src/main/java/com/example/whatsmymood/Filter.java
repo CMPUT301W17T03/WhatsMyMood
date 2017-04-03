@@ -1,5 +1,7 @@
 package com.example.whatsmymood;
 
+import android.location.Location;
+import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
@@ -23,8 +25,10 @@ public class Filter implements Parcelable {
     public final int RECENT = 1;
     public final int MOOD_TYPE = 2;
     public final int MOOD_MESSAGE = 3;
+    public final int FIVE_KM = 4;
 
     private int type;
+    private Bundle bundle;
     private String value = null;
 
     public Filter(){this.type = 0;}
@@ -84,6 +88,21 @@ public class Filter implements Parcelable {
                     throw new RuntimeException();
                 }
                 break;
+            case FIVE_KM:
+                Location LastKnownLocation = bundle.getParcelable("location");
+                Log.d("FIVE_KM",LastKnownLocation.toString());
+                for (int i = 0; i < moodList.size(); i++) {
+                    Mood mood = moodList.get(i);
+                    if (mood.getLocation() != null) {
+                        Location moodLocation = new Location("");
+                        moodLocation.setLatitude(mood.getLocation().latitude);
+                        moodLocation.setLongitude(mood.getLocation().longitude);
+                        if (moodLocation.distanceTo(LastKnownLocation) <= 5000) {
+                            filteredList.add(moodList.get(i));
+                        }
+                    }
+                }
+                break;
             default:
                 filteredList.addAll(moodList);
         }
@@ -105,12 +124,15 @@ public class Filter implements Parcelable {
         this.type = type;
     }
 
+    public void setBundle(Bundle bundle) {this.bundle = bundle;}
+
     protected Filter(Parcel in) {
         //RECENT = in.readInt();
         //MOOD_TYPE = in.readInt();
         //MOOD_MESSAGE = in.readInt();
         type = in.readInt();
         value = in.readString();
+        bundle = in.readBundle();
     }
 
     @Override
@@ -125,6 +147,7 @@ public class Filter implements Parcelable {
         //dest.writeInt(MOOD_MESSAGE);
         dest.writeInt(type);
         dest.writeString(value);
+        dest.writeBundle(bundle);
     }
 
     @SuppressWarnings("unused")

@@ -115,7 +115,14 @@ public class MapActivity extends AppCompatActivity
             Log.d("Exception", "Nothing in intent, adding markers");
             try {
                 ArrayList<Mood> moods = intent.getParcelableArrayListExtra("moods");
-                setMoodMarkers(moods);
+                Log.d("check moodlist",moods.toString());
+                Filter filter = intent.getParcelableExtra("filter");
+                if (filter.getType() == filter.FIVE_KM) {
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable("location",mLastKnownLocation);
+                }
+                Log.d("check moodListFiltered",filter.filterArray(moods).toString());
+                setMoodMarkers(filter.filterArray(moods));
 
             } catch (Exception ex) {
                 setMarker();
