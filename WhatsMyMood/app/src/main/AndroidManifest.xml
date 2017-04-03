@@ -57,9 +57,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".FollowHubActivityOld"
-            android:noHistory="true" />
-        <activity
             android:name=".UserCreateActivity"
             android:noHistory="true" />
         <activity
