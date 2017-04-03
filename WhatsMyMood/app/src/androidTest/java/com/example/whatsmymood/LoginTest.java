@@ -36,7 +36,7 @@ public class LoginTest extends ActivityInstrumentationTestCase2 {
         solo.enterText((AutoCompleteTextView) solo.getView(R.id.Username), "testUser");
         solo.enterText((EditText) solo.getView(R.id.password), "password");
 
-        solo.clickOnButton("Login");
+        solo.clickOnButton("Sign in");
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
     }
 
@@ -47,7 +47,7 @@ public class LoginTest extends ActivityInstrumentationTestCase2 {
         solo.enterText((AutoCompleteTextView) solo.getView(R.id.Username), "Non-existing User");
         solo.enterText((EditText) solo.getView(R.id.password), "password");
 
-        solo.clickOnButton("Login");
+        solo.clickOnButton("Sign in");
         solo.assertCurrentActivity("Wrong Activity", LoginActivity.class);
 
         assertTrue(solo.waitForText("Wrong Username/Password Combination"));
@@ -59,7 +59,7 @@ public class LoginTest extends ActivityInstrumentationTestCase2 {
         solo.assertCurrentActivity("Wrong Activity", LoginActivity.class);
         solo.enterText((AutoCompleteTextView) solo.getView(R.id.Username), "Non-existing User");
 
-        solo.clickOnButton("Login");
+        solo.clickOnButton("Sign in");
         solo.assertCurrentActivity("Wrong Activity", LoginActivity.class);
 
         assertTrue(solo.waitForText("This field is required"));
@@ -71,7 +71,7 @@ public class LoginTest extends ActivityInstrumentationTestCase2 {
         solo.assertCurrentActivity("Wrong Activity", LoginActivity.class);
         solo.enterText((EditText) solo.getView(R.id.password), "password");
 
-        solo.clickOnButton("Login");
+        solo.clickOnButton("Sign in");
         solo.assertCurrentActivity("Wrong Activity", LoginActivity.class);
 
         assertTrue(solo.waitForText("This field is required"));
