@@ -147,8 +147,6 @@ public class ProfileActivity extends AppCompatActivity {
                     if(!text.getText().toString().isEmpty()) {
                         filter.setType(filter.MOOD_MESSAGE);
                         filter.setValue(text.getText().toString());
-                        Log.d("filter",String.valueOf(filter.MOOD_MESSAGE));
-                        Log.d("filter",text.getText().toString());
                         refresh();
                     }
                     dialog.dismiss();
@@ -156,6 +154,12 @@ public class ProfileActivity extends AppCompatActivity {
             });
             dialog.show();
             return true;
+        }
+        if (id == R.id.action_clearFilter) {
+            filter.setType(filter.NONE);
+            filter.setValue(null);
+            refresh();
+            dialog.dismiss();
         }
         if (id == R.id.action_mapView) {
             Intent intent = new Intent(this, MapActivity.class);

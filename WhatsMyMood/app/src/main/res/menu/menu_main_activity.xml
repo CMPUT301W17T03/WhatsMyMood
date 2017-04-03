@@ -5,14 +5,16 @@
     tools:context="com.example.whatsmymood.MainActivity">
 
     <item android:id="@+id/action_recent"
-        android:title="Most recent week"
+        android:title="View recent week"
         app:showAsAction="never"/>
     <item android:id="@+id/action_moodType"
-        android:title="Mood type"
+        android:title="Filter by emotion"
         app:showAsAction="never"/>
     <item android:id="@+id/action_moodMessage"
-        android:title="Mood message"
+        android:title="Filter by message"
         app:showAsAction="never"/>
+    <item android:id="@+id/action_clearFilter"
+        android:title="Clear filters"/>
     <item android:id="@+id/action_mapView"
         android:title="View on map"
         app:showAsAction="never"/>
