@@ -3,6 +3,7 @@ package com.example.whatsmymood;
 import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -83,7 +84,8 @@ public class RequestAdapter extends ArrayAdapter<String> {
                 current.getCurrentUser().relations.removeFromFollowRequests(user);
                 notifyDataSetChanged();
 
-                fetchData(current.getCurrentUser().getName());
+                fetchData(current.getCurrentUser().getUsername());
+
                 current.setCurrentUser(fetchedUser);
                 updateData(current.getCurrentUser());
             }
@@ -94,7 +96,7 @@ public class RequestAdapter extends ArrayAdapter<String> {
 
     private void fetchData(String requestUser) {
         ElasticSearchUserController.GetUserTask getUserTask = new ElasticSearchUserController.GetUserTask();
-
+        Log.d("fetch",requestUser);
         getUserTask.execute(requestUser);
 
         try {
