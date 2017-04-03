@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,6 +16,8 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 
+import java.util.ArrayList;
+
 /**
  * The type Profile activity.
  * This activity will allow the user to view the profile of other users
@@ -22,8 +25,8 @@ import android.widget.Spinner;
  * being viewed
  */
 public class ProfileActivity extends AppCompatActivity {
-    private final CurrentUser current = CurrentUser.getInstance();
-    private UserAccount user = current.getCurrentUser();
+    private CurrentUser current = CurrentUser.getInstance();
+    private ArrayList<Mood> moods;
 
     private Dialog dialog;
     private Filter filter;
@@ -35,7 +38,11 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
 
         dialog = new Dialog(this);
-        filter = new Filter();
+        if((savedInstanceState == null)){
+            this.filter = new Filter();
+        }
+        moods = current.getCurrentUser().moodList.getMoodList();
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.profile_toolbar);
         setSupportActionBar(toolbar);
@@ -46,6 +53,28 @@ public class ProfileActivity extends AppCompatActivity {
         setAdapters();
     }
 
+    private void refresh(){
+        Log.d("tag","restoring!");
+        Log.d("tag",String.valueOf(filter.getType()));
+        moods = filter.filterArray(current.getCurrentUser().moodList.getMoodList());
+        ListView moodListView = (ListView) findViewById(R.id.moodListView);
+        ((ArrayAdapter)moodListView.getAdapter()).notifyDataSetChanged();
+    }
+    @Override
+    protected void onSaveInstanceState(Bundle outState){
+        super.onSaveInstanceState(outState);
+        outState.putParcelable("filter",filter);
+        Log.d("tag","parceling!");
+        Log.d("tag",String.valueOf(filter.getType()));
+    }
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        filter = savedInstanceState.getParcelable("filter");
+        Log.d("tag","restoring!");
+        Log.d("tag",String.valueOf(filter.getType()));
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         //super.onActivityResult(requestCode, resultCode, intent);
@@ -53,7 +82,7 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void setAdapters() {
-        ArrayAdapter<Mood> moodAdapter = new MoodAdapter(user.getMoodList().getMoodList(), this);
+        ArrayAdapter<Mood> moodAdapter = new MoodAdapter(moods, this);
 
         ListView moodListView = (ListView) findViewById(R.id.moodListView);
 
@@ -77,6 +106,7 @@ public class ProfileActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_recent) {
             filter.setType(filter.RECENT);
+            refresh();
             return true;
         }
 
@@ -91,6 +121,7 @@ public class ProfileActivity extends AppCompatActivity {
                     filter.setType(filter.MOOD_TYPE);
                     filter.setValue(spinner.getSelectedItem().toString());
                     dialog.dismiss();
+                    refresh();
                 }
             });
             dialog.show();
@@ -108,6 +139,7 @@ public class ProfileActivity extends AppCompatActivity {
                     filter.setType(filter.MOOD_MESSAGE);
                     filter.setValue(text.getText().toString());
                     dialog.dismiss();
+                    refresh();
                 }
             });
             dialog.show();

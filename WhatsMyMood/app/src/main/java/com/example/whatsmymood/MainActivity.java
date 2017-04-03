@@ -45,9 +45,12 @@ public class MainActivity extends AppCompatActivity {
         ThemeController.setThemeForRecentMood(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        this.filter = new Filter();
+        if((savedInstanceState == null)){
+            this.filter = new Filter();
+        }
         this.dialog = new Dialog(this);
-
+        Log.d("tag","creating activity");
+        Log.d("tag",String.valueOf(filter.getType()));
         Toolbar toolbar = (Toolbar) findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
 
@@ -64,9 +67,18 @@ public class MainActivity extends AppCompatActivity {
      * user.
      */
     @Override
-    protected void onRestart(){
-        super.onRestart();
-        //ThemeController.notifyThemeChange(this);
+    protected void onSaveInstanceState(Bundle outState){
+        super.onSaveInstanceState(outState);
+        outState.putParcelable("filter",filter);
+        Log.d("tag","parceling!");
+        Log.d("tag",String.valueOf(filter.getType()));
+    }
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        filter = savedInstanceState.getParcelable("filter");
+        Log.d("tag","restoring!");
+        Log.d("tag",String.valueOf(filter.getType()));
     }
 
     @Override
@@ -151,7 +163,9 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_recent) {
-            filter.setType(filter.RECENT);
+            //filter.setType(filter.RECENT);
+            Log.d("tag","check filter:");
+            Log.d("tag",String.valueOf(filter.getType()));
             return true;
         }
 
