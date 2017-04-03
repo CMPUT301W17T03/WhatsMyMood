@@ -82,5 +82,4 @@ public class ProfileActivtyTest extends ActivityInstrumentationTestCase2 {
         assertEquals("Happiness",current.getCurrentUser().getMoodList().getRecentMood().getMoodType());
         assertTrue("most recent mood not on screen!", solo.searchText("Happiness"));
     }
-
 }
