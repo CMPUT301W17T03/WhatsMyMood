@@ -52,9 +52,6 @@ public class ProfileActivity extends AppCompatActivity {
             this.filter = new Filter();
             refresh();
         }
-
-
-
     }
 
     @Override
