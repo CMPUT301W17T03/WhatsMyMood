@@ -16,7 +16,11 @@
         android:layout_marginTop="14dp"
         android:textAlignment="center"
         android:entries="@array/mood_array"
-        android:background="@color/popup_background"/>
+        android:textColorHint="@color/popup_text"
+        android:background="@color/popup_background"
+        android:popupBackground="@color/popup_background"
+        android:textColor="@color/spinner_text" />
+
 
     <EditText
         android:id="@+id/enter_description"

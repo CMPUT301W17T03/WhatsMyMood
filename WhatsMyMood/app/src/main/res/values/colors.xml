@@ -12,53 +12,53 @@
     <color name="defaultWindowBackground">#FFFFFF</color>
 
     <!-- Happy Theme Colours -->
-    <color name="happyTextColor">#878585</color>
+    <color name="happyTextColor">#FFFFFF</color>
     <color name="happyTextColorPrimary">#878585</color>
     <color name="happyTextColorTertiary">#878585</color>
-    <color name="happyWindowBackground">#FFFF67</color>
+    <color name="happyWindowBackground">#FFC107</color>
 
     <!-- Sad Theme Colours -->
-    <color name="sadTextColor">#878585</color>
+    <color name="sadTextColor">#FFFFFF</color>
     <color name="sadTextColorPrimary">#878585</color>
     <color name="sadTextColorTertiary">#878585</color>
     <color name="sadWindowBackground">#3F51B5</color>
 
     <!-- Anger Theme Colours -->
     <!-- #B30000 -->
-    <color name="angerTextColor">#878585</color>
+    <color name="angerTextColor">#FFFFFF</color>
     <color name="angerTextColorPrimary">#878585</color>
     <color name="angerTextColorTertiary">#878585</color>
-    <color name="angerWindowBackground">#7F2221</color>
+    <color name="angerWindowBackground">#D32F2F</color>
 
     <!-- Confused Theme Colours -->
-    <color name="confusedTextColor">#878585</color>
+    <color name="confusedTextColor">#FFFFFF</color>
     <color name="confusedTextColorPrimary">#878585</color>
     <color name="confusedTextColorTertiary">#878585</color>
-    <color name="confusedWindowBackground">#FF4500</color>
+    <color name="confusedWindowBackground">#FF9800</color>
 
     <!-- Disgusted Theme Colours -->
-    <color name="disgustedTextColor">#878585</color>
+    <color name="disgustedTextColor">#FFFFFF</color>
     <color name="disgustedTextColorPrimary">#878585</color>
     <color name="disgustedTextColorTertiary">#878585</color>
-    <color name="disgustedWindowBackground">#7E816E</color>
+    <color name="disgustedWindowBackground">#8BC34A</color>
 
     <!-- Scared Theme Colours -->
-    <color name="scaredTextColor">#878585</color>
+    <color name="scaredTextColor">#FFFFFF</color>
     <color name="scaredTextColorPrimary">#878585</color>
     <color name="scaredTextColorTertiary">#878585</color>
-    <color name="scaredWindowBackground">#666699</color>
+    <color name="scaredWindowBackground">#9C27B0</color>
 
     <!-- Shame Theme Colours -->
-    <color name="shameTextColor">#878585</color>
+    <color name="shameTextColor">#FFFFFF</color>
     <color name="shameTextColorPrimary">#878585</color>
     <color name="shameTextColorTertiary">#878585</color>
-    <color name="shameWindowBackground">#FF4081</color>
+    <color name="shameWindowBackground">#E91E63</color>
 
     <!-- Surprised Theme Colours -->
-    <color name="surprisedTextColor">#878585</color>
-    <color name="surprisedTextColorPrimary">#878585</color>
-    <color name="surprisedTextColorTertiary">#878585</color>
-    <color name="surprisedWindowBackground">#80FFE5</color>
+    <color name="surprisedTextColor">#FFFFFF</color>
+    <color name="surprisedTextColorPrimary">#FFFFFF</color>
+    <color name="surprisedTextColorTertiary">#FFFFFF</color>
+    <color name="surprisedWindowBackground">#00BCD4</color>
 
     <!-- Messing Around -->
     <color name="colorPrimary">#3F51B5</color>
@@ -70,7 +70,12 @@
     <color name="footer_text">#FFFFFF</color>
 
     <!-- Popup Colors -->
-    <color name="popup_background">#4F4F4F</color>
-    <color name="popup_text">#8E8E93</color>
+    <color name="popup_background">#212121</color>
+    <color name="popup_text">#FFFFFF</color>
+    <color name="spinner_text">#212121</color>
+
+
+    <!-- Action Bar Colors -->
+    <color name = "action_bar">#212121</color>
 
 </resources>
