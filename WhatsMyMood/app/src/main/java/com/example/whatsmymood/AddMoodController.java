@@ -191,6 +191,7 @@ class AddMoodController{
                             CommandQueue.getInstance().addQueue(new UpdateCommand(user));
                         }
                         dialog.dismiss();
+                        ThemeController.notifyThemeChange((Activity)mContext);
                     }
                 }
             }
