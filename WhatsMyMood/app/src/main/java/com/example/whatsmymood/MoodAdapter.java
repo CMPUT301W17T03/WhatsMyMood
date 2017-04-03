@@ -135,8 +135,7 @@ class MoodAdapter extends ArrayAdapter<Mood> {
                                     UserAccount user = CurrentUser.getInstance().getCurrentUser();
                                     user.getMoodList().removeMood(mood);
 
-                                    ListView moodListView = (ListView) ((Activity) mContext).findViewById(R.id.moodListView);
-                                    ((ArrayAdapter) moodListView.getAdapter()).notifyDataSetChanged();
+                                    ThemeController.notifyThemeChange((Activity)mContext);
 
                                     ElasticSearchUserController.UpdateUser updateUser = new ElasticSearchUserController.UpdateUser();
                                     updateUser.execute(user);
