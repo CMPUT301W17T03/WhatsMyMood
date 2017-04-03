@@ -3,7 +3,9 @@ package com.example.whatsmymood;
 /**
  * Created by Malcolm on 2017-03-11.
  *
- * Implements Lazy Singleton to hold Current User
+ * Implements Lazy Singleton to hold Current User. There can only be one user
+ * logged into the app at a time, Singelton is used to referes the user
+ * that is logged into the app
  */
 public class CurrentUser {
 
@@ -27,7 +29,7 @@ public class CurrentUser {
     }
 
     /**
-     *
+     * Returns current user
      * @return
      */
     public UserAccount getCurrentUser() {
