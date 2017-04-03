@@ -28,6 +28,10 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 /**
  * Created by ejtang on 2017-03-30.
+ *
+ * This activity is called within our add mood and edit mood activities which
+ * will allow the user to add a mood by holding onto the screen to add a marker
+ * which will be the location that is added.
  */
 
 public class AddLocationActivity extends AppCompatActivity
