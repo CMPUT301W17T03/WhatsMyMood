@@ -25,7 +25,7 @@ public class ElasticSearchUserController {
 
     private static JestDroidClient client;
 
-    //https://github.com/AlexCzeto/lonelyTwitter/blob/elasticsearch/app/src/main/java/ca/ualberta/cs/lonelytwitter/ElasticsearchTweetController.java
+    //https://github.com/alisajedi/lonelyTwitter/tree/master/app/src/main/java/ca/ualberta/cs/lonelytwitter
     //03-11-2017
 
     /**

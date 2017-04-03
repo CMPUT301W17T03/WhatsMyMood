@@ -34,7 +34,8 @@ import java.util.Date;
 import java.util.Locale;
 
 /**
- * Takes user input and converts it into a relevant mood
+ * Takes user input and converts it into a relevant mood.
+ * Also handles user interface for editing an existing mood.
  */
 class AddMoodController{
     private final CurrentUser current = CurrentUser.getInstance();
@@ -239,7 +240,11 @@ class AddMoodController{
         }
     }
 
-
+    /**
+     * Prefils all user interface in the dialog to display existing information about a mood.
+     * Called when user is editing an existing mood.
+     * @param mood
+     */
     public void preFill(Mood mood) {
         EDIT_MOOD = true;
 
@@ -303,7 +308,7 @@ class AddMoodController{
 
         if (!editMoodMsg.getText().toString().isEmpty()) {
             String message = editMoodMsg.getText().toString();
-            if (message.split("\\s+").length > 3 || message.length() > 15) {
+            if (message.split("\\s+").length > 3 || message.length() > 20) {
                 MOOD_MESSAGE_INVALID = true;
             } else {
                 this.moodMsg = editMoodMsg.getText().toString();
@@ -335,7 +340,7 @@ class AddMoodController{
             textview.setText(R.string.invalid_mood);
             SELECT_MOOD_INVALID = false;
         } else if (MOOD_MESSAGE_INVALID) {
-            editMoodMsg.setError("Mood Messages must be less than 15 characters and less than 4 words");
+            editMoodMsg.setError("Mood Messages must be less than 20 characters containing 3 or less words");
             MOOD_MESSAGE_INVALID = false;
         } else if (DATE_INVALID) {
             editDate.setError("Invalid Date Inputted (yyyy-MM-DD)");
