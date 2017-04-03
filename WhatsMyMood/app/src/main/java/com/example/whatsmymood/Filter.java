@@ -50,14 +50,17 @@ public class Filter implements Parcelable {
             case RECENT:
 
                 // http://stackoverflow.com/questions/16982056/how-to-get-the-date-7-days-earlier-date-from-current-date-in-java
+
                 Calendar cal = Calendar.getInstance();
                 cal.add(Calendar.DATE, -7);
                 Date weekPast = cal.getTime();
 
-                for (int i = 1; i < moodList.size(); i++) {
-                    if (moodList.get(i).getDate().before(weekPast)) {
+
+                for (int i = 0; i < moodList.size(); i++) {
+                    if (moodList.get(i).getDate().after(weekPast)) {
                         filteredList.add(moodList.get(i));
                     }
+
                 }
                 break;
             // Should make sure value != null ... not sure how to do that yet
