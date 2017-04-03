@@ -5,17 +5,22 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import java.util.concurrent.ExecutionException;
+
+import static com.example.whatsmymood.R.id.none;
 
 
 /**
@@ -27,6 +32,10 @@ import java.util.concurrent.ExecutionException;
  * Obtained Mar 29, 2017
  */
 public class FollowHubActivity extends AppCompatActivity {
+
+    private FollowHubActivityTab1Followers followersTab;
+    private FollowHubActivityTab2Following followingTab;
+    private FollowHubActivityTab3Requests requestsTab;
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -134,7 +143,19 @@ public class FollowHubActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+
+        // referenced off of http://stackoverflow.com/questions/32172341/how-i-can-call-method-in-fragment-from-activity
+        // on April 2, 2017, to get methods in fragments inside a activity
+        if (id == R.id.action_refresh) {
+            if (followersTab != null){
+                followersTab.refresh();
+            }
+            if (followersTab != null) {
+                followingTab.refresh();
+            }
+            if (requestsTab != null) {
+                requestsTab.refresh();
+            }
             return true;
         }
 
@@ -163,13 +184,13 @@ public class FollowHubActivity extends AppCompatActivity {
             //Return the current tab
             switch (position) {
                 case 0:
-                    FollowHubActivityTab1Followers followersTab = new FollowHubActivityTab1Followers();
+                    followersTab = new FollowHubActivityTab1Followers();
                     return followersTab;
                 case 1:
-                    FollowHubActivityTab2Following followingTab = new FollowHubActivityTab2Following();
+                    followingTab = new FollowHubActivityTab2Following();
                     return followingTab;
                 case 2:
-                    FollowHubActivityTab3Requests requestsTab = new FollowHubActivityTab3Requests();
+                    requestsTab = new FollowHubActivityTab3Requests();
                     return requestsTab;
                 default:
                     return null;
