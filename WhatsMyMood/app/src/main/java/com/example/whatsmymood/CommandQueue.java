@@ -12,7 +12,7 @@ public class CommandQueue {
 
     private static final CommandQueue ourInstance = new CommandQueue();
 
-    private ArrayList<Command> queue = new ArrayList<Command>();
+    private Command queue;
 
     public static CommandQueue getInstance() {
         return ourInstance;
@@ -22,15 +22,11 @@ public class CommandQueue {
     }
 
     public void addQueue(Command newCommand){
-        queue.add(newCommand);
+        queue = newCommand;
     }
-
 
     // Executes the entire queue of Commands
     public void executeAllCommands(){
-        for(int i = 0 ; i < queue.size() ; i++){
-            queue.get(i).executeCommand();
-        }
-        queue.clear();
+        queue.executeCommand();
     }
 }
