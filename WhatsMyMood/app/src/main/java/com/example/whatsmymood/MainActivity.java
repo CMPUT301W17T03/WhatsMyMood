@@ -54,12 +54,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if((savedInstanceState == null)){
-            this.filter = new Filter();
-        }
         this.dialog = new Dialog(this);
-        Log.d("tag","creating activity");
-        Log.d("tag",String.valueOf(filter.getType()));
 
         this.toast = Toast.makeText(getBaseContext(), null, Toast.LENGTH_SHORT);
 
@@ -69,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
         footer = (LinearLayout)findViewById(R.id.footer);
         FooterHandler handler = new FooterHandler(this, footer);
 
+        /*
         ConnectivityManager connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo mWifi = connManager.getActiveNetworkInfo();
 
@@ -80,6 +76,12 @@ public class MainActivity extends AppCompatActivity {
         }
 
         setAdapters();
+        */
+
+        if((savedInstanceState == null)){
+            this.filter = new Filter();
+            refresh();
+        }
 
         final SwipeRefreshLayout pullToRefresh = (SwipeRefreshLayout) findViewById(R.id.swiperefresh);
         pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -109,11 +111,12 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    /**
-     * Sets the first query up every time main activity
-     * is viewed. This ensures that we get the most updated
-     * user.
-     */
+    private void refresh(){
+        moods.clear();
+        moods.addAll(filter.filterArray(current.getCurrentUser().moodList.getMoodList()));
+        moodAdapter.notifyDataSetChanged();
+    }
+
     @Override
     protected void onSaveInstanceState(Bundle outState){
         super.onSaveInstanceState(outState);
@@ -127,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
         filter = savedInstanceState.getParcelable("filter");
         Log.d("tag","restoring!");
         Log.d("tag",String.valueOf(filter.getType()));
+        refresh();
     }
 
     @Override
@@ -138,8 +142,11 @@ public class MainActivity extends AppCompatActivity {
         NetworkInfo mWifi = connManager.getActiveNetworkInfo();
 
         try {
+            Log.d("WIFIWOW", "1");
             mWifi.isConnected();
+            Log.d("WIFIWOW", "2");
             fetchData();
+            Log.d("WIFIWOW", "3");
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
@@ -165,34 +172,24 @@ public class MainActivity extends AppCompatActivity {
      * to an ArrayList to be displayed
      */
     private void fetchData() {
-
-        ElasticSearchUserController.GetUserTask getUserTask = new ElasticSearchUserController.GetUserTask();
-        getUserTask.execute(current.getCurrentUser().getUsername());
-
-        try {
-            UserAccount user = getUserTask.get().get(0);
-
-            followers = user.getRelations().getFollowingList();
-
-        } catch (ExecutionException | InterruptedException e) {
-            e.printStackTrace();
-        }
-
         moods = new ArrayList<>();
 
-        for (String follower : followers) {
+        followers = current.getCurrentUser().relations.getFollowingList();
+
+        if (!followers.isEmpty()) {
+            String query = followers.get(0);
+            for (int i = 1; i < followers.size(); i++) {
+                query += " OR " + followers.get(i);
+            }
+
             ElasticSearchUserController.GetUserTask getFollowersTask = new ElasticSearchUserController.GetUserTask();
-            getFollowersTask.execute(follower);
+            getFollowersTask.execute(query);
 
             try {
-                ArrayList<UserAccount> mFollower = getFollowersTask.get();
-                if (!mFollower.isEmpty()) {
-                    UserAccount temp = mFollower.get(mFollower.size()-1);
-
-                    // Exception
-                    // If you follow one person and they have no moods
-                    if (!(temp.getMoodList().getSize() == 0)) {
-                        moods.add(temp.getMoodList().getRecentMood());
+                ArrayList<UserAccount> followers = getFollowersTask.get();
+                if (!followers.isEmpty()) {
+                    for (UserAccount user : followers) {
+                        moods.add(user.getMoodList().get(0));
                     }
                 }
             } catch (ExecutionException | InterruptedException e) {
@@ -255,6 +252,12 @@ public class MainActivity extends AppCompatActivity {
             });
             dialog.show();
             return true;
+        }
+        if (id == R.id.action_mapView) {
+            Intent intent = new Intent(this, MapActivity.class);
+            intent.putParcelableArrayListExtra("moods",moods);
+            intent.putExtra("filter",filter);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
