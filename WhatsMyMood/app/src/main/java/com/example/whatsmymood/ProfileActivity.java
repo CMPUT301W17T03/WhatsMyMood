@@ -39,10 +39,6 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
 
         dialog = new Dialog(this);
-        if((savedInstanceState == null)){
-            this.filter = new Filter();
-        }
-
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.profile_toolbar);
         setSupportActionBar(toolbar);
@@ -51,13 +47,21 @@ public class ProfileActivity extends AppCompatActivity {
         FooterHandler handler = new FooterHandler(this, footer);
 
         setAdapters();
-        refresh();
+
+        if((savedInstanceState == null)){
+            this.filter = new Filter();
+            refresh();
+        }
+
+
+
     }
 
     @Override
     protected void onStart(){
         super.onStart();
     }
+
 
     private void refresh(){
         Log.d("tag","refresh!");
@@ -84,6 +88,7 @@ public class ProfileActivity extends AppCompatActivity {
         filter = savedInstanceState.getParcelable("filter");
         Log.d("tag","restoring!");
         Log.d("tag",String.valueOf(filter.getType()));
+        refresh();
     }
 
     @Override
@@ -158,6 +163,12 @@ public class ProfileActivity extends AppCompatActivity {
             });
             dialog.show();
             return true;
+        }
+        if (id == R.id.action_mapView) {
+            Intent intent = new Intent(this, MapActivity.class);
+            intent.putParcelableArrayListExtra("moods",moods);
+            intent.putExtra("filter",filter);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);

@@ -165,7 +165,7 @@ class AddMoodController{
                         }
 
                         dialog.dismiss();
-                        //ThemeController.notifyThemeChange((Activity)mContext);
+                        ThemeController.notifyThemeChange((Activity)mContext);
                     }
                 }
                 else {
