@@ -54,12 +54,6 @@ public class ProfileActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onStart(){
-        super.onStart();
-    }
-
-
     private void refresh(){
         Log.d("tag","refresh!");
         Log.d("tag",String.valueOf(filter.getType()));

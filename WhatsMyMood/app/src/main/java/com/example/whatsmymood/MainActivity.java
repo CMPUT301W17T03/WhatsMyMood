@@ -54,12 +54,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if((savedInstanceState == null)){
-            this.filter = new Filter();
-        }
         this.dialog = new Dialog(this);
-        Log.d("tag","creating activity");
-        Log.d("tag",String.valueOf(filter.getType()));
 
         this.toast = Toast.makeText(getBaseContext(), null, Toast.LENGTH_SHORT);
 
@@ -80,6 +75,11 @@ public class MainActivity extends AppCompatActivity {
         }
 
         setAdapters();
+
+        if((savedInstanceState == null)){
+            this.filter = new Filter();
+            refresh();
+        }
 
         final SwipeRefreshLayout pullToRefresh = (SwipeRefreshLayout) findViewById(R.id.swiperefresh);
         pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -109,11 +109,12 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    /**
-     * Sets the first query up every time main activity
-     * is viewed. This ensures that we get the most updated
-     * user.
-     */
+    private void refresh(){
+        moods.clear();
+        moods.addAll(filter.filterArray(current.getCurrentUser().moodList.getMoodList()));
+        moodAdapter.notifyDataSetChanged();
+    }
+
     @Override
     protected void onSaveInstanceState(Bundle outState){
         super.onSaveInstanceState(outState);
@@ -127,6 +128,7 @@ public class MainActivity extends AppCompatActivity {
         filter = savedInstanceState.getParcelable("filter");
         Log.d("tag","restoring!");
         Log.d("tag",String.valueOf(filter.getType()));
+        refresh();
     }
 
     @Override
@@ -255,6 +257,12 @@ public class MainActivity extends AppCompatActivity {
             });
             dialog.show();
             return true;
+        }
+        if (id == R.id.action_mapView) {
+            Intent intent = new Intent(this, MapActivity.class);
+            intent.putParcelableArrayListExtra("moods",moods);
+            intent.putExtra("filter",filter);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
