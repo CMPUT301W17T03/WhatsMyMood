@@ -15,6 +15,7 @@
         <item name="android:textColorPrimary">@color/happyTextColorPrimary</item>
         <item name="android:textColorTertiary">@color/happyTextColorTertiary</item>
         <item name="android:windowBackground">@color/happyWindowBackground</item>
+        <item name="android:itemBackground">@color/action_bar</item>
     </style>
 
     <!-- Sad Theme -->
@@ -55,6 +56,7 @@
         <item name="android:textColorPrimary">@color/scaredTextColorPrimary</item>
         <item name="android:textColorTertiary">@color/scaredTextColorTertiary</item>
         <item name="android:windowBackground">@color/scaredWindowBackground</item>
+        <item name="android:itemBackground">@color/action_bar</item>
     </style>
 
     <!-- Shame Theme -->
@@ -63,6 +65,7 @@
         <item name="android:textColorPrimary">@color/shameTextColorPrimary</item>
         <item name="android:textColorTertiary">@color/shameTextColorTertiary</item>
         <item name="android:windowBackground">@color/shameWindowBackground</item>
+        <item name="android:itemBackground">@color/action_bar</item>
     </style>
 
     <!-- Surprised Theme -->
@@ -71,16 +74,20 @@
         <item name="android:textColorPrimary">@color/surprisedTextColorPrimary</item>
         <item name="android:textColorTertiary">@color/surprisedTextColorTertiary</item>
         <item name="android:windowBackground">@color/surprisedWindowBackground</item>
+        <item name="android:itemBackground">@color/action_bar</item>
+        <item name="android:colorPrimary">@color/colorAccent</item>
+        <item name="android:actionBarStyle">@style/MyToolbarStyle</item>
     </style>
 
 
-    <style name="MyToolbarStyle" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="MyToolbarStyle" parent="@android:style/Widget.Holo.ActionBar">
         <item name="android:minWidth">20dip</item>
         <item name="android:padding">0dip</item>
+        <item name="android:background">#222222</item>
     </style>
 
     <style name="AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="PopupOverlay" parent="ThemeOverlay.AppCompat.Dark" />
 
 </resources>

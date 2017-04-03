@@ -12,7 +12,6 @@
         android:id="@+id/appbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="@dimen/appbar_padding_top"
         android:theme="@style/AppBarOverlay">
 
 
@@ -20,7 +19,7 @@
             android:id="@+id/profile_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
+            android:background="#FF000000"
             app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/PopupOverlay">
 
@@ -28,28 +27,21 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <!---<ScrollView
-        android:id="@+id/main_view"
-        android:layout_height="fill_parent"
-        android:layout_width="match_parent"
-        android:layout_weight="0"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">-->
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/appbar"
+        >
+
         <ListView
             android:id="@+id/moodListView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-        </ListView>
+            android:layout_height="match_parent"></ListView>
     </LinearLayout>
-    <!---</ScrollView>-->
+
 
     <include
         layout="@layout/footer">
