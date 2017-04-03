@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <!-- To access the phone's camera -->
     <uses-permission android:name="android.permission.CAMERA" />
@@ -56,9 +57,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".FollowHubActivityOld"
-            android:noHistory="true" />
         <activity
             android:name=".UserCreateActivity"
             android:noHistory="true" />

@@ -1,5 +1,7 @@
 package com.example.whatsmymood;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 
 import com.google.android.gms.wearable.Asset;
@@ -17,14 +19,15 @@ import static com.google.android.gms.common.internal.safeparcel.SafeParcelable.N
  * Created by Alex on 4/2/2017.
  */
 
-public class Filter {
-    private final int RECENT = 1;
-    private final int MOOD_TYPE = 2;
-    private final int MOOD_MESSAGE = 3;
+public class Filter implements Parcelable {
+    public final int RECENT = 1;
+    public final int MOOD_TYPE = 2;
+    public final int MOOD_MESSAGE = 3;
 
     private int type;
     private String value = null;
 
+    public Filter(){this.type = 0;}
 
     public Filter(int type) {
         this.type = type;
@@ -52,6 +55,7 @@ public class Filter {
                         filteredList.add(moodList.get(i));
                     }
                 }
+                break;
             // Should make sure value != null ... not sure how to do that yet
             case MOOD_TYPE:
                 try{
@@ -65,6 +69,7 @@ public class Filter {
                     Log.i("error", "Value is null");
                     throw new RuntimeException();
                 }
+                break;
 
             case MOOD_MESSAGE:
                 try{
@@ -78,6 +83,9 @@ public class Filter {
                     Log.i("error", "Value is null");
                     throw new RuntimeException();
                 }
+                break;
+            default:
+                filteredList.addAll(moodList);
         }
         return filteredList;
     }
@@ -93,4 +101,39 @@ public class Filter {
     public void setType(int type) {
         this.type = type;
     }
+
+    protected Filter(Parcel in) {
+        //RECENT = in.readInt();
+        //MOOD_TYPE = in.readInt();
+        //MOOD_MESSAGE = in.readInt();
+        type = in.readInt();
+        value = in.readString();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        //dest.writeInt(RECENT);
+        //dest.writeInt(MOOD_TYPE);
+        //dest.writeInt(MOOD_MESSAGE);
+        dest.writeInt(type);
+        dest.writeString(value);
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<Filter> CREATOR = new Parcelable.Creator<Filter>() {
+        @Override
+        public Filter createFromParcel(Parcel in) {
+            return new Filter(in);
+        }
+
+        @Override
+        public Filter[] newArray(int size) {
+            return new Filter[size];
+        }
+    };
 }

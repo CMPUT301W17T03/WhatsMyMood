@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
@@ -104,9 +105,9 @@ class MoodAdapter extends ArrayAdapter<Mood> {
         dateText.setText(DateFormat.getDateTimeInstance(
                 DateFormat.MEDIUM, DateFormat.SHORT).format(mood.getDate()));
 
-
         if (this.mContext instanceof ProfileActivity) {
             final ImageButton moodButton = (ImageButton) customView.findViewById(R.id.mood_functions);
+            moodButton.setVisibility(View.VISIBLE);
             moodButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

@@ -1,14 +1,22 @@
 package com.example.whatsmymood;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Spinner;
+
+import java.util.ArrayList;
 
 /**
  * The type Profile activity.
@@ -17,14 +25,24 @@ import android.widget.ListView;
  * being viewed
  */
 public class ProfileActivity extends AppCompatActivity {
-    private final CurrentUser current = CurrentUser.getInstance();
-    private UserAccount user = current.getCurrentUser();
+    private CurrentUser current = CurrentUser.getInstance();
+    private ArrayList<Mood> moods;
+
+    private Dialog dialog;
+    private Filter filter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         ThemeController.setThemeForRecentMood(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+
+        dialog = new Dialog(this);
+        if((savedInstanceState == null)){
+            this.filter = new Filter();
+        }
+        moods = current.getCurrentUser().moodList.getMoodList();
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.profile_toolbar);
         setSupportActionBar(toolbar);
@@ -35,6 +53,28 @@ public class ProfileActivity extends AppCompatActivity {
         setAdapters();
     }
 
+    private void refresh(){
+        Log.d("tag","restoring!");
+        Log.d("tag",String.valueOf(filter.getType()));
+        moods = filter.filterArray(current.getCurrentUser().moodList.getMoodList());
+        ListView moodListView = (ListView) findViewById(R.id.moodListView);
+        ((ArrayAdapter)moodListView.getAdapter()).notifyDataSetChanged();
+    }
+    @Override
+    protected void onSaveInstanceState(Bundle outState){
+        super.onSaveInstanceState(outState);
+        outState.putParcelable("filter",filter);
+        Log.d("tag","parceling!");
+        Log.d("tag",String.valueOf(filter.getType()));
+    }
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        filter = savedInstanceState.getParcelable("filter");
+        Log.d("tag","restoring!");
+        Log.d("tag",String.valueOf(filter.getType()));
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         //super.onActivityResult(requestCode, resultCode, intent);
@@ -42,7 +82,7 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void setAdapters() {
-        ArrayAdapter<Mood> moodAdapter = new MoodAdapter(user.getMoodList().getMoodList(), this);
+        ArrayAdapter<Mood> moodAdapter = new MoodAdapter(moods, this);
 
         ListView moodListView = (ListView) findViewById(R.id.moodListView);
 
@@ -65,19 +105,46 @@ public class ProfileActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_recent) {
+            filter.setType(filter.RECENT);
+            refresh();
             return true;
         }
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_moodType) {
+            dialog.setContentView(R.layout.mood_filter_popup);
+            final Button submit =  (Button)dialog.findViewById(R.id.filter);
+            submit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Spinner spinner = (Spinner)dialog.findViewById(R.id.select_mood);
+                    filter.setType(filter.MOOD_TYPE);
+                    filter.setValue(spinner.getSelectedItem().toString());
+                    dialog.dismiss();
+                    refresh();
+                }
+            });
+            dialog.show();
             return true;
         }
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_moodMessage) {
+            dialog.setContentView(R.layout.message_filter_popup);
+            final Button submit =  (Button)dialog.findViewById(R.id.filter);
+            submit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    EditText text = (EditText) dialog.findViewById(R.id.message);
+                    filter.setType(filter.MOOD_MESSAGE);
+                    filter.setValue(text.getText().toString());
+                    dialog.dismiss();
+                    refresh();
+                }
+            });
+            dialog.show();
             return true;
         }
-
 
         return super.onOptionsItemSelected(item);
     }

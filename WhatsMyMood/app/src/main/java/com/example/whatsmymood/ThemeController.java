@@ -79,8 +79,8 @@ public class ThemeController {
 
     public static void notifyThemeChange(Activity activity)
     {
-        activity.finish();
-        activity.startActivity(new Intent(activity, activity.getClass()));
+        activity.recreate();
+        //activity.startActivity(new Intent(activity, activity.getClass()));
     }
 
 }

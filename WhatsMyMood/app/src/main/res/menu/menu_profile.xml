@@ -13,4 +13,7 @@
     <item android:id="@+id/action_moodMessage"
         android:title="Mood message"
         app:showAsAction="never"/>
+    <item android:id="@+id/action_mapView"
+        android:title="View on map"
+        app:showAsAction="never"/>
 </menu>
