@@ -2,6 +2,7 @@ package com.example.whatsmymood;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,5 +34,10 @@ public class FollowHubActivityTab3Requests extends Fragment {
                 current.getCurrentUser().relations.getFollowRequestsList(), this.getContext());
         requestsList.setAdapter(requestAdapter);
         return rootView;
+    }
+
+    public void refresh() {
+        ((ArrayAdapter)requestsList.getAdapter()).notifyDataSetChanged();
+        Log.d("refresh","refreshed list!!");
     }
 }
