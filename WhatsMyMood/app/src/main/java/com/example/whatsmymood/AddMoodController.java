@@ -304,7 +304,7 @@ class AddMoodController{
 
         if (!editMoodMsg.getText().toString().isEmpty()) {
             String message = editMoodMsg.getText().toString();
-            if (message.split("\\s+").length > 3 || message.length() > 15) {
+            if (message.split("\\s+").length > 3 || message.length() > 20) {
                 MOOD_MESSAGE_INVALID = true;
             } else {
                 this.moodMsg = editMoodMsg.getText().toString();
@@ -336,7 +336,7 @@ class AddMoodController{
             textview.setText(R.string.invalid_mood);
             SELECT_MOOD_INVALID = false;
         } else if (MOOD_MESSAGE_INVALID) {
-            editMoodMsg.setError("Mood Messages must be less than 15 characters and less than 4 words");
+            editMoodMsg.setError("Mood Messages must be less than 20 characters containing 3 or less words");
             MOOD_MESSAGE_INVALID = false;
         } else if (DATE_INVALID) {
             editDate.setError("Invalid Date Inputted (yyyy-MM-DD)");
