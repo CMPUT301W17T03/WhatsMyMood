@@ -1,38 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="300dp"
     android:layout_height="wrap_content"
+    android:background="#333333"
     android:orientation="vertical"
-    android:weightSum="1"
-    android:background="#333333">>
+    android:weightSum="1">>
 
     <EditText
         android:id="@+id/message"
-        android:layout_width="wrap_content"
-        android:layout_height="20dp"
-        android:layout_marginLeft="0dp"
-        android:layout_marginRight="0dp"
-        android:layout_marginTop="70dp"
-        android:layout_weight="0.5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/popup_background"
         android:gravity="center"
         android:hint="Enter a Message"
-        android:inputType="date"
-        android:textSize="12sp"
+        android:inputType="text"
         android:textColorHint="@color/popup_text"
-        android:background="@color/popup_background"/>
+        android:textSize="12sp" />
+
     <Button
         android:id="@+id/filter"
         android:layout_width="match_parent"
         android:layout_height="20dp"
-        android:layout_marginTop="20dp"
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
         android:background="@color/popup_background"
         android:elevation="4dp"
         android:text="Filter"
-        android:textSize="12sp"
+        android:textAllCaps="false"
         android:textColor="@color/popup_text"
-        android:textAllCaps="false"/>
+        android:textSize="12sp" />
 
 </LinearLayout>
