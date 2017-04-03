@@ -91,8 +91,9 @@ class MoodAdapter extends ArrayAdapter<Mood> {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext,MapActivity.class);
-                intent.putExtra("Lat",mood.getLocation().latitude);
-                intent.putExtra("Lng",mood.getLocation().longitude);
+                ArrayList<Mood> temp = new ArrayList<Mood>();
+                temp.add(mood);
+                intent.putParcelableArrayListExtra("moods",temp);
                 mContext.startActivity(intent);
             }
         });
