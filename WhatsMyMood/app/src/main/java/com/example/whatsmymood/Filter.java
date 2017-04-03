@@ -22,6 +22,7 @@ import static com.google.android.gms.common.internal.safeparcel.SafeParcelable.N
  */
 
 public class Filter implements Parcelable {
+    public final int NONE = 0;
     public final int RECENT = 1;
     public final int MOOD_TYPE = 2;
     public final int MOOD_MESSAGE = 3;
@@ -29,9 +30,9 @@ public class Filter implements Parcelable {
 
     private int type;
     private Bundle bundle;
-    private String value = null;
+    private String value;
 
-    public Filter(){this.type = 0;}
+    public Filter(){this.type = NONE;}
 
     public Filter(int type) {
         this.type = type;
@@ -46,7 +47,9 @@ public class Filter implements Parcelable {
 
         ArrayList<Mood> filteredList = new ArrayList<Mood>();
         switch(this.type){
-
+            case NONE:
+                filteredList.addAll(moodList);
+                break;
             case RECENT:
 
                 // http://stackoverflow.com/questions/16982056/how-to-get-the-date-7-days-earlier-date-from-current-date-in-java
@@ -67,7 +70,7 @@ public class Filter implements Parcelable {
             case MOOD_TYPE:
                 try{
                     Assert.assertNotNull(value);
-                    for (int i = 1; i < moodList.size(); i++) {
+                    for (int i = 0; i < moodList.size(); i++) {
                         if (moodList.get(i).getMoodType().compareTo(value)==0) {
                             filteredList.add(moodList.get(i));
                         }
@@ -80,15 +83,17 @@ public class Filter implements Parcelable {
 
             case MOOD_MESSAGE:
                 try{
-                    Assert.assertNull(value);
-                    for (int i = 1; i < moodList.size(); i++) {
-                        if (moodList.get(i).getMoodMsg().toLowerCase().contains(value.toLowerCase())) {
-                            filteredList.add(moodList.get(i));
+                    Log.d("filter","filter value:"+this.value);
+                    for (int i = 0; i < moodList.size(); i++) {
+                        if(moodList.get(i).getMoodMsg() != null) {
+                            if (moodList.get(i).getMoodMsg().toLowerCase().contains(value.toLowerCase())) {
+                                filteredList.add(moodList.get(i));
+                            }
                         }
                     }
-                }catch(AssertionError e) {
-                    Log.i("error", "Value is null");
-                    throw new RuntimeException();
+                }catch(NullPointerException e) {
+                    Log.d("filter","null pointer exception");
+                    return moodList;
                 }
                 break;
             case FIVE_KM:

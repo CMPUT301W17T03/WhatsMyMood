@@ -147,6 +147,8 @@ public class ProfileActivity extends AppCompatActivity {
                     if(!text.getText().toString().isEmpty()) {
                         filter.setType(filter.MOOD_MESSAGE);
                         filter.setValue(text.getText().toString());
+                        Log.d("filter",String.valueOf(filter.MOOD_MESSAGE));
+                        Log.d("filter",text.getText().toString());
                         refresh();
                     }
                     dialog.dismiss();
