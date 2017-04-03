@@ -19,6 +19,7 @@ import static com.google.android.gms.common.internal.safeparcel.SafeParcelable.N
 
 /**
  * Created by Alex on 4/2/2017.
+ *
  */
 
 public class Filter implements Parcelable {
