@@ -29,7 +29,9 @@ import java.util.concurrent.ExecutionException;
 /**
  * Main Activity
  * Used for displaying the moods of the people you follow
- * Also implements a footer that handles different activities
+ * Also implements a footer that handles moving to different activities
+ * @author Yiji
+ * @version 2.4, 4/1/2017
  */
 public class MainActivity extends AppCompatActivity {
     private final CurrentUser current = CurrentUser.getInstance();

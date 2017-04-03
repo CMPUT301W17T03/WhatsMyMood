@@ -10,6 +10,7 @@ import java.util.Date;
 
 /**
  * Mood object that holds mood details
+ * @author Yiji
  */
 public class Mood implements Comparable<Mood>, Parcelable {
     private String moodType;

@@ -17,8 +17,9 @@ import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 /**
- * The type Request adapter.
- * Created By ejtang 07/03/2017
+ * Handles the display of requests in follow hub.
+ * @author ejtang
+ * @version 1.0, 07/03/2017
  */
 public class RequestAdapter extends ArrayAdapter<String> {
     private final CurrentUser current = CurrentUser.getInstance();

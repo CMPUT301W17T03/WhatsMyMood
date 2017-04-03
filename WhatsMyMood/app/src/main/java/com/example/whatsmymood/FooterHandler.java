@@ -12,9 +12,8 @@ import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 /**
- * Created by Malcolm on 2017-03-08.
  *@author mtfische
- *
+ *@version 1.0 , 2017-03-08.
  */
 
 class FooterHandler {

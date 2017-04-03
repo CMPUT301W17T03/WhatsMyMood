@@ -1,0 +1,40 @@
+<html>
+<head>
+<title>UpdateCommand.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: #606366; font-weight: normal; font-style: normal; }
+.s0 { color: rgb(204,120,50); }
+.s1 { color: rgb(169,183,198); }
+.s2 { color: rgb(98,151,85); font-style: italic; }
+</style>
+</head>
+<BODY BGCOLOR="#2b2b2b">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+UpdateCommand.java</FONT>
+</center></TD></TR></TABLE>
+<pre>
+<span class="s0">package </span><span class="s1">com.example.whatsmymood</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s2">/** 
+ * Created by nathan on 02/04/17. 
+ */</span><span class="s1"> 
+ 
+</span><span class="s0">public class </span><span class="s1">UpdateCommand </span><span class="s0">extends </span><span class="s1">Command { 
+    </span><span class="s0">private </span><span class="s1">UserAccount user</span><span class="s0">;</span><span class="s1"> 
+ 
+    </span><span class="s0">public </span><span class="s1">UpdateCommand(UserAccount user) { 
+        </span><span class="s0">this</span><span class="s1">.user = user</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    @Override 
+    </span><span class="s0">public void </span><span class="s1">executeCommand() { 
+        ElasticSearchUserController.UpdateUser updateUser = </span><span class="s0">new </span><span class="s1">ElasticSearchUserController.UpdateUser()</span><span class="s0">;</span><span class="s1"> 
+        updateUser.execute(</span><span class="s0">this</span><span class="s1">.user)</span><span class="s0">;</span><span class="s1"> 
+    } 
+} 
+</span></pre>
+</body>
+</html>

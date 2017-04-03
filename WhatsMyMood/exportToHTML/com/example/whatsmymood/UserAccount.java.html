@@ -1,0 +1,143 @@
+<html>
+<head>
+<title>UserAccount.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: #606366; font-weight: normal; font-style: normal; }
+.s0 { color: rgb(204,120,50); }
+.s1 { color: rgb(169,183,198); }
+.s2 { color: rgb(98,151,85); font-style: italic; }
+.s3 { color: rgb(98,151,85); font-weight: bold; font-style: italic; }
+.s4 { color: rgb(128,128,128); }
+</style>
+</head>
+<BODY BGCOLOR="#2b2b2b">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+UserAccount.java</FONT>
+</center></TD></TR></TABLE>
+<pre>
+<span class="s0">package </span><span class="s1">com.example.whatsmymood</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s0">import </span><span class="s1">android.graphics.Bitmap</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s0">import </span><span class="s1">io.searchbox.annotations.JestId</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s2">/** 
+ * Created by Alex on 2/21/2017. 
+ * User account class 
+ */</span><span class="s1"> 
+</span><span class="s0">public class </span><span class="s1">UserAccount { 
+    </span><span class="s2">/** 
+     * UserAccount is used to store all of the users information 
+     * 
+     * </span><span class="s3">@param </span><span class="s2">username       The username of a user, used to identify them within the app 
+     * </span><span class="s3">@param </span><span class="s2">password       The user's password stored as a hash 
+     * </span><span class="s3">@param </span><span class="s2">name           The user's name used as an identity between users 
+     * </span><span class="s3">@param </span><span class="s2">profilePicture An image added by the user to describe themselves 
+     * </span><span class="s3">@param </span><span class="s2">moodlist       A class which contains methods to store moods 
+     * </span><span class="s3">@see   </span><span class="s2">MoodList 
+     * </span><span class="s3">@param </span><span class="s2">relations      A class which contains methods for following users 
+     * </span><span class="s3">@see   </span><span class="s2">Relations 
+     */</span><span class="s1"> 
+    </span><span class="s0">private final </span><span class="s1">String username</span><span class="s0">;</span><span class="s1"> 
+    </span><span class="s0">private </span><span class="s1">String password</span><span class="s0">;</span><span class="s1"> 
+    </span><span class="s0">private </span><span class="s1">String name</span><span class="s0">;</span><span class="s1"> 
+    </span><span class="s0">private </span><span class="s1">Bitmap profilePicture</span><span class="s0">;</span><span class="s1"> 
+    </span><span class="s0">public </span><span class="s1">Relations relations</span><span class="s0">;</span><span class="s1"> 
+    </span><span class="s0">public </span><span class="s1">MoodList moodList</span><span class="s0">;</span><span class="s1"> 
+ 
+ 
+    @JestId 
+    </span><span class="s0">private </span><span class="s1">String id</span><span class="s0">;</span><span class="s1"> 
+ 
+    </span><span class="s0">public </span><span class="s1">UserAccount(String username</span><span class="s0">, </span><span class="s1">String password) { 
+        </span><span class="s0">this</span><span class="s1">.username = username</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s0">this</span><span class="s1">.password = password</span><span class="s0">;</span><span class="s1"> 
+        moodList = </span><span class="s0">new </span><span class="s1">MoodList()</span><span class="s0">;</span><span class="s1"> 
+        relations = </span><span class="s0">new </span><span class="s1">Relations()</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">public void </span><span class="s1">setPassword(String password) {</span><span class="s0">this</span><span class="s1">.password = password</span><span class="s0">;</span><span class="s1">} 
+ 
+    </span><span class="s2">/** 
+     * Method to get the user's password 
+     * 
+     * </span><span class="s3">@return </span><span class="s2">the user's password hash 
+     */</span><span class="s1"> 
+    </span><span class="s0">public </span><span class="s1">String getUsername() { 
+        </span><span class="s0">return this</span><span class="s1">.username</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">/** 
+     * Method to get the user's username 
+     * 
+     * </span><span class="s3">@return </span><span class="s2">the user's username 
+     */</span><span class="s1"> 
+    </span><span class="s0">public </span><span class="s1">String getPassword() { 
+        </span><span class="s0">return this</span><span class="s1">.password</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">/** 
+     *</span><span class="s3">@param </span><span class="s2">oldPassword              The password currently in use, stored as hash 
+     *</span><span class="s3">@param </span><span class="s2">newPassword              The password to change to, stored as hash 
+     */</span><span class="s1"> 
+    </span><span class="s0">public void </span><span class="s1">setPassword(String oldPassword</span><span class="s0">, </span><span class="s1">String newPassword){ 
+        </span><span class="s0">if</span><span class="s1">(</span><span class="s0">this</span><span class="s1">.password.equals(oldPassword)) { 
+            </span><span class="s0">this</span><span class="s1">.password = newPassword</span><span class="s0">;</span><span class="s1"> 
+        } 
+    } 
+ 
+    </span><span class="s2">/** 
+     * Method to get the user's name 
+     * 
+     * </span><span class="s3">@return </span><span class="s2">name of user as String 
+     */</span><span class="s1"> 
+    </span><span class="s0">public </span><span class="s1">String getName() { 
+        </span><span class="s0">return </span><span class="s1">name</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">/** 
+     * Method to set the user's name 
+     * 
+     * </span><span class="s3">@param </span><span class="s2">newName    The name to set the user's name to 
+     */</span><span class="s1"> 
+    </span><span class="s0">public void </span><span class="s1">setName(String newName) { 
+        </span><span class="s0">this</span><span class="s1">.name = newName</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">public </span><span class="s1">Bitmap getProfilePicture() { 
+        </span><span class="s0">return </span><span class="s1">profilePicture</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">public void </span><span class="s1">setProfilePicture(Bitmap newProfilePicture) { 
+        </span><span class="s0">this</span><span class="s1">.profilePicture = newProfilePicture</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s4">// TODO: Probably redundant, should remove.</span><span class="s1"> 
+    </span><span class="s0">public void </span><span class="s1">setId(String id) { 
+        </span><span class="s0">this</span><span class="s1">.id = id</span><span class="s0">;</span><span class="s1"> 
+    } 
+    </span><span class="s0">public </span><span class="s1">String getId() {</span><span class="s0">return this</span><span class="s1">.id</span><span class="s0">;</span><span class="s1">} 
+ 
+    </span><span class="s0">public </span><span class="s1">MoodList getMoodList() { 
+        </span><span class="s0">return </span><span class="s1">moodList</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">public void </span><span class="s1">setMoodList(MoodList moodList) { 
+        </span><span class="s0">this</span><span class="s1">.moodList = moodList</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">public </span><span class="s1">Relations getRelations() { 
+        </span><span class="s0">return </span><span class="s1">relations</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">public void </span><span class="s1">setRelations(Relations relations) { 
+        </span><span class="s0">this</span><span class="s1">.relations = relations</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+} 
+</span></pre>
+</body>
+</html>

@@ -11,8 +11,9 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 /**
- * The type Follow adapter.
- * Created by ejtang on 7/03/2017
+ * Adapts list of users to be viewed in the follow hub
+ * @author ejtang
+ * @version 1.0, 7/03/2017
  */
 class FollowAdapter extends ArrayAdapter<String> {
     private final Context mContext;

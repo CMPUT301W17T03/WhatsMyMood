@@ -26,7 +26,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.ArrayList;
 
 /**
- * An activity that displays a Google map with a marker (pin) to indicate a particular location.
+ * An activity that displays a Google map with a marker (pin) to indicate a particular mood.
+ * @author ejtang
  */
 public class MapActivity extends AppCompatActivity
         implements OnMapReadyCallback,

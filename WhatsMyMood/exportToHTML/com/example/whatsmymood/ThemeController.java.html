@@ -1,0 +1,113 @@
+<html>
+<head>
+<title>ThemeController.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: #606366; font-weight: normal; font-style: normal; }
+.s0 { color: rgb(204,120,50); }
+.s1 { color: rgb(169,183,198); }
+.s2 { color: rgb(98,151,85); font-style: italic; }
+.s3 { color: rgb(119,183,103); font-style: italic; }
+.s4 { color: rgb(128,128,128); }
+.s5 { color: rgb(106,135,89); }
+.s6 { color: rgb(98,151,85); font-weight: bold; font-style: italic; }
+</style>
+</head>
+<BODY BGCOLOR="#2b2b2b">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+ThemeController.java</FONT>
+</center></TD></TR></TABLE>
+<pre>
+<span class="s0">package </span><span class="s1">com.example.whatsmymood</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s0">import </span><span class="s1">android.app.Activity</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.content.Context</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.content.Intent</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.content.pm.ActivityInfo</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.util.Log</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s2">/** 
+ * Created by YiJi on 2017-03-28. 
+ * </span><span class="s3">&lt;p&gt;</span><span class="s2"> 
+ * Reference used on March 28th, 2017 at 5:36pm 
+ * http://mrbool.com/how-to-change-the-layout-theme-of-an-android-application/25837 
+ */</span><span class="s1"> 
+ 
+ 
+</span><span class="s0">public class </span><span class="s1">ThemeController { 
+ 
+    </span><span class="s0">private static </span><span class="s1">String moodType</span><span class="s0">;</span><span class="s1"> 
+   </span><span class="s4">// private Activity mActivity;</span><span class="s1"> 
+ 
+    </span><span class="s0">private final static </span><span class="s1">String HAPPY_THEME = </span><span class="s5">&quot;Happiness&quot;</span><span class="s0">;</span><span class="s1"> 
+    </span><span class="s0">private final static </span><span class="s1">String SAD_THEME = </span><span class="s5">&quot;Sadness&quot;</span><span class="s0">;</span><span class="s1"> 
+    </span><span class="s0">private final static </span><span class="s1">String ANGRY_THEME = </span><span class="s5">&quot;Anger&quot;</span><span class="s0">;</span><span class="s1"> 
+    </span><span class="s0">private final static </span><span class="s1">String CONFUSED_THEME = </span><span class="s5">&quot;Confusion&quot;</span><span class="s0">;</span><span class="s1"> 
+    </span><span class="s0">private final static </span><span class="s1">String DISGUST_THEME = </span><span class="s5">&quot;Disgusted&quot;</span><span class="s0">;</span><span class="s1"> 
+    </span><span class="s0">private final static </span><span class="s1">String SCARED_THEME = </span><span class="s5">&quot;Scared&quot;</span><span class="s0">;</span><span class="s1"> 
+    </span><span class="s0">private final static </span><span class="s1">String SHAME_THEME = </span><span class="s5">&quot;Shame&quot;</span><span class="s0">;</span><span class="s1"> 
+    </span><span class="s0">private final static </span><span class="s1">String SURPRISE_THEME = </span><span class="s5">&quot;Surprise&quot;</span><span class="s0">;</span><span class="s1"> 
+ 
+    </span><span class="s2">/** 
+     * Set theme for recent mood. 
+     * 
+     * </span><span class="s6">@param </span><span class="s2">activity the activity 
+     */</span><span class="s1"> 
+    </span><span class="s0">public static void </span><span class="s1">setThemeForRecentMood(Activity activity){ 
+        </span><span class="s0">try</span><span class="s1"> 
+        { 
+            moodType = CurrentUser.getInstance().getCurrentUser().moodList.getRecentMood().getMoodType()</span><span class="s0">;</span><span class="s1"> 
+        }</span><span class="s0">catch</span><span class="s1">(NullPointerException e){ 
+            moodType = </span><span class="s5">&quot;&quot;</span><span class="s0">;</span><span class="s1"> 
+        } 
+        Log.i(</span><span class="s5">&quot;meep&quot;</span><span class="s0">, </span><span class="s1">activity.toString())</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s0">switch</span><span class="s1">(moodType){ 
+            </span><span class="s0">case </span><span class="s1">HAPPY_THEME: 
+                Log.i(</span><span class="s5">&quot;meep&quot;</span><span class="s0">, </span><span class="s5">&quot;Happy&quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+                activity.setTheme(R.style.HappyTheme)</span><span class="s0">;</span><span class="s1"> 
+                </span><span class="s0">break;</span><span class="s1"> 
+            </span><span class="s0">case </span><span class="s1">SAD_THEME: 
+                Log.i(</span><span class="s5">&quot;meep&quot;</span><span class="s0">, </span><span class="s5">&quot;Sad&quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+                activity.setTheme(R.style.SadTheme)</span><span class="s0">;</span><span class="s1"> 
+                </span><span class="s0">break;</span><span class="s1"> 
+            </span><span class="s0">case </span><span class="s1">ANGRY_THEME: 
+                Log.i(</span><span class="s5">&quot;meep&quot;</span><span class="s0">, </span><span class="s5">&quot;Anger&quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+                activity.setTheme(R.style.AngerTheme)</span><span class="s0">;</span><span class="s1"> 
+                </span><span class="s0">break;</span><span class="s1"> 
+            </span><span class="s0">case </span><span class="s1">CONFUSED_THEME: 
+                Log.i(</span><span class="s5">&quot;meep&quot;</span><span class="s0">, </span><span class="s5">&quot;Confuzzle&quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+                activity.setTheme(R.style.ConfusedTheme)</span><span class="s0">;</span><span class="s1"> 
+                </span><span class="s0">break;</span><span class="s1"> 
+            </span><span class="s0">case </span><span class="s1">DISGUST_THEME: 
+                Log.i(</span><span class="s5">&quot;meep&quot;</span><span class="s0">, </span><span class="s5">&quot;Disgust&quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+                activity.setTheme(R.style.DisgustedTheme)</span><span class="s0">;</span><span class="s1"> 
+                </span><span class="s0">break;</span><span class="s1"> 
+            </span><span class="s0">case </span><span class="s1">SCARED_THEME: 
+                Log.i(</span><span class="s5">&quot;meep&quot;</span><span class="s0">, </span><span class="s5">&quot;Scared&quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+                activity.setTheme(R.style.ScaredTheme)</span><span class="s0">;</span><span class="s1"> 
+                </span><span class="s0">break;</span><span class="s1"> 
+            </span><span class="s0">case </span><span class="s1">SHAME_THEME: 
+                Log.i(</span><span class="s5">&quot;meep&quot;</span><span class="s0">, </span><span class="s5">&quot;Shame&quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+                activity.setTheme(R.style.ShameTheme)</span><span class="s0">;</span><span class="s1"> 
+                </span><span class="s0">break;</span><span class="s1"> 
+            </span><span class="s0">case </span><span class="s1">SURPRISE_THEME: 
+                Log.i(</span><span class="s5">&quot;meep&quot;</span><span class="s0">, </span><span class="s5">&quot;Surprise&quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+                activity.setTheme(R.style.SurprisedTheme)</span><span class="s0">;</span><span class="s1"> 
+                </span><span class="s0">break;</span><span class="s1"> 
+            </span><span class="s0">default</span><span class="s1">: 
+                Log.i(</span><span class="s5">&quot;meep&quot;</span><span class="s0">, </span><span class="s5">&quot;Default&quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+                activity.setTheme(R.style.DefaultTheme)</span><span class="s0">;</span><span class="s1"> 
+                </span><span class="s0">break;</span><span class="s1"> 
+        } 
+    } 
+ 
+    </span><span class="s0">public static void </span><span class="s1">notifyThemeChange(Activity activity) 
+    { 
+        activity.recreate()</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+}</span></pre>
+</body>
+</html>

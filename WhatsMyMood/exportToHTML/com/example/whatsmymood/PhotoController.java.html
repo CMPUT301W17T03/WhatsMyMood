@@ -1,0 +1,65 @@
+<html>
+<head>
+<title>PhotoController.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: #606366; font-weight: normal; font-style: normal; }
+.s0 { color: rgb(204,120,50); }
+.s1 { color: rgb(169,183,198); }
+.s2 { color: rgb(98,151,85); font-style: italic; }
+.s3 { color: rgb(98,151,85); font-weight: bold; font-style: italic; }
+.s4 { color: rgb(104,151,187); }
+</style>
+</head>
+<BODY BGCOLOR="#2b2b2b">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+PhotoController.java</FONT>
+</center></TD></TR></TABLE>
+<pre>
+<span class="s0">package </span><span class="s1">com.example.whatsmymood</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s0">import </span><span class="s1">android.graphics.Bitmap</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.graphics.BitmapFactory</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.util.Base64</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s0">import </span><span class="s1">java.io.ByteArrayOutputStream</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s2">/** 
+ * Translates photos between elastic search and the rest of the app 
+ * </span><span class="s3">@author </span><span class="s2">Malcom 
+ */</span><span class="s1"> 
+</span><span class="s0">class </span><span class="s1">PhotoController { 
+    </span><span class="s0">private final </span><span class="s1">ByteArrayOutputStream outputStream = </span><span class="s0">new </span><span class="s1">ByteArrayOutputStream()</span><span class="s0">;</span><span class="s1"> 
+ 
+    </span><span class="s0">public </span><span class="s1">PhotoController() { 
+    } 
+ 
+    </span><span class="s2">/** 
+     * Encodes a photo to a string to upload to Elastic Search 
+     * </span><span class="s3">@param </span><span class="s2">photo Bitmap photo from the camera activity 
+     * </span><span class="s3">@return </span><span class="s2">Returns an encoded string 
+     */</span><span class="s1"> 
+    </span><span class="s0">public </span><span class="s1">String encodePhoto(Bitmap photo) { 
+ 
+        photo.compress(Bitmap.CompressFormat.JPEG</span><span class="s0">, </span><span class="s4">100</span><span class="s0">, </span><span class="s1">outputStream)</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s0">byte</span><span class="s1">[] imageBytes = outputStream.toByteArray()</span><span class="s0">;</span><span class="s1"> 
+ 
+        </span><span class="s0">return </span><span class="s1">Base64.encodeToString(imageBytes</span><span class="s0">, </span><span class="s1">Base64.DEFAULT)</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">/** 
+     * Decodes a string from elastic search into a bitmap photo 
+     * </span><span class="s3">@param </span><span class="s2">photo Encoded string of a photo 
+     * </span><span class="s3">@return </span><span class="s2">Returns a bitmap photo for display 
+     */</span><span class="s1"> 
+    </span><span class="s0">public </span><span class="s1">Bitmap decodePhoto(String photo) { 
+        </span><span class="s0">byte</span><span class="s1">[] decodedString = Base64.decode(photo</span><span class="s0">, </span><span class="s1">Base64.DEFAULT)</span><span class="s0">;</span><span class="s1"> 
+ 
+        </span><span class="s0">return </span><span class="s1">BitmapFactory.decodeByteArray(decodedString</span><span class="s0">, </span><span class="s4">0</span><span class="s0">, </span><span class="s1">decodedString.length)</span><span class="s0">;</span><span class="s1"> 
+    } 
+} 
+</span></pre>
+</body>
+</html>

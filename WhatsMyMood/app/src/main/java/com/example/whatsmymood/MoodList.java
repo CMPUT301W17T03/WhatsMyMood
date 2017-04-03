@@ -9,6 +9,7 @@ import java.util.Collections;
 /**
  * MoodList object holds an ArrayList of moods
  * to keep track of the moods of each user
+ * @author Malcom
  */
 public class MoodList implements Parcelable {
     private final ArrayList<Mood> moods;

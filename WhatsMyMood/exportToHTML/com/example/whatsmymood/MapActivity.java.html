@@ -1,0 +1,358 @@
+<html>
+<head>
+<title>MapActivity.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: #606366; font-weight: normal; font-style: normal; }
+.s0 { color: rgb(204,120,50); }
+.s1 { color: rgb(169,183,198); }
+.s2 { color: rgb(98,151,85); font-style: italic; }
+.s3 { color: rgb(98,151,85); font-weight: bold; font-style: italic; }
+.s4 { color: rgb(104,151,187); }
+.s5 { color: rgb(128,128,128); }
+.s6 { color: rgb(106,135,89); }
+</style>
+</head>
+<BODY BGCOLOR="#2b2b2b">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+MapActivity.java</FONT>
+</center></TD></TR></TABLE>
+<pre>
+<span class="s0">package </span><span class="s1">com.example.whatsmymood</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s0">import </span><span class="s1">android.content.Intent</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.content.pm.PackageManager</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.location.Location</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.os.Bundle</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.support.annotation.NonNull</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.support.v4.app.ActivityCompat</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.support.v4.content.ContextCompat</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.support.v7.app.AppCompatActivity</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.util.Log</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s0">import </span><span class="s1">com.google.android.gms.common.ConnectionResult</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">com.google.android.gms.common.api.GoogleApiClient</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">com.google.android.gms.location.LocationServices</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">com.google.android.gms.location.places.Places</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">com.google.android.gms.maps.CameraUpdateFactory</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">com.google.android.gms.maps.GoogleMap</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">com.google.android.gms.maps.OnMapReadyCallback</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">com.google.android.gms.maps.SupportMapFragment</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">com.google.android.gms.maps.model.BitmapDescriptorFactory</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">com.google.android.gms.maps.model.CameraPosition</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">com.google.android.gms.maps.model.LatLng</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">com.google.android.gms.maps.model.MarkerOptions</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s0">import </span><span class="s1">java.util.ArrayList</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s2">/** 
+ * An activity that displays a Google map with a marker (pin) to indicate a particular mood. 
+ * </span><span class="s3">@author </span><span class="s2">ejtang 
+ */</span><span class="s1"> 
+</span><span class="s0">public class </span><span class="s1">MapActivity </span><span class="s0">extends </span><span class="s1">AppCompatActivity 
+        </span><span class="s0">implements </span><span class="s1">OnMapReadyCallback</span><span class="s0">,</span><span class="s1"> 
+        GoogleApiClient.ConnectionCallbacks</span><span class="s0">,</span><span class="s1"> 
+        GoogleApiClient.OnConnectionFailedListener { 
+ 
+    </span><span class="s0">private </span><span class="s1">GoogleApiClient mGoogleApiClient</span><span class="s0">;</span><span class="s1"> 
+    </span><span class="s0">private </span><span class="s1">GoogleMap mMap</span><span class="s0">;</span><span class="s1"> 
+    </span><span class="s0">private </span><span class="s1">CameraPosition mCameraPosition</span><span class="s0">;</span><span class="s1"> 
+ 
+    </span><span class="s0">private final </span><span class="s1">LatLng mDefaultLocation = </span><span class="s0">new </span><span class="s1">LatLng(</span><span class="s4">53.5444</span><span class="s0">, </span><span class="s1">-</span><span class="s4">113.323975</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+    </span><span class="s0">private static final int </span><span class="s1">DEFAULT_ZOOM = </span><span class="s4">13</span><span class="s0">;</span><span class="s1"> 
+    </span><span class="s0">private static final int </span><span class="s1">PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = </span><span class="s4">1</span><span class="s0">;</span><span class="s1"> 
+    </span><span class="s0">private boolean </span><span class="s1">mLocationPermissionGranted</span><span class="s0">;</span><span class="s1"> 
+ 
+    </span><span class="s5">// Keys for storing activity state.</span><span class="s1"> 
+    </span><span class="s0">private static final </span><span class="s1">String KEY_CAMERA_POSITION = </span><span class="s6">&quot;camera_position&quot;</span><span class="s0">;</span><span class="s1"> 
+    </span><span class="s0">private static final </span><span class="s1">String KEY_LOCATION = </span><span class="s6">&quot;location&quot;</span><span class="s0">;</span><span class="s1"> 
+ 
+    </span><span class="s0">private </span><span class="s1">Location mLastKnownLocation</span><span class="s0">;</span><span class="s1"> 
+ 
+    @Override 
+    </span><span class="s0">protected void </span><span class="s1">onCreate(Bundle savedInstanceState) { 
+        </span><span class="s0">super</span><span class="s1">.onCreate(savedInstanceState)</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s5">// Retrieve the content view that renders the map.</span><span class="s1"> 
+        setContentView(R.layout.activity_map)</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s5">// Get the SupportMapFragment and request notification</span><span class="s1"> 
+        </span><span class="s5">// when the map is ready to be used.</span><span class="s1"> 
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager() 
+                .findFragmentById(R.id.map)</span><span class="s0">;</span><span class="s1"> 
+        mapFragment.getMapAsync(</span><span class="s0">this</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+ 
+        </span><span class="s5">// Do other setup activities here too, as described elsewhere in this tutorial.</span><span class="s1"> 
+ 
+        </span><span class="s5">// Build the Play services client for use by the Fused Location Provider and the Places API.</span><span class="s1"> 
+        </span><span class="s5">// Use the addApi() method to request the Google Places API and the Fused Location Provider.</span><span class="s1"> 
+        mGoogleApiClient = </span><span class="s0">new </span><span class="s1">GoogleApiClient.Builder(</span><span class="s0">this</span><span class="s1">) 
+                .enableAutoManage(</span><span class="s0">this </span><span class="s5">/* FragmentActivity */</span><span class="s0">,</span><span class="s1"> 
+                        </span><span class="s0">this </span><span class="s5">/* OnConnectionFailedListener */</span><span class="s1">) 
+                .addConnectionCallbacks(</span><span class="s0">this</span><span class="s1">) 
+                .addApi(LocationServices.API) 
+                .addApi(Places.GEO_DATA_API) 
+                .addApi(Places.PLACE_DETECTION_API) 
+                .build()</span><span class="s0">;</span><span class="s1"> 
+        mGoogleApiClient.connect()</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">/** 
+     * Manipulates the map when it's available. 
+     * The API invokes this callback when the map is ready to be used. 
+     * This is where we can add markers or lines, add listeners or move the camera. In this case, 
+     * we just add a marker near Sydney, Australia. 
+     * If Google Play services is not installed on the device, the user receives a prompt to install 
+     * Play services inside the SupportMapFragment. The API invokes this method after the user has 
+     * installed Google Play services and returned to the app. 
+     */</span><span class="s1"> 
+ 
+    </span><span class="s2">/** 
+     * Manipulates the map when it's available. 
+     * This callback is triggered when the map is ready to be used. 
+     */</span><span class="s1"> 
+    @Override 
+    </span><span class="s0">public void </span><span class="s1">onMapReady(GoogleMap map) { 
+        mMap = map</span><span class="s0">;</span><span class="s1"> 
+        Intent intent = getIntent()</span><span class="s0">;</span><span class="s1"> 
+ 
+        </span><span class="s5">// Do other setup activities here too, as described elsewhere in this tutorial.</span><span class="s1"> 
+ 
+        </span><span class="s5">// Turn on the My Location layer and the related control on the map.</span><span class="s1"> 
+        updateLocationUI()</span><span class="s0">;</span><span class="s1"> 
+ 
+        </span><span class="s5">// Get the current location of the device and set the position of the map.</span><span class="s1"> 
+        getDeviceLocation()</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s5">//mMap.addMarker(new MarkerOptions().position(mDefaultLocation)</span><span class="s1"> 
+        </span><span class="s5">//        .title(&quot;Default Location Marker&quot;));</span><span class="s1"> 
+        </span><span class="s5">//mMap.moveCamera(CameraUpdateFactory.newLatLng(mDefaultLocation));</span><span class="s1"> 
+ 
+        </span><span class="s0">try </span><span class="s1">{ 
+            LatLng moodLocation = </span><span class="s0">new </span><span class="s1">LatLng((Double) intent.getExtras().get(</span><span class="s6">&quot;Lat&quot;</span><span class="s1">)</span><span class="s0">,</span><span class="s1"> 
+                    (Double)intent.getExtras().get(</span><span class="s6">&quot;Lng&quot;</span><span class="s1">))</span><span class="s0">;</span><span class="s1"> 
+            Mood mood = (Mood) intent.getExtras().get(</span><span class="s6">&quot;mood&quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+            setMarker(mood)</span><span class="s0">;</span><span class="s1"> 
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(moodLocation))</span><span class="s0">;</span><span class="s1"> 
+            Log.d(</span><span class="s6">&quot;Mood Maker&quot;</span><span class="s0">, </span><span class="s6">&quot;Added mood marker&quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+        } </span><span class="s0">catch </span><span class="s1">(Exception e) { 
+            Log.d(</span><span class="s6">&quot;Exception&quot;</span><span class="s0">, </span><span class="s6">&quot;Nothing in intent, adding markers&quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+            </span><span class="s0">try </span><span class="s1">{ 
+                ArrayList&lt;Mood&gt; moods = intent.getParcelableArrayListExtra(</span><span class="s6">&quot;moods&quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+                Log.d(</span><span class="s6">&quot;check moodlist&quot;</span><span class="s0">,</span><span class="s1">moods.toString())</span><span class="s0">;</span><span class="s1"> 
+                Filter filter = intent.getParcelableExtra(</span><span class="s6">&quot;filter&quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+                </span><span class="s0">if </span><span class="s1">(filter.getType() == filter.FIVE_KM) { 
+                    Bundle bundle = </span><span class="s0">new </span><span class="s1">Bundle()</span><span class="s0">;</span><span class="s1"> 
+                    bundle.putParcelable(</span><span class="s6">&quot;location&quot;</span><span class="s0">,</span><span class="s1">mLastKnownLocation)</span><span class="s0">;</span><span class="s1"> 
+                } 
+                Log.d(</span><span class="s6">&quot;check moodListFiltered&quot;</span><span class="s0">,</span><span class="s1">filter.filterArray(moods).toString())</span><span class="s0">;</span><span class="s1"> 
+                setMoodMarkers(filter.filterArray(moods))</span><span class="s0">;</span><span class="s1"> 
+ 
+            } </span><span class="s0">catch </span><span class="s1">(Exception ex) { 
+                setMarker()</span><span class="s0">;</span><span class="s1"> 
+            } 
+        } 
+    } 
+ 
+    </span><span class="s0">private void </span><span class="s1">setMarker(Mood mood) { 
+        String moodType = mood.getMoodType()</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s0">switch </span><span class="s1">(moodType) { 
+            </span><span class="s0">case </span><span class="s6">&quot;Happiness&quot;</span><span class="s1">: 
+                Log.d(</span><span class="s6">&quot;add mood marker&quot;</span><span class="s0">, </span><span class="s6">&quot;Happiness&quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+                mMap.addMarker(</span><span class="s0">new </span><span class="s1">MarkerOptions().position(mood.getLocation()) 
+                        .title(mood.getMoodAuthor()) 
+                        .snippet(</span><span class="s6">&quot;Happiness&quot;</span><span class="s1">) 
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)))</span><span class="s0">;</span><span class="s1"> 
+                </span><span class="s0">break;</span><span class="s1"> 
+            </span><span class="s0">case </span><span class="s6">&quot;Sadness&quot;</span><span class="s1">: 
+                mMap.addMarker(</span><span class="s0">new </span><span class="s1">MarkerOptions().position(mood.getLocation()) 
+                        .title(mood.getMoodAuthor()) 
+                        .snippet(</span><span class="s6">&quot;Sadness&quot;</span><span class="s1">) 
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)))</span><span class="s0">;</span><span class="s1"> 
+                </span><span class="s0">break;</span><span class="s1"> 
+            </span><span class="s0">case </span><span class="s6">&quot;Anger&quot;</span><span class="s1">: 
+                mMap.addMarker(</span><span class="s0">new </span><span class="s1">MarkerOptions().position(mood.getLocation()) 
+                        .title(mood.getMoodAuthor()) 
+                        .snippet(</span><span class="s6">&quot;Anger&quot;</span><span class="s1">) 
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)))</span><span class="s0">;</span><span class="s1"> 
+                </span><span class="s0">break;</span><span class="s1"> 
+            </span><span class="s0">case </span><span class="s6">&quot;Confusion&quot;</span><span class="s1">: 
+                mMap.addMarker(</span><span class="s0">new </span><span class="s1">MarkerOptions().position(mood.getLocation()) 
+                        .title(mood.getMoodAuthor()) 
+                        .snippet(</span><span class="s6">&quot;Confusion&quot;</span><span class="s1">) 
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)))</span><span class="s0">;</span><span class="s1"> 
+                </span><span class="s0">break;</span><span class="s1"> 
+            </span><span class="s0">case </span><span class="s6">&quot;Disgusted&quot;</span><span class="s1">: 
+                mMap.addMarker(</span><span class="s0">new </span><span class="s1">MarkerOptions().position(mood.getLocation()) 
+                        .title(mood.getMoodAuthor()) 
+                        .snippet(</span><span class="s6">&quot;Disgusted&quot;</span><span class="s1">) 
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)))</span><span class="s0">;</span><span class="s1"> 
+                </span><span class="s0">break;</span><span class="s1"> 
+            </span><span class="s0">case </span><span class="s6">&quot;Scared&quot;</span><span class="s1">: 
+                mMap.addMarker(</span><span class="s0">new </span><span class="s1">MarkerOptions().position(mood.getLocation()) 
+                        .title(mood.getMoodAuthor()) 
+                        .snippet(</span><span class="s6">&quot;Scared&quot;</span><span class="s1">) 
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET)))</span><span class="s0">;</span><span class="s1"> 
+                </span><span class="s0">break;</span><span class="s1"> 
+            </span><span class="s0">case </span><span class="s6">&quot;Shame&quot;</span><span class="s1">: 
+                mMap.addMarker(</span><span class="s0">new </span><span class="s1">MarkerOptions().position(mood.getLocation()) 
+                        .title(mood.getMoodAuthor()) 
+                        .snippet(</span><span class="s6">&quot;Shame&quot;</span><span class="s1">) 
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA)))</span><span class="s0">;</span><span class="s1"> 
+                </span><span class="s0">break;</span><span class="s1"> 
+            </span><span class="s0">case </span><span class="s6">&quot;Surprise&quot;</span><span class="s1">: 
+                mMap.addMarker(</span><span class="s0">new </span><span class="s1">MarkerOptions().position(mood.getLocation()) 
+                        .title(mood.getMoodAuthor()) 
+                        .snippet(</span><span class="s6">&quot;Surprise&quot;</span><span class="s1">) 
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN)))</span><span class="s0">;</span><span class="s1"> 
+                </span><span class="s0">break;</span><span class="s1"> 
+        } 
+ 
+    } 
+ 
+    </span><span class="s0">private void </span><span class="s1">setMoodMarkers(ArrayList&lt;Mood&gt; moods) { 
+        </span><span class="s0">for </span><span class="s1">(</span><span class="s0">int </span><span class="s1">i = </span><span class="s4">0</span><span class="s0">; </span><span class="s1">i &lt; moods.size()</span><span class="s0">; </span><span class="s1">i++) { 
+            Mood mood = moods.get(i)</span><span class="s0">;</span><span class="s1"> 
+            </span><span class="s0">if </span><span class="s1">(mood.getLocation() != </span><span class="s0">null</span><span class="s1">) { 
+                setMarker(mood)</span><span class="s0">;</span><span class="s1"> 
+            } 
+        } 
+ 
+    } 
+ 
+    </span><span class="s0">private void </span><span class="s1">setMarker() { 
+        </span><span class="s5">//mMap.addMarker(new MarkerOptions().position(new LatLng(37.421998,-122.084000))</span><span class="s1"> 
+        </span><span class="s5">//        .title(&quot;Default Location Marker&quot;));</span><span class="s1"> 
+ 
+        </span><span class="s0">if </span><span class="s1">(ContextCompat.checkSelfPermission(</span><span class="s0">this</span><span class="s1">.getApplicationContext()</span><span class="s0">,</span><span class="s1"> 
+                android.Manifest.permission.ACCESS_FINE_LOCATION) 
+                == PackageManager.PERMISSION_GRANTED) { 
+            mLocationPermissionGranted = </span><span class="s0">true;</span><span class="s1"> 
+        } </span><span class="s0">else </span><span class="s1">{ 
+            ActivityCompat.requestPermissions(</span><span class="s0">this,</span><span class="s1"> 
+                    </span><span class="s0">new </span><span class="s1">String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}</span><span class="s0">,</span><span class="s1"> 
+                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION)</span><span class="s0">;</span><span class="s1"> 
+        } 
+ 
+        </span><span class="s0">if </span><span class="s1">(mLocationPermissionGranted) { 
+            mLastKnownLocation = LocationServices.FusedLocationApi 
+                    .getLastLocation(mGoogleApiClient)</span><span class="s0">;</span><span class="s1"> 
+            </span><span class="s0">if </span><span class="s1">(mLastKnownLocation != </span><span class="s0">null</span><span class="s1">){ 
+                mMap.addMarker(</span><span class="s0">new </span><span class="s1">MarkerOptions().position(</span><span class="s0">new </span><span class="s1">LatLng(mLastKnownLocation.getLatitude()</span><span class="s0">,</span><span class="s1">mLastKnownLocation.getLongitude())) 
+                        .title(</span><span class="s6">&quot;Default Location Marker&quot;</span><span class="s1">))</span><span class="s0">;</span><span class="s1"> 
+                Log.d(</span><span class="s6">&quot;Add Marker&quot;</span><span class="s0">, </span><span class="s1">String.valueOf(mLastKnownLocation))</span><span class="s0">;</span><span class="s1"> 
+ 
+            } 
+        } 
+ 
+    } 
+ 
+    </span><span class="s0">private void </span><span class="s1">getDeviceLocation() { 
+    </span><span class="s5">/* 
+     * Before getting the device location, you must check location 
+     * permission, as described earlier in the tutorial. Then: 
+     * Get the best and most recent location of the device, which may be 
+     * null in rare cases when a location is not available. 
+     */</span><span class="s1"> 
+        </span><span class="s0">if </span><span class="s1">(ContextCompat.checkSelfPermission(</span><span class="s0">this</span><span class="s1">.getApplicationContext()</span><span class="s0">,</span><span class="s1"> 
+                android.Manifest.permission.ACCESS_FINE_LOCATION) 
+                == PackageManager.PERMISSION_GRANTED) { 
+            mLocationPermissionGranted = </span><span class="s0">true;</span><span class="s1"> 
+        } </span><span class="s0">else </span><span class="s1">{ 
+            ActivityCompat.requestPermissions(</span><span class="s0">this,</span><span class="s1"> 
+                    </span><span class="s0">new </span><span class="s1">String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}</span><span class="s0">,</span><span class="s1"> 
+                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION)</span><span class="s0">;</span><span class="s1"> 
+        } 
+ 
+        </span><span class="s0">if </span><span class="s1">(mLocationPermissionGranted) { 
+            mLastKnownLocation = LocationServices.FusedLocationApi 
+                    .getLastLocation(mGoogleApiClient)</span><span class="s0">;</span><span class="s1"> 
+            Log.d(</span><span class="s6">&quot;Last Known Location&quot;</span><span class="s0">, </span><span class="s1">String.valueOf(mLastKnownLocation))</span><span class="s0">;</span><span class="s1"> 
+        } 
+ 
+        </span><span class="s5">// Set the map's camera position to the current location of the device.</span><span class="s1"> 
+        </span><span class="s0">if </span><span class="s1">(mCameraPosition != </span><span class="s0">null</span><span class="s1">) { 
+            mMap.moveCamera(CameraUpdateFactory.newCameraPosition(mCameraPosition))</span><span class="s0">;</span><span class="s1"> 
+        } </span><span class="s0">else if </span><span class="s1">(mLastKnownLocation != </span><span class="s0">null</span><span class="s1">) { 
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom( 
+                    </span><span class="s0">new </span><span class="s1">LatLng(mLastKnownLocation.getLatitude()</span><span class="s0">,</span><span class="s1"> 
+                            mLastKnownLocation.getLongitude())</span><span class="s0">, </span><span class="s1">DEFAULT_ZOOM))</span><span class="s0">;</span><span class="s1"> 
+        } </span><span class="s0">else </span><span class="s1">{ 
+            Log.d(</span><span class="s6">&quot;Location&quot;</span><span class="s0">, </span><span class="s6">&quot;Current location is null. Using defaults.&quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mDefaultLocation</span><span class="s0">, </span><span class="s1">DEFAULT_ZOOM))</span><span class="s0">;</span><span class="s1"> 
+            mMap.getUiSettings().setMyLocationButtonEnabled(</span><span class="s0">false</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+        } 
+    } 
+ 
+    @Override 
+    </span><span class="s0">public void </span><span class="s1">onRequestPermissionsResult(</span><span class="s0">int </span><span class="s1">requestCode</span><span class="s0">,</span><span class="s1"> 
+                                           @NonNull String permissions[]</span><span class="s0">,</span><span class="s1"> 
+                                           @NonNull </span><span class="s0">int</span><span class="s1">[] grantResults) { 
+        mLocationPermissionGranted = </span><span class="s0">false;</span><span class="s1"> 
+        </span><span class="s0">switch </span><span class="s1">(requestCode) { 
+            </span><span class="s0">case </span><span class="s1">PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: { 
+                </span><span class="s5">// If request is cancelled, the result arrays are empty.</span><span class="s1"> 
+                </span><span class="s0">if </span><span class="s1">(grantResults.length &gt; </span><span class="s4">0</span><span class="s1"> 
+                        &amp;&amp; grantResults[</span><span class="s4">0</span><span class="s1">] == PackageManager.PERMISSION_GRANTED) { 
+                    mLocationPermissionGranted = </span><span class="s0">true;</span><span class="s1"> 
+                } 
+            } 
+        } 
+        updateLocationUI()</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">/** 
+     * Builds the map when the Google Play services client is successfully connected. 
+     */</span><span class="s1"> 
+    @Override 
+    </span><span class="s0">public void </span><span class="s1">onConnected(Bundle connectionHint) { 
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager() 
+                .findFragmentById(R.id.map)</span><span class="s0">;</span><span class="s1"> 
+        mapFragment.getMapAsync(</span><span class="s0">this</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    @Override 
+    </span><span class="s0">public void </span><span class="s1">onConnectionSuspended(</span><span class="s0">int </span><span class="s1">cause) { 
+        Log.d(</span><span class="s6">&quot;ConnectionSuspended&quot;</span><span class="s0">, </span><span class="s6">&quot;Play services connection suspended&quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    @Override 
+    </span><span class="s0">public void </span><span class="s1">onConnectionFailed(@NonNull ConnectionResult result) { 
+        </span><span class="s5">// Refer to the reference doc for ConnectionResult to see what error codes might</span><span class="s1"> 
+        </span><span class="s5">// be returned in onConnectionFailed.</span><span class="s1"> 
+        Log.d(</span><span class="s6">&quot;ConnectionFailed&quot;</span><span class="s0">, </span><span class="s6">&quot;Play services connection failed: ConnectionResult.getErrorCode() = &quot;</span><span class="s1"> 
+                + result.getErrorCode())</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">private void </span><span class="s1">updateLocationUI() { 
+        </span><span class="s0">if </span><span class="s1">(mMap == </span><span class="s0">null</span><span class="s1">) { 
+            </span><span class="s0">return;</span><span class="s1"> 
+        } 
+ 
+    </span><span class="s5">/* 
+     * Request location permission, so that we can get the location of the 
+     * device. The result of the permission request is handled by a callback, 
+     * onRequestPermissionsResult. 
+     */</span><span class="s1"> 
+        </span><span class="s0">if </span><span class="s1">(ContextCompat.checkSelfPermission(</span><span class="s0">this</span><span class="s1">.getApplicationContext()</span><span class="s0">,</span><span class="s1"> 
+                android.Manifest.permission.ACCESS_FINE_LOCATION) 
+                == PackageManager.PERMISSION_GRANTED) { 
+            mLocationPermissionGranted = </span><span class="s0">true;</span><span class="s1"> 
+        } </span><span class="s0">else </span><span class="s1">{ 
+            ActivityCompat.requestPermissions(</span><span class="s0">this,</span><span class="s1"> 
+                    </span><span class="s0">new </span><span class="s1">String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}</span><span class="s0">,</span><span class="s1"> 
+                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION)</span><span class="s0">;</span><span class="s1"> 
+        } 
+ 
+        </span><span class="s0">if </span><span class="s1">(mLocationPermissionGranted) { 
+            mMap.setMyLocationEnabled(</span><span class="s0">true</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+            mMap.getUiSettings().setMyLocationButtonEnabled(</span><span class="s0">true</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+        } </span><span class="s0">else </span><span class="s1">{ 
+            mMap.setMyLocationEnabled(</span><span class="s0">false</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+            mMap.getUiSettings().setMyLocationButtonEnabled(</span><span class="s0">false</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+            mLastKnownLocation = </span><span class="s0">null;</span><span class="s1"> 
+        } 
+    } 
+} 
+</span></pre>
+</body>
+</html>
