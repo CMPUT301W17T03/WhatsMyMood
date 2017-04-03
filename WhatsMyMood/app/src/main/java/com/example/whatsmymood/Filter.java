@@ -23,11 +23,11 @@ import static com.google.android.gms.common.internal.safeparcel.SafeParcelable.N
  */
 
 public class Filter implements Parcelable {
-    public final int NONE = 0;
-    public final int RECENT = 1;
-    public final int MOOD_TYPE = 2;
-    public final int MOOD_MESSAGE = 3;
-    public final int FIVE_KM = 4;
+    public final static int NONE = 0;
+    public final static int RECENT = 1;
+    public final static int MOOD_TYPE = 2;
+    public final static int MOOD_MESSAGE = 3;
+    public final static int FIVE_KM = 4;
 
     private int type;
     private Bundle bundle;
@@ -44,6 +44,12 @@ public class Filter implements Parcelable {
         this.value = value;
     }
 
+    /**
+     * Filter array array list.
+     *
+     * @param moodList the mood list
+     * @return the array list
+     */
     public ArrayList<Mood> filterArray(ArrayList<Mood> moodList){
 
         ArrayList<Mood> filteredList = new ArrayList<Mood>();

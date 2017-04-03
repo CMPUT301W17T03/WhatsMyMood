@@ -7,6 +7,10 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.Toast;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
+
 /**
  * Created by Malcolm on 2017-03-08.
  *@author mtfische
@@ -103,6 +107,21 @@ class FooterHandler {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent (mContext, MapActivity.class);
+
+                ElasticSearchUserController.GetAllMoodsTask allusers = new ElasticSearchUserController.GetAllMoodsTask();
+                allusers.execute();
+
+                ArrayList<Mood> moods = null;
+                try {
+                    moods = allusers.get();
+                } catch (InterruptedException e) {
+                    moods = new ArrayList<Mood>();
+                } catch (ExecutionException e) {
+                    moods = new ArrayList<Mood>();
+                }
+
+                intent.putParcelableArrayListExtra("moods",moods);
+                intent.putExtra("filter",new Filter(Filter.FIVE_KM));
                 mContext.startActivity(intent);
             }
         });

@@ -34,7 +34,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
  * @author ejtang
  * @version 1.0 , 2017-03-30.
  */
-
 public class AddLocationActivity extends AppCompatActivity
         implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
@@ -134,6 +133,9 @@ public class AddLocationActivity extends AppCompatActivity
         setCurrentLocation();
     }
 
+    /**
+     * Checks permissions are granted and sets the user's current location
+     */
     private void setCurrentLocation() {
         if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
                 android.Manifest.permission.ACCESS_FINE_LOCATION)
@@ -162,6 +164,9 @@ public class AddLocationActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * Gets the user's phone's location
+     */
     private void getDeviceLocation() {
     /*
      * Before getting the device location, you must check location
@@ -226,11 +231,21 @@ public class AddLocationActivity extends AppCompatActivity
         mapFragment.getMapAsync(this);
     }
 
+    /**
+     * Passes in the cause as an integer
+     * Gives a log message that indicates play services connections were suspended
+     * @param cause
+     */
     @Override
     public void onConnectionSuspended(int cause) {
         Log.d("ConnectionSuspended", "Play services connection suspended");
     }
 
+    /**
+     * Passes in the ConnectionResult result
+     * Gives a log message that indicates the connection result failed with the error code
+     * @param result
+     */
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult result) {
         // Refer to the reference doc for ConnectionResult to see what error codes might
@@ -239,6 +254,11 @@ public class AddLocationActivity extends AppCompatActivity
                 + result.getErrorCode());
     }
 
+    /**
+     * Passes in the LatLng location
+     * Adds a marker for the location on the map
+     * @param location
+     */
     @Override
     public void onMapLongClick(LatLng location) {
         if(inputLocationMarker != null) {
@@ -250,6 +270,9 @@ public class AddLocationActivity extends AppCompatActivity
                                     .title("Location to add"));
     }
 
+    /**
+     * When we do not have a map, we don't do anything
+     */
     private void updateLocationUI() {
         if (mMap == null) {
             return;
