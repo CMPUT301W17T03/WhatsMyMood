@@ -114,7 +114,8 @@ public class MapActivity extends AppCompatActivity
         } catch (Exception e) {
             Log.d("Exception", "Nothing in intent, adding markers");
             try {
-
+                ArrayList<Mood> moods = intent.getParcelableArrayListExtra("moods");
+                setMoodMarkers(moods);
 
             } catch (Exception ex) {
                 setMarker();
@@ -125,50 +126,52 @@ public class MapActivity extends AppCompatActivity
     private void setMoodMarkers(ArrayList<Mood> moods) {
         for (int i = 0; i < moods.size(); i++) {
             Mood mood = moods.get(i);
-            String moodType = mood.getMoodType();
-            switch (moodType){
-                case "Happiness":
-                    mMap.addMarker(new MarkerOptions().position(mood.getLocation())
-                                        .title(mood.getMoodAuthor())
-                                        .snippet("Happiness")
-                                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
-                case "Sadness":
-                    mMap.addMarker(new MarkerOptions().position(mood.getLocation())
-                            .title(mood.getMoodAuthor())
-                            .snippet("Sadness")
-                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
-                case "Anger":
-                    mMap.addMarker(new MarkerOptions().position(mood.getLocation())
-                            .title(mood.getMoodAuthor())
-                            .snippet("Anger")
-                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
-                case "Confusion":
-                    mMap.addMarker(new MarkerOptions().position(mood.getLocation())
-                            .title(mood.getMoodAuthor())
-                            .snippet("Confusion")
-                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
-                case "Disgusted":
-                    mMap.addMarker(new MarkerOptions().position(mood.getLocation())
-                            .title(mood.getMoodAuthor())
-                            .snippet("Disgusted")
-                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
-                case "Scared":
-                    mMap.addMarker(new MarkerOptions().position(mood.getLocation())
-                            .title(mood.getMoodAuthor())
-                            .snippet("Scared")
-                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET)));
-                case "Shame":
-                    mMap.addMarker(new MarkerOptions().position(mood.getLocation())
-                            .title(mood.getMoodAuthor())
-                            .snippet("Shame")
-                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA)));
-                case "Surprise":
-                    mMap.addMarker(new MarkerOptions().position(mood.getLocation())
-                            .title(mood.getMoodAuthor())
-                            .snippet("Surprise")
-                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN)));
-                default:
-                    break;
+            if (mood.getLocation() != null) {
+                String moodType = mood.getMoodType();
+                switch (moodType) {
+                    case "Happiness":
+                        mMap.addMarker(new MarkerOptions().position(mood.getLocation())
+                                .title(mood.getMoodAuthor())
+                                .snippet("Happiness")
+                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
+                    case "Sadness":
+                        mMap.addMarker(new MarkerOptions().position(mood.getLocation())
+                                .title(mood.getMoodAuthor())
+                                .snippet("Sadness")
+                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+                    case "Anger":
+                        mMap.addMarker(new MarkerOptions().position(mood.getLocation())
+                                .title(mood.getMoodAuthor())
+                                .snippet("Anger")
+                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+                    case "Confusion":
+                        mMap.addMarker(new MarkerOptions().position(mood.getLocation())
+                                .title(mood.getMoodAuthor())
+                                .snippet("Confusion")
+                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+                    case "Disgusted":
+                        mMap.addMarker(new MarkerOptions().position(mood.getLocation())
+                                .title(mood.getMoodAuthor())
+                                .snippet("Disgusted")
+                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
+                    case "Scared":
+                        mMap.addMarker(new MarkerOptions().position(mood.getLocation())
+                                .title(mood.getMoodAuthor())
+                                .snippet("Scared")
+                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET)));
+                    case "Shame":
+                        mMap.addMarker(new MarkerOptions().position(mood.getLocation())
+                                .title(mood.getMoodAuthor())
+                                .snippet("Shame")
+                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA)));
+                    case "Surprise":
+                        mMap.addMarker(new MarkerOptions().position(mood.getLocation())
+                                .title(mood.getMoodAuthor())
+                                .snippet("Surprise")
+                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN)));
+                    default:
+                        break;
+            }
 
             }
         }
