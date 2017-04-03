@@ -15,7 +15,9 @@
         android:layout_marginTop="14dp"
         android:textAlignment="center"
         android:entries="@array/mood_array"
-        android:background="@color/popup_background"/>
+
+        android:background="@color/popup_background"
+        android:popupBackground="@color/popup_background"/>
 
     <Button
         android:id="@+id/filter"
