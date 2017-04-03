@@ -214,9 +214,8 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_recent) {
-            //filter.setType(filter.RECENT);
-            Log.d("tag","check filter:");
-            Log.d("tag",String.valueOf(filter.getType()));
+            filter.setType(filter.RECENT);
+            refresh();
             return true;
         }
 
@@ -228,8 +227,11 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     Spinner spinner = (Spinner)dialog.findViewById(R.id.select_mood);
-                    filter.setType(filter.MOOD_TYPE);
-                    filter.setValue(spinner.getSelectedItem().toString());
+                    if(!spinner.getSelectedItem().toString().equals("Select a mood")){
+                        filter.setType(filter.MOOD_TYPE);
+                        filter.setValue(spinner.getSelectedItem().toString());
+                        refresh();
+                    }
                     dialog.dismiss();
                 }
             });
@@ -245,13 +247,22 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     EditText text = (EditText) dialog.findViewById(R.id.message);
-                    filter.setType(filter.MOOD_MESSAGE);
-                    filter.setValue(text.getText().toString());
+                    if(!text.getText().toString().isEmpty()) {
+                        filter.setType(filter.MOOD_MESSAGE);
+                        filter.setValue(text.getText().toString());
+                        refresh();
+                    }
                     dialog.dismiss();
                 }
             });
             dialog.show();
             return true;
+        }
+        if (id == R.id.action_clearFilter) {
+            filter.setType(filter.NONE);
+            filter.setValue(null);
+            refresh();
+            dialog.dismiss();
         }
         if (id == R.id.action_mapView) {
             Intent intent = new Intent(this, MapActivity.class);
