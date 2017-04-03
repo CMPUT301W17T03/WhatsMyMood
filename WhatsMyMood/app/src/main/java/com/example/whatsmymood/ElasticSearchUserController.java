@@ -172,6 +172,49 @@ public class ElasticSearchUserController {
         }
     }
 
+
+    public static class GetAllMoodsTask extends AsyncTask<String, Void, ArrayList<Mood>> {
+        @Override
+        protected ArrayList<Mood> doInBackground(String... search_parameters) {
+            verifySettings();
+
+            ArrayList<UserAccount> users = new ArrayList<>();
+            ArrayList<Mood> moods = new ArrayList<Mood>();
+
+            String query = String.format("{\n" +
+                    "    \"query\" : {\n" +
+                    "        \"match_all\" : " +
+                    "               {}\n" +
+                    "    }\n" +
+                    "}");
+
+            Search search = new Search.Builder(query).addIndex("cmput301w17t03").addType("user").build();
+
+            try {
+                SearchResult result = client.execute(search);
+
+                if (result.isSucceeded()){
+                    List<UserAccount> foundAccount = result.getSourceAsObjectList(UserAccount.class);
+                    users.addAll(foundAccount);
+
+                    for (int i = 0; i<users.size(); i++){
+                        moods.addAll(users.get(i).moodList.getMoodList());
+                    }
+                }
+                else{
+                    Log.i(TAG,"The search query failed to find any user accounts that matched");
+                }
+            }
+            catch (Exception e) {
+                Log.i(TAG, "Something went wrong when we tried to communicate with the elastic search server!");
+                e.printStackTrace();
+            }
+            Log.d("meep", moods.toString());
+            return moods;
+        }
+    }
+
+
     // Verifies elastic search settings
     public static void verifySettings() {
         if (client == null) {

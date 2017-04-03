@@ -87,8 +87,7 @@ class AddMoodController{
 
     /**
      * Passes the dialog and context
-     * Sets up the click functionality for
-     * the camera button and the post button
+     * Sets up the click functionality for the camera button and the post button
      * @param mContext Base context of the activity from main
      * @param mDialog Dialog created in footer handler
      */
@@ -375,6 +374,11 @@ class AddMoodController{
         return mood;
     }
 
+    /**
+     * Updates the mood
+     * Sets all of the mood information again
+     * @return mood
+     */
     private Mood updateMood() {
         mood.setMoodType(this.moodType);
         mood.setMoodMsg(this.moodMsg);

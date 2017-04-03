@@ -8,10 +8,9 @@ import android.util.Log;
 
 /**
  * Created by YiJi on 2017-03-28.
- *
+ * <p>
  * Reference used on March 28th, 2017 at 5:36pm
  * http://mrbool.com/how-to-change-the-layout-theme-of-an-android-application/25837
- *
  */
 
 
@@ -29,6 +28,11 @@ public class ThemeController {
     private final static String SHAME_THEME = "Shame";
     private final static String SURPRISE_THEME = "Surprise";
 
+    /**
+     * Set theme for recent mood.
+     *
+     * @param activity the activity
+     */
     public static void setThemeForRecentMood(Activity activity){
         try
         {
