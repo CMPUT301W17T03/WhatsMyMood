@@ -100,9 +100,6 @@ public class MapActivity extends AppCompatActivity
 
         // Get the current location of the device and set the position of the map.
         getDeviceLocation();
-        //mMap.addMarker(new MarkerOptions().position(mDefaultLocation)
-        //        .title("Default Location Marker"));
-        //mMap.moveCamera(CameraUpdateFactory.newLatLng(mDefaultLocation));
 
         try {
             LatLng moodLocation = new LatLng((Double) intent.getExtras().get("Lat"),
@@ -110,18 +107,15 @@ public class MapActivity extends AppCompatActivity
             Mood mood = (Mood) intent.getExtras().get("mood");
             setMarker(mood);
             mMap.moveCamera(CameraUpdateFactory.newLatLng(moodLocation));
-            Log.d("Mood Maker", "Added mood marker");
         } catch (Exception e) {
-            Log.d("Exception", "Nothing in intent, adding markers");
             try {
                 ArrayList<Mood> moods = intent.getParcelableArrayListExtra("moods");
-                Log.d("check moodlist",moods.toString());
                 Filter filter = intent.getParcelableExtra("filter");
                 if (filter.getType() == filter.FIVE_KM) {
                     Bundle bundle = new Bundle();
                     bundle.putParcelable("location",mLastKnownLocation);
+                    filter.setBundle(bundle);
                 }
-                Log.d("check moodListFiltered",filter.filterArray(moods).toString());
                 setMoodMarkers(filter.filterArray(moods));
 
             } catch (Exception ex) {
@@ -187,6 +181,7 @@ public class MapActivity extends AppCompatActivity
     }
 
     private void setMoodMarkers(ArrayList<Mood> moods) {
+        Log.d("5km",moods.toString());
         for (int i = 0; i < moods.size(); i++) {
             Mood mood = moods.get(i);
             if (mood.getLocation() != null) {

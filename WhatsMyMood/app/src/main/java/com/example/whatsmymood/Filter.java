@@ -104,8 +104,10 @@ public class Filter implements Parcelable {
                 }
                 break;
             case FIVE_KM:
+                Log.d("5km","Filtering!");
                 Location LastKnownLocation = bundle.getParcelable("location");
-                Log.d("FIVE_KM",LastKnownLocation.toString());
+                Log.d("5km",moodList.toString());
+                Log.d("5km",LastKnownLocation.toString());
                 for (int i = 0; i < moodList.size(); i++) {
                     Mood mood = moodList.get(i);
                     if (mood.getLocation() != null) {
