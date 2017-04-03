@@ -14,6 +14,7 @@ import io.searchbox.core.DocumentResult;
 import io.searchbox.core.Index;
 import io.searchbox.core.Search;
 import io.searchbox.core.SearchResult;
+import io.searchbox.indices.CreateIndex;
 
 /**
  * Universal elastic search controller to return
@@ -72,6 +73,54 @@ public class ElasticSearchUserController {
                     "        \"match\" : " +
                     "               { \"username\" : \"" + "%s" + "\" }\n" +
                     "    }\n" +
+                    "}", search_parameters[0].trim());
+
+            Search search = new Search.Builder(query).addIndex("cmput301w17t03").addType("user").build();
+
+            try {
+                SearchResult result = client.execute(search);
+
+                if (result.isSucceeded()){
+                    List<UserAccount> foundAccount = result.getSourceAsObjectList(UserAccount.class);
+                    users.addAll(foundAccount);
+                }
+                else{
+                    Log.i(TAG,"The search query failed to find any user accounts that matched");
+                }
+            }
+            catch (Exception e) {
+                Log.i(TAG, "Something went wrong when we tried to communicate with the elastic search server!");
+                e.printStackTrace();
+            }
+            return users;
+        }
+    }
+
+    /**
+     * Gets the current user
+     * Used for grabbing the current user as an object
+     * and to edit the data
+     */
+    public static class GetFollowersTask extends AsyncTask<String, Void, ArrayList<UserAccount>> {
+        @Override
+        protected ArrayList<UserAccount> doInBackground(String... search_parameters) {
+            verifySettings();
+
+
+            ArrayList<UserAccount> users = new ArrayList<>();
+
+            String query = String.format("{\n" +
+                    "   \"_source\" : [\"moodList\"],\n" +
+                    "   \"query\" : {\n" +
+                    "       \"bool\" : {\n" +
+                    "           \"must\" : {\n" +
+                    "               \"query_string\" : {\n" +
+                    "                   \"fields\" : [\"username\"],\n" +
+                    "                   \"query\" : \"" + "%s" + "\" }\n" +
+                    "               }\n" +
+                    "           }\n" +
+                    "       }\n" +
+                    "   }\n" +
                     "}", search_parameters[0].trim());
 
             Search search = new Search.Builder(query).addIndex("cmput301w17t03").addType("user").build();
