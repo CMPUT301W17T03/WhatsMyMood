@@ -130,46 +130,53 @@ public class MapActivity extends AppCompatActivity
                 String moodType = mood.getMoodType();
                 switch (moodType) {
                     case "Happiness":
+                        Log.d("add mood marker","Happiness");
                         mMap.addMarker(new MarkerOptions().position(mood.getLocation())
                                 .title(mood.getMoodAuthor())
                                 .snippet("Happiness")
                                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
+                        break;
                     case "Sadness":
                         mMap.addMarker(new MarkerOptions().position(mood.getLocation())
                                 .title(mood.getMoodAuthor())
                                 .snippet("Sadness")
                                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+                        break;
                     case "Anger":
                         mMap.addMarker(new MarkerOptions().position(mood.getLocation())
                                 .title(mood.getMoodAuthor())
                                 .snippet("Anger")
                                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+                        break;
                     case "Confusion":
                         mMap.addMarker(new MarkerOptions().position(mood.getLocation())
                                 .title(mood.getMoodAuthor())
                                 .snippet("Confusion")
                                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+                        break;
                     case "Disgusted":
                         mMap.addMarker(new MarkerOptions().position(mood.getLocation())
                                 .title(mood.getMoodAuthor())
                                 .snippet("Disgusted")
                                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
+                        break;
                     case "Scared":
                         mMap.addMarker(new MarkerOptions().position(mood.getLocation())
                                 .title(mood.getMoodAuthor())
                                 .snippet("Scared")
                                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET)));
+                        break;
                     case "Shame":
                         mMap.addMarker(new MarkerOptions().position(mood.getLocation())
                                 .title(mood.getMoodAuthor())
                                 .snippet("Shame")
                                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA)));
+                        break;
                     case "Surprise":
                         mMap.addMarker(new MarkerOptions().position(mood.getLocation())
                                 .title(mood.getMoodAuthor())
                                 .snippet("Surprise")
                                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN)));
-                    default:
                         break;
             }
 
@@ -179,8 +186,8 @@ public class MapActivity extends AppCompatActivity
     }
 
     private void setMarker() {
-        mMap.addMarker(new MarkerOptions().position(new LatLng(37.421998,-122.084000))
-                .title("Default Location Marker"));
+        //mMap.addMarker(new MarkerOptions().position(new LatLng(37.421998,-122.084000))
+        //        .title("Default Location Marker"));
 
         if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
                 android.Manifest.permission.ACCESS_FINE_LOCATION)
