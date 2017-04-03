@@ -26,8 +26,9 @@ import java.util.ArrayList;
  */
 public class ProfileActivity extends AppCompatActivity {
     private CurrentUser current = CurrentUser.getInstance();
-    private ArrayList<Mood> moods;
+    private ArrayList<Mood> moods = new ArrayList<Mood>();;
 
+    ArrayAdapter<Mood> moodAdapter;
     private Dialog dialog;
     private Filter filter;
 
@@ -38,11 +39,6 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
 
         dialog = new Dialog(this);
-        if((savedInstanceState == null)){
-            this.filter = new Filter();
-        }
-        moods = current.getCurrentUser().moodList.getMoodList();
-
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.profile_toolbar);
         setSupportActionBar(toolbar);
@@ -51,14 +47,33 @@ public class ProfileActivity extends AppCompatActivity {
         FooterHandler handler = new FooterHandler(this, footer);
 
         setAdapters();
+
+        if((savedInstanceState == null)){
+            this.filter = new Filter();
+            refresh();
+        }
+
+
+
     }
 
+    @Override
+    protected void onStart(){
+        super.onStart();
+    }
+
+
     private void refresh(){
-        Log.d("tag","restoring!");
+        Log.d("tag","refresh!");
         Log.d("tag",String.valueOf(filter.getType()));
-        moods = filter.filterArray(current.getCurrentUser().moodList.getMoodList());
-        ListView moodListView = (ListView) findViewById(R.id.moodListView);
-        ((ArrayAdapter)moodListView.getAdapter()).notifyDataSetChanged();
+        Log.d("tag",String.valueOf(filter.getValue()));
+        Log.d("tag","mood:");
+        Log.d("tag",moods.toString());
+        moods.clear();
+        moods.addAll(filter.filterArray(current.getCurrentUser().moodList.getMoodList()));
+        moodAdapter.notifyDataSetChanged();
+        Log.d("tag","mood:");
+        Log.d("tag",moods.toString());
     }
     @Override
     protected void onSaveInstanceState(Bundle outState){
@@ -73,6 +88,7 @@ public class ProfileActivity extends AppCompatActivity {
         filter = savedInstanceState.getParcelable("filter");
         Log.d("tag","restoring!");
         Log.d("tag",String.valueOf(filter.getType()));
+        refresh();
     }
 
     @Override
@@ -82,10 +98,9 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void setAdapters() {
-        ArrayAdapter<Mood> moodAdapter = new MoodAdapter(moods, this);
+        moodAdapter = new MoodAdapter(moods, this);
 
         ListView moodListView = (ListView) findViewById(R.id.moodListView);
-
         moodListView.setAdapter(moodAdapter);
     }
 
@@ -118,10 +133,12 @@ public class ProfileActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     Spinner spinner = (Spinner)dialog.findViewById(R.id.select_mood);
-                    filter.setType(filter.MOOD_TYPE);
-                    filter.setValue(spinner.getSelectedItem().toString());
+                    if(!spinner.getSelectedItem().toString().equals("Select a mood")){
+                        filter.setType(filter.MOOD_TYPE);
+                        filter.setValue(spinner.getSelectedItem().toString());
+                        refresh();
+                    }
                     dialog.dismiss();
-                    refresh();
                 }
             });
             dialog.show();
@@ -136,14 +153,22 @@ public class ProfileActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     EditText text = (EditText) dialog.findViewById(R.id.message);
-                    filter.setType(filter.MOOD_MESSAGE);
-                    filter.setValue(text.getText().toString());
+                    if(!text.getText().toString().isEmpty()) {
+                        filter.setType(filter.MOOD_MESSAGE);
+                        filter.setValue(text.getText().toString());
+                        refresh();
+                    }
                     dialog.dismiss();
-                    refresh();
                 }
             });
             dialog.show();
             return true;
+        }
+        if (id == R.id.action_mapView) {
+            Intent intent = new Intent(this, MapActivity.class);
+            intent.putParcelableArrayListExtra("moods",moods);
+            intent.putExtra("filter",filter);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);

@@ -97,6 +97,9 @@ public class Filter implements Parcelable {
     public int getType() {
         return type;
     }
+    public String getValue() {
+        return value;
+    }
 
     public void setType(int type) {
         this.type = type;

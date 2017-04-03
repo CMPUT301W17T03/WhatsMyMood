@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -41,8 +43,9 @@ class AddMoodController{
     private boolean EDIT_MOOD = false;
 
     // Invalid User Selections
-    private boolean DATE_INVALID = false;
     private boolean SELECT_MOOD_INVALID = false;
+    private boolean MOOD_MESSAGE_INVALID = false;
+    private boolean DATE_INVALID = false;
 
     private static final int GET_LOCATION_REQUEST_CODE = 0;
 
@@ -68,6 +71,8 @@ class AddMoodController{
     private static LatLng location = null;
     private String socialSit = null;
     private Date date;
+    private String checkDate;
+    private String checkDate2;
 
     // TODO: Make this non-static
     private static String mPhoto;
@@ -131,6 +136,10 @@ class AddMoodController{
             public void onClick(View view) {
                 Mood mood = getMood();
 
+                // Checks the user is connected to wifi
+                ConnectivityManager connManager = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+                NetworkInfo mWifi = connManager.getActiveNetworkInfo();
+
                 if (!EDIT_MOOD) {
                     if (mood != null) {
                         user.moodList.addMood(mood);
@@ -145,8 +154,15 @@ class AddMoodController{
                         ListView moodListView = (ListView) ((Activity) context).findViewById(R.id.moodListView);
                         ((ArrayAdapter) moodListView.getAdapter()).notifyDataSetChanged();
 
-                        ElasticSearchUserController.UpdateUser updateUser = new ElasticSearchUserController.UpdateUser();
-                        updateUser.execute(user);
+                        try {
+                            mWifi.isConnected();
+                            ElasticSearchUserController.UpdateUser updateUser = new ElasticSearchUserController.UpdateUser();
+                            updateUser.execute(user);
+                        } catch (NullPointerException e) {
+                            e.printStackTrace();
+                            CommandQueue.getInstance().addQueue(new UpdateCommand(user));
+                            Log.d("COMMANDWOW", "WORKED");
+                        }
 
                         dialog.dismiss();
                         ThemeController.notifyThemeChange((Activity)mContext);
@@ -166,9 +182,14 @@ class AddMoodController{
                         ListView moodListView = (ListView) ((ProfileActivity) context).findViewById(R.id.moodListView);
                         ((ArrayAdapter) moodListView.getAdapter()).notifyDataSetChanged();
 
-                        ElasticSearchUserController.UpdateUser updateUser = new ElasticSearchUserController.UpdateUser();
-                        updateUser.execute(user);
-
+                        try {
+                            mWifi.isConnected();
+                            ElasticSearchUserController.UpdateUser updateUser = new ElasticSearchUserController.UpdateUser();
+                            updateUser.execute(user);
+                        } catch (NullPointerException e) {
+                            e.printStackTrace();
+                            CommandQueue.getInstance().addQueue(new UpdateCommand(user));
+                        }
                         dialog.dismiss();
                     }
                 }
@@ -250,7 +271,8 @@ class AddMoodController{
 
         try {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-            this.editDate.setText(dateFormat.format(this.mood.getDate()));
+            checkDate = dateFormat.format(this.mood.getDate());
+            this.editDate.setText(checkDate);
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
@@ -280,17 +302,13 @@ class AddMoodController{
         }
 
         if (!editMoodMsg.getText().toString().isEmpty()) {
-            this.moodMsg = editMoodMsg.getText().toString();
+            String message = editMoodMsg.getText().toString();
+            if (message.split("\\s+").length > 3 || message.length() > 15) {
+                MOOD_MESSAGE_INVALID = true;
+            } else {
+                this.moodMsg = editMoodMsg.getText().toString();
+            }
         }
-
-        // TODO: Make this an actual location
-        // TODO: Handle exception where user does not input a location/invalid locations
-
-        /*EditText location = (EditText) this.dialog.findViewById(R.id.enter_location);
-
-        if (!location.getText().toString().isEmpty()) {
-            this.location = location.getText().toString();
-        }*/
 
         if (!editSocialSit.getText().toString().isEmpty()) {
             this.socialSit = editSocialSit.getText().toString();
@@ -302,7 +320,8 @@ class AddMoodController{
             check.setLenient(false);
 
             try {
-                this.date = check.parse(editDate.getText().toString());
+                this.checkDate2 = editDate.getText().toString();
+                this.date = check.parse(checkDate2);
             } catch(ParseException e) {
                 e.printStackTrace();
                 DATE_INVALID = true;
@@ -314,9 +333,10 @@ class AddMoodController{
             textview.setError("");
             textview.setTextColor(Color.RED);
             textview.setText(R.string.invalid_mood);
-
             SELECT_MOOD_INVALID = false;
-
+        } else if (MOOD_MESSAGE_INVALID) {
+            editMoodMsg.setError("Mood Messages must be less than 15 characters and less than 4 words");
+            MOOD_MESSAGE_INVALID = false;
         } else if (DATE_INVALID) {
             editDate.setError("Invalid Date Inputted (yyyy-MM-DD)");
             DATE_INVALID = false;
@@ -363,7 +383,11 @@ class AddMoodController{
         if (this.date == null) {
             mood.setDate(new Date());
         } else {
-            mood.setDate(this.date);
+            if (this.checkDate.equals(this.checkDate2)) {
+                mood.setDate(this.mood.getDate());
+            } else {
+                mood.setDate(this.date);
+            }
         }
 
         mood.setPhoto(mPhoto);

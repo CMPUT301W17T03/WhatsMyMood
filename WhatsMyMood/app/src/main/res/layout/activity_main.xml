@@ -12,7 +12,6 @@
         android:id="@+id/appbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="@dimen/appbar_padding_top"
         android:theme="@style/AppBarOverlay">
 
 
@@ -20,12 +19,11 @@
             android:id="@+id/main_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
+            android:background="#FF000000"
             app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/PopupOverlay">
 
         </android.support.v7.widget.Toolbar>
-
     </android.support.design.widget.AppBarLayout>
 
 
@@ -43,10 +41,18 @@
             android:orientation="vertical"
             android:layout_below="@+id/appbar">
 
-            <ListView
-                android:id="@+id/moodListView"
+            <android.support.v4.widget.SwipeRefreshLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/swiperefresh"
                 android:layout_width="match_parent"
-                android:layout_height="454dp"></ListView>
+                android:layout_height="match_parent">
+
+                <ListView
+                    android:id="@+id/moodListView"
+                    android:layout_width="match_parent"
+                    android:layout_height="454dp">
+                </ListView>
+            </android.support.v4.widget.SwipeRefreshLayout>
         </LinearLayout>
     <!---</ScrollView>-->
 

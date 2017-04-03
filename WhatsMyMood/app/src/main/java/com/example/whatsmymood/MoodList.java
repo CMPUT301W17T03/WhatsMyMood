@@ -1,5 +1,8 @@
 package com.example.whatsmymood;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -7,7 +10,7 @@ import java.util.Collections;
  * MoodList object holds an ArrayList of moods
  * to keep track of the moods of each user
  */
-public class MoodList {
+public class MoodList implements Parcelable {
     private final ArrayList<Mood> moods;
 
     public MoodList() {
@@ -110,4 +113,41 @@ public class MoodList {
     public ArrayList<Mood> getMoodList(){
         return this.moods;
     }
+
+    protected MoodList(Parcel in) {
+        if (in.readByte() == 0x01) {
+            moods = new ArrayList<Mood>();
+            in.readList(moods, Mood.class.getClassLoader());
+        } else {
+            moods = null;
+        }
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        if (moods == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeList(moods);
+        }
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<MoodList> CREATOR = new Parcelable.Creator<MoodList>() {
+        @Override
+        public MoodList createFromParcel(Parcel in) {
+            return new MoodList(in);
+        }
+
+        @Override
+        public MoodList[] newArray(int size) {
+            return new MoodList[size];
+        }
+    };
 }

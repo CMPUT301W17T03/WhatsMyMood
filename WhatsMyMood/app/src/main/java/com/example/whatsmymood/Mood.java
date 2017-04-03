@@ -1,5 +1,7 @@
 package com.example.whatsmymood;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
 import com.google.android.gms.maps.model.LatLng;
@@ -9,7 +11,7 @@ import java.util.Date;
 /**
  * Mood object that holds mood details
  */
-public class Mood implements Comparable<Mood>{
+public class Mood implements Comparable<Mood>, Parcelable {
     private String moodType;
     private String moodAuthor;
     private String moodMsg;
@@ -106,4 +108,44 @@ public class Mood implements Comparable<Mood>{
     public int compareTo(@NonNull Mood o) {
         return getDate().compareTo(o.getDate());
     }
+
+    protected Mood(Parcel in) {
+        moodType = in.readString();
+        moodAuthor = in.readString();
+        moodMsg = in.readString();
+        location = (LatLng) in.readValue(LatLng.class.getClassLoader());
+        socialSit = in.readString();
+        long tmpDate = in.readLong();
+        date = tmpDate != -1 ? new Date(tmpDate) : null;
+        photo = in.readString();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(moodType);
+        dest.writeString(moodAuthor);
+        dest.writeString(moodMsg);
+        dest.writeValue(location);
+        dest.writeString(socialSit);
+        dest.writeLong(date != null ? date.getTime() : -1L);
+        dest.writeString(photo);
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<Mood> CREATOR = new Parcelable.Creator<Mood>() {
+        @Override
+        public Mood createFromParcel(Parcel in) {
+            return new Mood(in);
+        }
+
+        @Override
+        public Mood[] newArray(int size) {
+            return new Mood[size];
+        }
+    };
 }

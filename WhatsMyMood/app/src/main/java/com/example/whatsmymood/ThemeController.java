@@ -80,7 +80,6 @@ public class ThemeController {
     public static void notifyThemeChange(Activity activity)
     {
         activity.recreate();
-        //activity.startActivity(new Intent(activity, activity.getClass()));
     }
 
 }
