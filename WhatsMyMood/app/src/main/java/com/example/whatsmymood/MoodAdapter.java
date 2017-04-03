@@ -27,6 +27,8 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import static android.view.View.VISIBLE;
+
 /**
  * The type Mood adapter.
  * Created by ejtang
@@ -86,31 +88,39 @@ class MoodAdapter extends ArrayAdapter<Mood> {
         //emoticon.setImageResource(R.drawable.happiness);
         //image.setImageResource(R.drawable.def_pic_vert);
 
+        if (mood.getMoodMsg() != null) {
+            moodMessageText.setText(mood.getMoodMsg());
+            moodMessageText.setVisibility(VISIBLE);
+        }
+        if (mood.getSocialSit() != null) {
+            socialSituationText.setText(mood.getSocialSit());
+            socialSituationText.setVisibility(VISIBLE);
+        }
 
-
-        ImageView viewLocationButton = (ImageView) customView.findViewById(R.id.locationButton);
-        viewLocationButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(mContext,MapActivity.class);
-                ArrayList<Mood> temp = new ArrayList<Mood>();
-                temp.add(mood);
-                intent.putParcelableArrayListExtra("moods",temp);
-                mContext.startActivity(intent);
-            }
-        });
+        if (mood.getLocation() != null) {
+            ImageView viewLocationButton = (ImageView) customView.findViewById(R.id.locationButton);
+            viewLocationButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(mContext, MapActivity.class);
+                    ArrayList<Mood> temp = new ArrayList<Mood>();
+                    temp.add(mood);
+                    intent.putParcelableArrayListExtra("moods", temp);
+                    mContext.startActivity(intent);
+                }
+            });
+            viewLocationButton.setVisibility(VISIBLE);
+        }
 
         authorText.setText(mood.getMoodAuthor());
         moodTypeText.setText(mood.getMoodType());
-        moodMessageText.setText(mood.getMoodMsg());
-        socialSituationText.setText(mood.getSocialSit());
         Date date = mood.getDate();
         dateText.setText(DateFormat.getDateTimeInstance(
                 DateFormat.MEDIUM, DateFormat.SHORT).format(mood.getDate()));
 
         if (this.mContext instanceof ProfileActivity) {
             final ImageButton moodButton = (ImageButton) customView.findViewById(R.id.mood_functions);
-            moodButton.setVisibility(View.VISIBLE);
+            moodButton.setVisibility(VISIBLE);
             moodButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
