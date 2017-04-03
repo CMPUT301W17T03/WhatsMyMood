@@ -74,13 +74,13 @@ public class MainActivity extends AppCompatActivity {
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
-
-        setAdapters();
         */
+        fetchData();
+        setAdapters();
 
         if((savedInstanceState == null)){
             this.filter = new Filter();
-            //refresh();
+            refresh();
         }
 
         final SwipeRefreshLayout pullToRefresh = (SwipeRefreshLayout) findViewById(R.id.swiperefresh);
