@@ -34,7 +34,8 @@ import java.util.Date;
 import java.util.Locale;
 
 /**
- * Takes user input and converts it into a relevant mood
+ * Takes user input and converts it into a relevant mood.
+ * Also handles user interface for editing an existing mood.
  */
 class AddMoodController{
     private final CurrentUser current = CurrentUser.getInstance();
@@ -240,7 +241,11 @@ class AddMoodController{
         }
     }
 
-
+    /**
+     * Prefils all user interface in the dialog to display existing information about a mood.
+     * Called when user is editing an existing mood.
+     * @param mood
+     */
     public void preFill(Mood mood) {
         EDIT_MOOD = true;
 
