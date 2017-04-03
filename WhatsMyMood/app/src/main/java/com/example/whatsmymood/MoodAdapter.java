@@ -71,7 +71,7 @@ class MoodAdapter extends ArrayAdapter<Mood> {
         TextView socialSituationText = (TextView) customView.findViewById(R.id.moodSocialSituation);
         TextView dateText = (TextView) customView.findViewById(R.id.moodDate);
 
-        //ImageView emoticon = (ImageView) customView.findViewById(R.id.moodEmoticon);
+        setMoodEmoticon(mood, customView);
 
 
         try {
@@ -83,8 +83,10 @@ class MoodAdapter extends ArrayAdapter<Mood> {
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
-        //emoticon.setImageResource(R.drawable.def_emoticon);
+        //emoticon.setImageResource(R.drawable.happiness);
         //image.setImageResource(R.drawable.def_pic_vert);
+
+
 
         ImageView viewLocationButton = (ImageView) customView.findViewById(R.id.locationButton);
         viewLocationButton.setOnClickListener(new View.OnClickListener() {
@@ -149,6 +151,37 @@ class MoodAdapter extends ArrayAdapter<Mood> {
             });
         }
         return customView;
+    }
+
+    private void setMoodEmoticon(Mood mood, View customView) {
+        ImageView emoticon = (ImageView) customView.findViewById(R.id.moodEmoticon);
+        switch (mood.getMoodType()) {
+            case "Happiness":
+                emoticon.setImageResource(R.drawable.happiness);
+                break;
+            case "Sadness":
+                emoticon.setImageResource(R.drawable.sadness);
+                break;
+            case "Anger":
+                emoticon.setImageResource(R.drawable.anger);
+                break;
+            case "Confusion":
+                emoticon.setImageResource(R.drawable.confused);
+                break;
+            case "Disgusted":
+                emoticon.setImageResource(R.drawable.disgusted);
+                break;
+            case "Scared":
+                emoticon.setImageResource(R.drawable.scared);
+                break;
+            case "Shame":
+                emoticon.setImageResource(R.drawable.shame);
+                break;
+            case "Surprise":
+                emoticon.setImageResource(R.drawable.surprise);
+                break;
+
+        }
     }
 
 }

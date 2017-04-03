@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
 
         if((savedInstanceState == null)){
             this.filter = new Filter();
-            refresh();
+            //refresh();
         }
 
         final SwipeRefreshLayout pullToRefresh = (SwipeRefreshLayout) findViewById(R.id.swiperefresh);
