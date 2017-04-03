@@ -43,8 +43,9 @@ class AddMoodController{
     private boolean EDIT_MOOD = false;
 
     // Invalid User Selections
-    private boolean DATE_INVALID = false;
     private boolean SELECT_MOOD_INVALID = false;
+    private boolean MOOD_MESSAGE_INVALID = false;
+    private boolean DATE_INVALID = false;
 
     private static final int GET_LOCATION_REQUEST_CODE = 0;
 
@@ -301,7 +302,12 @@ class AddMoodController{
         }
 
         if (!editMoodMsg.getText().toString().isEmpty()) {
-            this.moodMsg = editMoodMsg.getText().toString();
+            String message = editMoodMsg.getText().toString();
+            if (message.split("\\s+").length > 3 || message.length() > 15) {
+                MOOD_MESSAGE_INVALID = true;
+            } else {
+                this.moodMsg = editMoodMsg.getText().toString();
+            }
         }
 
         if (!editSocialSit.getText().toString().isEmpty()) {
@@ -327,9 +333,10 @@ class AddMoodController{
             textview.setError("");
             textview.setTextColor(Color.RED);
             textview.setText(R.string.invalid_mood);
-
             SELECT_MOOD_INVALID = false;
-
+        } else if (MOOD_MESSAGE_INVALID) {
+            editMoodMsg.setError("Mood Messages must be less than 15 characters and less than 4 words");
+            MOOD_MESSAGE_INVALID = false;
         } else if (DATE_INVALID) {
             editDate.setError("Invalid Date Inputted (yyyy-MM-DD)");
             DATE_INVALID = false;
