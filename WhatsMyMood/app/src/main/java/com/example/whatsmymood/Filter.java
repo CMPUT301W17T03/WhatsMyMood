@@ -83,12 +83,16 @@ public class Filter implements Parcelable {
 
             case MOOD_MESSAGE:
                 try{
+                    Log.d("filter","filter value:"+this.value);
                     for (int i = 0; i < moodList.size(); i++) {
-                        if (moodList.get(i).getMoodMsg().toLowerCase().contains(value.toLowerCase())) {
-                            filteredList.add(moodList.get(i));
+                        if(moodList.get(i).getMoodMsg() != null) {
+                            if (moodList.get(i).getMoodMsg().toLowerCase().contains(value.toLowerCase())) {
+                                filteredList.add(moodList.get(i));
+                            }
                         }
                     }
                 }catch(NullPointerException e) {
+                    Log.d("filter","null pointer exception");
                     return moodList;
                 }
                 break;
