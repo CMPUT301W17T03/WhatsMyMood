@@ -51,12 +51,12 @@ public class ProfileActivity extends AppCompatActivity {
         FooterHandler handler = new FooterHandler(this, footer);
 
         setAdapters();
+        refresh();
     }
 
     @Override
     protected void onStart(){
         super.onStart();
-        //refresh();
     }
 
     private void refresh(){
