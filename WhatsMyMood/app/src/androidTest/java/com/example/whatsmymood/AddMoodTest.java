@@ -27,7 +27,7 @@ public class AddMoodTest extends ActivityInstrumentationTestCase2 {
         Activity activity = getActivity();
     }
 
-    public void testAddHappinessMoodInProfile() throws Exception {
+    public void testAddHappinessMood() throws Exception {
         LoginActivity activity = (LoginActivity) solo.getCurrentActivity();
 
         solo.assertCurrentActivity("Wrong Activity", LoginActivity.class);
@@ -36,9 +36,6 @@ public class AddMoodTest extends ActivityInstrumentationTestCase2 {
 
         solo.clickOnButton("Sign in");
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
-
-        solo.clickOnView(solo.getView(R.id.profile));
-        solo.assertCurrentActivity("Wrong Activity", ProfileActivity.class);
 
         solo.clickOnView(solo.getView(R.id.add));
         assertTrue("Could not find the dialog!", solo.searchText("Select a mood"));
@@ -47,11 +44,12 @@ public class AddMoodTest extends ActivityInstrumentationTestCase2 {
         solo.clickOnText("Happiness");
         solo.clickOnButton("Post");
 
+        solo.sleep(500);
+
         assertEquals("Happiness",current.getCurrentUser().getMoodList().getRecentMood().getMoodType());
-        assertTrue("most recent mood not on screen!", solo.searchText("Happiness"));
     }
 
-    public void testAddSadnessMoodInProfile() throws Exception {
+    public void testAddSadnessMood() throws Exception {
         LoginActivity activity = (LoginActivity) solo.getCurrentActivity();
 
         solo.assertCurrentActivity("Wrong Activity", LoginActivity.class);
@@ -60,9 +58,6 @@ public class AddMoodTest extends ActivityInstrumentationTestCase2 {
 
         solo.clickOnButton("Sign in");
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
-
-        solo.clickOnView(solo.getView(R.id.profile));
-        solo.assertCurrentActivity("Wrong Activity", ProfileActivity.class);
 
         solo.clickOnView(solo.getView(R.id.add));
         assertTrue("Could not find the dialog!", solo.searchText("Select a mood"));
@@ -71,11 +66,12 @@ public class AddMoodTest extends ActivityInstrumentationTestCase2 {
         solo.clickOnText("Sadness");
         solo.clickOnButton("Post");
 
+        solo.sleep(500);
+
         assertEquals("Sadness",current.getCurrentUser().getMoodList().getRecentMood().getMoodType());
-        assertTrue("most recent mood not on screen!", solo.searchText("Sadness"));
     }
 
-    public void testAddConfusionMoodInProfile() throws Exception {
+    public void testAddConfusionMood() throws Exception {
         LoginActivity activity = (LoginActivity) solo.getCurrentActivity();
 
         solo.assertCurrentActivity("Wrong Activity", LoginActivity.class);
@@ -84,9 +80,6 @@ public class AddMoodTest extends ActivityInstrumentationTestCase2 {
 
         solo.clickOnButton("Sign in");
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
-
-        solo.clickOnView(solo.getView(R.id.profile));
-        solo.assertCurrentActivity("Wrong Activity", ProfileActivity.class);
 
         solo.clickOnView(solo.getView(R.id.add));
         assertTrue("Could not find the dialog!", solo.searchText("Select a mood"));
@@ -95,11 +88,12 @@ public class AddMoodTest extends ActivityInstrumentationTestCase2 {
         solo.clickOnText("Confusion");
         solo.clickOnButton("Post");
 
+        solo.sleep(500);
+
         assertEquals("Confusion",current.getCurrentUser().getMoodList().getRecentMood().getMoodType());
-        assertTrue("most recent mood not on screen!", solo.searchText("Confusion"));
     }
 
-    public void testAddDisgustedMoodInProfile() throws Exception {
+    public void testAddDisgustedMood() throws Exception {
         LoginActivity activity = (LoginActivity) solo.getCurrentActivity();
 
         solo.assertCurrentActivity("Wrong Activity", LoginActivity.class);
@@ -108,9 +102,6 @@ public class AddMoodTest extends ActivityInstrumentationTestCase2 {
 
         solo.clickOnButton("Sign in");
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
-
-        solo.clickOnView(solo.getView(R.id.profile));
-        solo.assertCurrentActivity("Wrong Activity", ProfileActivity.class);
 
         solo.clickOnView(solo.getView(R.id.add));
         assertTrue("Could not find the dialog!", solo.searchText("Select a mood"));
@@ -119,11 +110,12 @@ public class AddMoodTest extends ActivityInstrumentationTestCase2 {
         solo.clickOnText("Disgusted");
         solo.clickOnButton("Post");
 
+        solo.sleep(500);
+
         assertEquals("Disgusted",current.getCurrentUser().getMoodList().getRecentMood().getMoodType());
-        assertTrue("most recent mood not on screen!", solo.searchText("Disgusted"));
     }
 
-    public void testAddScaredMoodInProfile() throws Exception {
+    public void testAddScaredMood() throws Exception {
         LoginActivity activity = (LoginActivity) solo.getCurrentActivity();
 
         solo.assertCurrentActivity("Wrong Activity", LoginActivity.class);
@@ -132,9 +124,6 @@ public class AddMoodTest extends ActivityInstrumentationTestCase2 {
 
         solo.clickOnButton("Sign in");
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
-
-        solo.clickOnView(solo.getView(R.id.profile));
-        solo.assertCurrentActivity("Wrong Activity", ProfileActivity.class);
 
         solo.clickOnView(solo.getView(R.id.add));
         assertTrue("Could not find the dialog!", solo.searchText("Select a mood"));
@@ -143,11 +132,12 @@ public class AddMoodTest extends ActivityInstrumentationTestCase2 {
         solo.clickOnText("Scared");
         solo.clickOnButton("Post");
 
+        solo.sleep(500);
+
         assertEquals("Scared",current.getCurrentUser().getMoodList().getRecentMood().getMoodType());
-        assertTrue("most recent mood not on screen!", solo.searchText("Scared"));
     }
 
-    public void testAddShameMoodInProfile() throws Exception {
+    public void testAddShameMood() throws Exception {
         LoginActivity activity = (LoginActivity) solo.getCurrentActivity();
 
         solo.assertCurrentActivity("Wrong Activity", LoginActivity.class);
@@ -156,9 +146,6 @@ public class AddMoodTest extends ActivityInstrumentationTestCase2 {
 
         solo.clickOnButton("Sign in");
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
-
-        solo.clickOnView(solo.getView(R.id.profile));
-        solo.assertCurrentActivity("Wrong Activity", ProfileActivity.class);
 
         solo.clickOnView(solo.getView(R.id.add));
         assertTrue("Could not find the dialog!", solo.searchText("Select a mood"));
@@ -167,11 +154,12 @@ public class AddMoodTest extends ActivityInstrumentationTestCase2 {
         solo.clickOnText("Shame");
         solo.clickOnButton("Post");
 
+        solo.sleep(500);
+
         assertEquals("Shame",current.getCurrentUser().getMoodList().getRecentMood().getMoodType());
-        assertTrue("most recent mood not on screen!", solo.searchText("Shame"));
     }
 
-    public void testAddSurprisedMoodInProfile() throws Exception {
+    public void testAddSurprisedMood() throws Exception {
         LoginActivity activity = (LoginActivity) solo.getCurrentActivity();
 
         solo.assertCurrentActivity("Wrong Activity", LoginActivity.class);
@@ -181,18 +169,17 @@ public class AddMoodTest extends ActivityInstrumentationTestCase2 {
         solo.clickOnButton("Sign in");
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
 
-        solo.clickOnView(solo.getView(R.id.profile));
-        solo.assertCurrentActivity("Wrong Activity", ProfileActivity.class);
-
         solo.clickOnView(solo.getView(R.id.add));
         assertTrue("Could not find the dialog!", solo.searchText("Select a mood"));
 
         solo.clickOnView(solo.getView(R.id.select_mood));
+        
         solo.clickOnText("Surprised");
         solo.clickOnButton("Post");
 
+        solo.sleep(500);
+
         assertEquals("Surprised",current.getCurrentUser().getMoodList().getRecentMood().getMoodType());
-        assertTrue("most recent mood not on screen!", solo.searchText("Surprised"));
     }
 
 
