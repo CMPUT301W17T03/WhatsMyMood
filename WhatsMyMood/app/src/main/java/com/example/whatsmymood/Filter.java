@@ -18,8 +18,11 @@ import java.util.Date;
 import static com.google.android.gms.common.internal.safeparcel.SafeParcelable.NULL;
 
 /**
- * Created by Alex on 4/2/2017.
- *
+ * Controller class that filters arrays of moods based on the type of filter selected.<b>
+ * Filter is also passed from profile or main activity to the map to display the filter
+ * mood list on a map
+ * @author Alex
+ * @version 1.2 , 4/2/2017
  */
 
 public class Filter implements Parcelable {
@@ -45,10 +48,10 @@ public class Filter implements Parcelable {
     }
 
     /**
-     * Filter array array list.
+     * Filter mood array list.
      *
      * @param moodList the mood list
-     * @return the array list
+     * @return filtered mood array list
      */
     public ArrayList<Mood> filterArray(ArrayList<Mood> moodList){
 
@@ -124,6 +127,10 @@ public class Filter implements Parcelable {
         return filteredList;
     }
 
+    /**
+     * Sets the string variable value.
+     * @param value
+     */
     public void setValue(String value) {
         this.value = value;
     }

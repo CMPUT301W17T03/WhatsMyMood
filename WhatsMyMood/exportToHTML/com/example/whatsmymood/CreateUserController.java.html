@@ -1,0 +1,71 @@
+<html>
+<head>
+<title>CreateUserController.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: #606366; font-weight: normal; font-style: normal; }
+.s0 { color: rgb(204,120,50); }
+.s1 { color: rgb(169,183,198); }
+.s2 { color: rgb(98,151,85); font-style: italic; }
+.s3 { color: rgb(98,151,85); font-weight: bold; font-style: italic; }
+.s4 { color: rgb(128,128,128); }
+</style>
+</head>
+<BODY BGCOLOR="#2b2b2b">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+CreateUserController.java</FONT>
+</center></TD></TR></TABLE>
+<pre>
+<span class="s0">package </span><span class="s1">com.example.whatsmymood</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s0">import </span><span class="s1">java.util.ArrayList</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">java.util.concurrent.ExecutionException</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s2">/** 
+ * Creates a UserAccount object 
+ * </span><span class="s3">@author </span><span class="s2">Alex 
+ */</span><span class="s1"> 
+</span><span class="s0">class </span><span class="s1">CreateUserController { 
+ 
+    </span><span class="s4">// Blank Constructor for instantiating</span><span class="s1"> 
+    </span><span class="s0">public </span><span class="s1">CreateUserController(){ 
+    } 
+ 
+    </span><span class="s2">/** 
+     * Creates a new UserAccount object. 
+     * First checks the database to ensure there are no existing users with the same username. 
+     * Adds new UserAccount object to the database. 
+     * </span><span class="s3">@param </span><span class="s2">username 
+     * </span><span class="s3">@param </span><span class="s2">password 
+     * </span><span class="s3">@return</span><span class="s2"> 
+     */</span><span class="s1"> 
+    </span><span class="s0">public boolean </span><span class="s1">create(String username</span><span class="s0">, </span><span class="s1">String password) { 
+        ElasticSearchUserController.GetUserTask getUserTask = </span><span class="s0">new </span><span class="s1">ElasticSearchUserController.GetUserTask()</span><span class="s0">;</span><span class="s1"> 
+        getUserTask.execute(username)</span><span class="s0">;</span><span class="s1"> 
+ 
+        </span><span class="s0">try </span><span class="s1">{ 
+            ArrayList&lt;UserAccount&gt; userList = getUserTask.get()</span><span class="s0">;</span><span class="s1"> 
+            </span><span class="s0">if </span><span class="s1">(!userList.isEmpty()) { 
+                </span><span class="s0">return false;</span><span class="s1"> 
+            } </span><span class="s0">else </span><span class="s1">{ 
+                </span><span class="s4">// Adds a user on success</span><span class="s1"> 
+                UserAccount user = </span><span class="s0">new </span><span class="s1">UserAccount(username</span><span class="s0">, </span><span class="s1">password)</span><span class="s0">;</span><span class="s1"> 
+                ElasticSearchUserController.AddUserTask addUserTask = </span><span class="s0">new </span><span class="s1">ElasticSearchUserController.AddUserTask()</span><span class="s0">;</span><span class="s1"> 
+                addUserTask.execute(user)</span><span class="s0">;</span><span class="s1"> 
+                </span><span class="s0">return true;</span><span class="s1"> 
+            } 
+        } </span><span class="s0">catch </span><span class="s1">(InterruptedException | ExecutionException e) { 
+            e.printStackTrace()</span><span class="s0">;</span><span class="s1"> 
+        } 
+        </span><span class="s0">return false;</span><span class="s1"> 
+    } 
+ 
+} 
+ 
+ 
+ 
+</span></pre>
+</body>
+</html>

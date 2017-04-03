@@ -1,0 +1,259 @@
+<html>
+<head>
+<title>ElasticSearchUserController.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: #606366; font-weight: normal; font-style: normal; }
+.s0 { color: rgb(204,120,50); }
+.s1 { color: rgb(169,183,198); }
+.s2 { color: rgb(98,151,85); font-style: italic; }
+.s3 { color: rgb(98,151,85); font-weight: bold; font-style: italic; }
+.s4 { color: rgb(106,135,89); }
+.s5 { color: rgb(128,128,128); }
+.s6 { color: rgb(104,151,187); }
+</style>
+</head>
+<BODY BGCOLOR="#2b2b2b">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+ElasticSearchUserController.java</FONT>
+</center></TD></TR></TABLE>
+<pre>
+<span class="s0">package </span><span class="s1">com.example.whatsmymood</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s0">import </span><span class="s1">android.os.AsyncTask</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.util.Log</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s0">import </span><span class="s1">com.searchly.jestdroid.DroidClientConfig</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">com.searchly.jestdroid.JestClientFactory</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">com.searchly.jestdroid.JestDroidClient</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s0">import </span><span class="s1">java.util.ArrayList</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">java.util.List</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s0">import </span><span class="s1">io.searchbox.core.DocumentResult</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">io.searchbox.core.Index</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">io.searchbox.core.Search</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">io.searchbox.core.SearchResult</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">io.searchbox.indices.CreateIndex</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s2">/** 
+ * Universal elastic search controller to return, add, and update 
+ * user objects 
+ * Reference : https://github.com/alisajedi/lonelyTwitter/tree/master/app/src/main/java/ca/ualberta/cs/lonelytwitter 
+ * Obtained : 03-11-2017 
+ * </span><span class="s3">@author  </span><span class="s2">Alex 
+ * </span><span class="s3">@version </span><span class="s2">1.5, 2017-03-11. 
+ */</span><span class="s1"> 
+</span><span class="s0">public class </span><span class="s1">ElasticSearchUserController { 
+    </span><span class="s0">private static final </span><span class="s1">String TAG = </span><span class="s4">&quot;Error&quot;</span><span class="s0">;</span><span class="s1"> 
+ 
+    </span><span class="s0">private static </span><span class="s1">JestDroidClient client</span><span class="s0">;</span><span class="s1"> 
+ 
+    </span><span class="s5">//https://github.com/alisajedi/lonelyTwitter/tree/master/app/src/main/java/ca/ualberta/cs/lonelytwitter</span><span class="s1"> 
+    </span><span class="s5">//03-11-2017</span><span class="s1"> 
+ 
+    </span><span class="s2">/** 
+     * Adds a new user to elastic search 
+     * Used in login activity 
+     */</span><span class="s1"> 
+    </span><span class="s0">public static class </span><span class="s1">AddUserTask </span><span class="s0">extends </span><span class="s1">AsyncTask&lt;UserAccount</span><span class="s0">, </span><span class="s1">Void</span><span class="s0">, </span><span class="s1">Void&gt; { 
+ 
+        @Override 
+        </span><span class="s0">protected </span><span class="s1">Void doInBackground(UserAccount... users) { 
+            verifySettings()</span><span class="s0">;</span><span class="s1"> 
+            </span><span class="s0">for </span><span class="s1">(UserAccount user : users) { 
+                Index index = </span><span class="s0">new </span><span class="s1">Index.Builder(user).index(</span><span class="s4">&quot;cmput301w17t03&quot;</span><span class="s1">).type(</span><span class="s4">&quot;user&quot;</span><span class="s1">).build()</span><span class="s0">;</span><span class="s1"> 
+                </span><span class="s0">try </span><span class="s1">{ 
+                    DocumentResult result = client.execute(index)</span><span class="s0">;</span><span class="s1"> 
+                    </span><span class="s0">if </span><span class="s1">(result.isSucceeded()){ 
+                        user.setId(result.getId())</span><span class="s0">;</span><span class="s1"> 
+                    } 
+                    </span><span class="s0">else</span><span class="s1">{ 
+                        Log.i(TAG</span><span class="s0">,</span><span class="s4">&quot;ElasticSearch was not able to add the user&quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+                    } 
+                } 
+                </span><span class="s0">catch </span><span class="s1">(Exception e) { 
+                    Log.i(TAG</span><span class="s0">, </span><span class="s4">&quot;The application failed to build and send the user accounts&quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+                } 
+            } 
+            </span><span class="s0">return null;</span><span class="s1"> 
+        } 
+    } 
+ 
+    </span><span class="s2">/** 
+     * Gets the current user 
+     * Used for grabbing the current user as an object 
+     * and to edit the data 
+     */</span><span class="s1"> 
+    </span><span class="s0">public static class </span><span class="s1">GetUserTask </span><span class="s0">extends </span><span class="s1">AsyncTask&lt;String</span><span class="s0">, </span><span class="s1">Void</span><span class="s0">, </span><span class="s1">ArrayList&lt;UserAccount&gt;&gt; { 
+        @Override 
+        </span><span class="s0">protected </span><span class="s1">ArrayList&lt;UserAccount&gt; doInBackground(String... search_parameters) { 
+            verifySettings()</span><span class="s0">;</span><span class="s1"> 
+ 
+            ArrayList&lt;UserAccount&gt; users = </span><span class="s0">new </span><span class="s1">ArrayList&lt;&gt;()</span><span class="s0">;</span><span class="s1"> 
+ 
+            String query = String.format(</span><span class="s4">&quot;{</span><span class="s0">\n</span><span class="s4">&quot; </span><span class="s1">+ 
+                    </span><span class="s4">&quot;    </span><span class="s0">\&quot;</span><span class="s4">query</span><span class="s0">\&quot;</span><span class="s4"> : {</span><span class="s0">\n</span><span class="s4">&quot; </span><span class="s1">+ 
+                    </span><span class="s4">&quot;        </span><span class="s0">\&quot;</span><span class="s4">match</span><span class="s0">\&quot;</span><span class="s4"> : &quot; </span><span class="s1">+ 
+                    </span><span class="s4">&quot;               { </span><span class="s0">\&quot;</span><span class="s4">username</span><span class="s0">\&quot;</span><span class="s4"> : </span><span class="s0">\&quot;</span><span class="s4">&quot; </span><span class="s1">+ </span><span class="s4">&quot;%s&quot; </span><span class="s1">+ </span><span class="s4">&quot;</span><span class="s0">\&quot;</span><span class="s4"> }</span><span class="s0">\n</span><span class="s4">&quot; </span><span class="s1">+ 
+                    </span><span class="s4">&quot;    }</span><span class="s0">\n</span><span class="s4">&quot; </span><span class="s1">+ 
+                    </span><span class="s4">&quot;}&quot;</span><span class="s0">, </span><span class="s1">search_parameters[</span><span class="s6">0</span><span class="s1">].trim())</span><span class="s0">;</span><span class="s1"> 
+ 
+            Search search = </span><span class="s0">new </span><span class="s1">Search.Builder(query).addIndex(</span><span class="s4">&quot;cmput301w17t03&quot;</span><span class="s1">).addType(</span><span class="s4">&quot;user&quot;</span><span class="s1">).build()</span><span class="s0">;</span><span class="s1"> 
+ 
+            </span><span class="s0">try </span><span class="s1">{ 
+                SearchResult result = client.execute(search)</span><span class="s0">;</span><span class="s1"> 
+ 
+                </span><span class="s0">if </span><span class="s1">(result.isSucceeded()){ 
+                    List&lt;UserAccount&gt; foundAccount = result.getSourceAsObjectList(UserAccount.</span><span class="s0">class</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+                    users.addAll(foundAccount)</span><span class="s0">;</span><span class="s1"> 
+                } 
+                </span><span class="s0">else</span><span class="s1">{ 
+                    Log.i(TAG</span><span class="s0">,</span><span class="s4">&quot;The search query failed to find any user accounts that matched&quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+                } 
+            } 
+            </span><span class="s0">catch </span><span class="s1">(Exception e) { 
+                Log.i(TAG</span><span class="s0">, </span><span class="s4">&quot;Something went wrong when we tried to communicate with the elastic search server!&quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+                e.printStackTrace()</span><span class="s0">;</span><span class="s1"> 
+            } 
+            </span><span class="s0">return </span><span class="s1">users</span><span class="s0">;</span><span class="s1"> 
+        } 
+    } 
+ 
+    </span><span class="s2">/** 
+     * Gets the current user 
+     * Used for grabbing the current user as an object 
+     * and to edit the data 
+     */</span><span class="s1"> 
+    </span><span class="s0">public static class </span><span class="s1">GetFollowersTask </span><span class="s0">extends </span><span class="s1">AsyncTask&lt;String</span><span class="s0">, </span><span class="s1">Void</span><span class="s0">, </span><span class="s1">ArrayList&lt;UserAccount&gt;&gt; { 
+        @Override 
+        </span><span class="s0">protected </span><span class="s1">ArrayList&lt;UserAccount&gt; doInBackground(String... search_parameters) { 
+            verifySettings()</span><span class="s0">;</span><span class="s1"> 
+ 
+ 
+            ArrayList&lt;UserAccount&gt; users = </span><span class="s0">new </span><span class="s1">ArrayList&lt;&gt;()</span><span class="s0">;</span><span class="s1"> 
+ 
+            String query = String.format(</span><span class="s4">&quot;{</span><span class="s0">\n</span><span class="s4">&quot; </span><span class="s1">+ 
+                    </span><span class="s4">&quot;   </span><span class="s0">\&quot;</span><span class="s4">_source</span><span class="s0">\&quot;</span><span class="s4"> : [</span><span class="s0">\&quot;</span><span class="s4">moodList</span><span class="s0">\&quot;</span><span class="s4">],</span><span class="s0">\n</span><span class="s4">&quot; </span><span class="s1">+ 
+                    </span><span class="s4">&quot;   </span><span class="s0">\&quot;</span><span class="s4">query</span><span class="s0">\&quot;</span><span class="s4"> : {</span><span class="s0">\n</span><span class="s4">&quot; </span><span class="s1">+ 
+                    </span><span class="s4">&quot;       </span><span class="s0">\&quot;</span><span class="s4">bool</span><span class="s0">\&quot;</span><span class="s4"> : {</span><span class="s0">\n</span><span class="s4">&quot; </span><span class="s1">+ 
+                    </span><span class="s4">&quot;           </span><span class="s0">\&quot;</span><span class="s4">must</span><span class="s0">\&quot;</span><span class="s4"> : {</span><span class="s0">\n</span><span class="s4">&quot; </span><span class="s1">+ 
+                    </span><span class="s4">&quot;               </span><span class="s0">\&quot;</span><span class="s4">query_string</span><span class="s0">\&quot;</span><span class="s4"> : {</span><span class="s0">\n</span><span class="s4">&quot; </span><span class="s1">+ 
+                    </span><span class="s4">&quot;                   </span><span class="s0">\&quot;</span><span class="s4">fields</span><span class="s0">\&quot;</span><span class="s4"> : [</span><span class="s0">\&quot;</span><span class="s4">username</span><span class="s0">\&quot;</span><span class="s4">],</span><span class="s0">\n</span><span class="s4">&quot; </span><span class="s1">+ 
+                    </span><span class="s4">&quot;                   </span><span class="s0">\&quot;</span><span class="s4">query</span><span class="s0">\&quot;</span><span class="s4"> : </span><span class="s0">\&quot;</span><span class="s4">&quot; </span><span class="s1">+ </span><span class="s4">&quot;%s&quot; </span><span class="s1">+ </span><span class="s4">&quot;</span><span class="s0">\&quot;</span><span class="s4"> }</span><span class="s0">\n</span><span class="s4">&quot; </span><span class="s1">+ 
+                    </span><span class="s4">&quot;               }</span><span class="s0">\n</span><span class="s4">&quot; </span><span class="s1">+ 
+                    </span><span class="s4">&quot;           }</span><span class="s0">\n</span><span class="s4">&quot; </span><span class="s1">+ 
+                    </span><span class="s4">&quot;       }</span><span class="s0">\n</span><span class="s4">&quot; </span><span class="s1">+ 
+                    </span><span class="s4">&quot;   }</span><span class="s0">\n</span><span class="s4">&quot; </span><span class="s1">+ 
+                    </span><span class="s4">&quot;}&quot;</span><span class="s0">, </span><span class="s1">search_parameters[</span><span class="s6">0</span><span class="s1">].trim())</span><span class="s0">;</span><span class="s1"> 
+ 
+            Search search = </span><span class="s0">new </span><span class="s1">Search.Builder(query).addIndex(</span><span class="s4">&quot;cmput301w17t03&quot;</span><span class="s1">).addType(</span><span class="s4">&quot;user&quot;</span><span class="s1">).build()</span><span class="s0">;</span><span class="s1"> 
+ 
+            </span><span class="s0">try </span><span class="s1">{ 
+                SearchResult result = client.execute(search)</span><span class="s0">;</span><span class="s1"> 
+ 
+                </span><span class="s0">if </span><span class="s1">(result.isSucceeded()){ 
+                    List&lt;UserAccount&gt; foundAccount = result.getSourceAsObjectList(UserAccount.</span><span class="s0">class</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+                    users.addAll(foundAccount)</span><span class="s0">;</span><span class="s1"> 
+                } 
+                </span><span class="s0">else</span><span class="s1">{ 
+                    Log.i(TAG</span><span class="s0">,</span><span class="s4">&quot;The search query failed to find any user accounts that matched&quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+                } 
+            } 
+            </span><span class="s0">catch </span><span class="s1">(Exception e) { 
+                Log.i(TAG</span><span class="s0">, </span><span class="s4">&quot;Something went wrong when we tried to communicate with the elastic search server!&quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+                e.printStackTrace()</span><span class="s0">;</span><span class="s1"> 
+            } 
+            </span><span class="s0">return </span><span class="s1">users</span><span class="s0">;</span><span class="s1"> 
+        } 
+    } 
+ 
+    </span><span class="s0">public static class </span><span class="s1">UpdateUser </span><span class="s0">extends </span><span class="s1">AsyncTask&lt;UserAccount</span><span class="s0">, </span><span class="s1">Void</span><span class="s0">, </span><span class="s1">Void&gt; { 
+ 
+        @Override 
+        </span><span class="s0">protected </span><span class="s1">Void doInBackground(UserAccount... users) { 
+            verifySettings()</span><span class="s0">;</span><span class="s1"> 
+            </span><span class="s0">for </span><span class="s1">(UserAccount user : users) { 
+ 
+                Index index = </span><span class="s0">new </span><span class="s1">Index.Builder(user).index(</span><span class="s4">&quot;cmput301w17t03&quot;</span><span class="s1">).type(</span><span class="s4">&quot;user&quot;</span><span class="s1">).id(user.getId()).build()</span><span class="s0">;</span><span class="s1"> 
+ 
+                </span><span class="s0">try </span><span class="s1">{ 
+                    DocumentResult updateResult = client.execute(index)</span><span class="s0">;</span><span class="s1"> 
+                    </span><span class="s0">if </span><span class="s1">(updateResult.isSucceeded()){ 
+                        user.setId(updateResult.getId())</span><span class="s0">;</span><span class="s1"> 
+                    } 
+                    </span><span class="s0">else</span><span class="s1">{ 
+                        Log.i(TAG</span><span class="s0">,</span><span class="s4">&quot;ElasticSearch was not able to add the user&quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+                    } 
+                } 
+                </span><span class="s0">catch </span><span class="s1">(Exception e) { 
+                    Log.i(TAG</span><span class="s0">, </span><span class="s4">&quot;The application failed to build and send the user accounts&quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+                    e.printStackTrace()</span><span class="s0">;</span><span class="s1"> 
+                } 
+ 
+            } 
+            </span><span class="s0">return null;</span><span class="s1"> 
+        } 
+    } 
+ 
+ 
+    </span><span class="s0">public static class </span><span class="s1">GetAllMoodsTask </span><span class="s0">extends </span><span class="s1">AsyncTask&lt;String</span><span class="s0">, </span><span class="s1">Void</span><span class="s0">, </span><span class="s1">ArrayList&lt;Mood&gt;&gt; { 
+        @Override 
+        </span><span class="s0">protected </span><span class="s1">ArrayList&lt;Mood&gt; doInBackground(String... search_parameters) { 
+            verifySettings()</span><span class="s0">;</span><span class="s1"> 
+ 
+            ArrayList&lt;UserAccount&gt; users = </span><span class="s0">new </span><span class="s1">ArrayList&lt;&gt;()</span><span class="s0">;</span><span class="s1"> 
+            ArrayList&lt;Mood&gt; moods = </span><span class="s0">new </span><span class="s1">ArrayList&lt;Mood&gt;()</span><span class="s0">;</span><span class="s1"> 
+ 
+            String query = String.format(</span><span class="s4">&quot;{</span><span class="s0">\n</span><span class="s4">&quot; </span><span class="s1">+ 
+                    </span><span class="s4">&quot;    </span><span class="s0">\&quot;</span><span class="s4">query</span><span class="s0">\&quot;</span><span class="s4"> : {</span><span class="s0">\n</span><span class="s4">&quot; </span><span class="s1">+ 
+                    </span><span class="s4">&quot;        </span><span class="s0">\&quot;</span><span class="s4">match_all</span><span class="s0">\&quot;</span><span class="s4"> : &quot; </span><span class="s1">+ 
+                    </span><span class="s4">&quot;               {}</span><span class="s0">\n</span><span class="s4">&quot; </span><span class="s1">+ 
+                    </span><span class="s4">&quot;    }</span><span class="s0">\n</span><span class="s4">&quot; </span><span class="s1">+ 
+                    </span><span class="s4">&quot;}&quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+ 
+            Search search = </span><span class="s0">new </span><span class="s1">Search.Builder(query).addIndex(</span><span class="s4">&quot;cmput301w17t03&quot;</span><span class="s1">).addType(</span><span class="s4">&quot;user&quot;</span><span class="s1">).build()</span><span class="s0">;</span><span class="s1"> 
+ 
+            </span><span class="s0">try </span><span class="s1">{ 
+                SearchResult result = client.execute(search)</span><span class="s0">;</span><span class="s1"> 
+ 
+                </span><span class="s0">if </span><span class="s1">(result.isSucceeded()){ 
+                    List&lt;UserAccount&gt; foundAccount = result.getSourceAsObjectList(UserAccount.</span><span class="s0">class</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+                    users.addAll(foundAccount)</span><span class="s0">;</span><span class="s1"> 
+ 
+                    </span><span class="s0">for </span><span class="s1">(</span><span class="s0">int </span><span class="s1">i = </span><span class="s6">0</span><span class="s0">; </span><span class="s1">i&lt;users.size()</span><span class="s0">; </span><span class="s1">i++){ 
+                        moods.addAll(users.get(i).moodList.getMoodList())</span><span class="s0">;</span><span class="s1"> 
+                    } 
+                } 
+                </span><span class="s0">else</span><span class="s1">{ 
+                    Log.i(TAG</span><span class="s0">,</span><span class="s4">&quot;The search query failed to find any user accounts that matched&quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+                } 
+            } 
+            </span><span class="s0">catch </span><span class="s1">(Exception e) { 
+                Log.i(TAG</span><span class="s0">, </span><span class="s4">&quot;Something went wrong when we tried to communicate with the elastic search server!&quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+                e.printStackTrace()</span><span class="s0">;</span><span class="s1"> 
+            } 
+            Log.d(</span><span class="s4">&quot;meep&quot;</span><span class="s0">, </span><span class="s1">moods.toString())</span><span class="s0">;</span><span class="s1"> 
+            </span><span class="s0">return </span><span class="s1">moods</span><span class="s0">;</span><span class="s1"> 
+        } 
+    } 
+ 
+ 
+    </span><span class="s5">// Verifies elastic search settings</span><span class="s1"> 
+    </span><span class="s0">public static void </span><span class="s1">verifySettings() { 
+        </span><span class="s0">if </span><span class="s1">(client == </span><span class="s0">null</span><span class="s1">) { 
+            DroidClientConfig.Builder builder = </span><span class="s0">new </span><span class="s1">DroidClientConfig.Builder(</span><span class="s4">&quot;http://cmput301.softwareprocess.es:8080&quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+            DroidClientConfig config = builder.build()</span><span class="s0">;</span><span class="s1"> 
+ 
+            JestClientFactory factory = </span><span class="s0">new </span><span class="s1">JestClientFactory()</span><span class="s0">;</span><span class="s1"> 
+            factory.setDroidClientConfig(config)</span><span class="s0">;</span><span class="s1"> 
+            client = (JestDroidClient) factory.getObject()</span><span class="s0">;</span><span class="s1"> 
+        } 
+    } 
+ 
+} 
+</span></pre>
+</body>
+</html>

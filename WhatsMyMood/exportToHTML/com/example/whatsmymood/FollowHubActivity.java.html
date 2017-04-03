@@ -1,0 +1,244 @@
+<html>
+<head>
+<title>FollowHubActivity.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: #606366; font-weight: normal; font-style: normal; }
+.s0 { color: rgb(204,120,50); }
+.s1 { color: rgb(169,183,198); }
+.s2 { color: rgb(98,151,85); font-style: italic; }
+.s3 { color: rgb(98,151,85); font-weight: bold; font-style: italic; }
+.s4 { color: rgb(128,128,128); }
+.s5 { color: rgb(104,151,187); }
+.s6 { color: rgb(106,135,89); }
+</style>
+</head>
+<BODY BGCOLOR="#2b2b2b">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+FollowHubActivity.java</FONT>
+</center></TD></TR></TABLE>
+<pre>
+<span class="s0">package </span><span class="s1">com.example.whatsmymood</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s0">import </span><span class="s1">android.os.Bundle</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.support.design.widget.TabLayout</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.support.v4.app.Fragment</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.support.v4.app.FragmentManager</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.support.v4.app.FragmentPagerAdapter</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.support.v4.app.FragmentTransaction</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.support.v4.view.ViewPager</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.support.v7.app.AppCompatActivity</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.support.v7.widget.Toolbar</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.util.Log</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.view.Menu</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.view.MenuItem</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.view.View</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.widget.ArrayAdapter</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.widget.Button</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.widget.EditText</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.widget.Toast</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s0">import </span><span class="s1">java.util.concurrent.ExecutionException</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s0">import static </span><span class="s1">com.example.whatsmymood.R.id.none</span><span class="s0">;</span><span class="s1"> 
+ 
+ 
+</span><span class="s2">/** 
+ * The type Follow hub activity. 
+ * Created by ejtang 
+ * 
+ * Referenced off of https://www.youtube.com/watch?v=00LLd7qr9sA for ideas and what to do 
+ * to get our tabs working 
+ * Obtained Mar 29, 2017 
+ */</span><span class="s1"> 
+</span><span class="s0">public class </span><span class="s1">FollowHubActivity </span><span class="s0">extends </span><span class="s1">AppCompatActivity { 
+ 
+    </span><span class="s0">private </span><span class="s1">FollowHubActivityTab1Followers followersTab</span><span class="s0">;</span><span class="s1"> 
+    </span><span class="s0">private </span><span class="s1">FollowHubActivityTab2Following followingTab</span><span class="s0">;</span><span class="s1"> 
+    </span><span class="s0">private </span><span class="s1">FollowHubActivityTab3Requests requestsTab</span><span class="s0">;</span><span class="s1"> 
+ 
+    </span><span class="s2">/** 
+     * The {</span><span class="s3">@link </span><span class="s2">android.support.v4.view.PagerAdapter} that will provide 
+     * fragments for each of the sections. We use a 
+     * {</span><span class="s3">@link </span><span class="s2">FragmentPagerAdapter} derivative, which will keep every 
+     * loaded fragment in memory. If this becomes too memory intensive, it 
+     * may be best to switch to a 
+     * {</span><span class="s3">@link </span><span class="s2">android.support.v4.app.FragmentStatePagerAdapter}. 
+     */</span><span class="s1"> 
+    </span><span class="s0">private </span><span class="s1">SectionsPagerAdapter mSectionsPagerAdapter</span><span class="s0">;</span><span class="s1"> 
+ 
+    </span><span class="s2">/** 
+     * The {</span><span class="s3">@link </span><span class="s2">ViewPager} that will host the section contents. 
+     */</span><span class="s1"> 
+    </span><span class="s0">private </span><span class="s1">ViewPager mViewPager</span><span class="s0">;</span><span class="s1"> 
+ 
+    </span><span class="s2">/** 
+     * The current logged in User 
+     */</span><span class="s1"> 
+    </span><span class="s0">private final </span><span class="s1">CurrentUser current = CurrentUser.getInstance()</span><span class="s0">;</span><span class="s1"> 
+ 
+    @Override 
+    </span><span class="s0">protected void </span><span class="s1">onCreate(Bundle savedInstanceState) { 
+        </span><span class="s0">super</span><span class="s1">.onCreate(savedInstanceState)</span><span class="s0">;</span><span class="s1"> 
+        setContentView(R.layout.activity_follow_hub)</span><span class="s0">;</span><span class="s1"> 
+ 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar)</span><span class="s0">;</span><span class="s1"> 
+        setSupportActionBar(toolbar)</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s4">// Create the adapter that will return a fragment for each of the three</span><span class="s1"> 
+        </span><span class="s4">// primary sections of the activity.</span><span class="s1"> 
+        mSectionsPagerAdapter = </span><span class="s0">new </span><span class="s1">SectionsPagerAdapter(getSupportFragmentManager())</span><span class="s0">;</span><span class="s1"> 
+ 
+        </span><span class="s4">// Set up the ViewPager with the sections adapter.</span><span class="s1"> 
+        mViewPager = (ViewPager) findViewById(R.id.container)</span><span class="s0">;</span><span class="s1"> 
+        mViewPager.setAdapter(mSectionsPagerAdapter)</span><span class="s0">;</span><span class="s1"> 
+ 
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs)</span><span class="s0">;</span><span class="s1"> 
+        tabLayout.setupWithViewPager(mViewPager)</span><span class="s0">;</span><span class="s1"> 
+ 
+        </span><span class="s4">// commenting out the fab since we do not need it for our current follow hub</span><span class="s1"> 
+        </span><span class="s4">/*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab); 
+        fab.setOnClickListener(new View.OnClickListener() { 
+            @Override 
+            public void onClick(View view) { 
+                Snackbar.make(view, &quot;Replace with your own action&quot;, Snackbar.LENGTH_LONG) 
+                        .setAction(&quot;Action&quot;, null).show(); 
+            } 
+        });*/</span><span class="s1"> 
+ 
+ 
+        </span><span class="s0">final </span><span class="s1">EditText addRequestText = (EditText) findViewById(R.id.body)</span><span class="s0">;</span><span class="s1"> 
+        Button addRequest = (Button) findViewById(R.id.add)</span><span class="s0">;</span><span class="s1"> 
+ 
+        addRequest.setOnClickListener(</span><span class="s0">new </span><span class="s1">View.OnClickListener() { 
+            @Override 
+            </span><span class="s0">public void </span><span class="s1">onClick(View v) { 
+                ElasticSearchUserController.GetUserTask getRequestUserTask = </span><span class="s0">new </span><span class="s1">ElasticSearchUserController.GetUserTask()</span><span class="s0">;</span><span class="s1"> 
+                getRequestUserTask.execute(addRequestText.getText().toString())</span><span class="s0">;</span><span class="s1"> 
+ 
+                </span><span class="s0">try </span><span class="s1">{ 
+                    UserAccount user = getRequestUserTask.get().get(</span><span class="s5">0</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+ 
+                    </span><span class="s0">if </span><span class="s1">(!user.relations.isFollowedBy(current.getCurrentUser().getUsername())) { 
+                        </span><span class="s0">if</span><span class="s1">(!user.relations.hasRequests(current.getCurrentUser().getUsername())) { 
+                            user.relations.addToFollowRequests(current.getCurrentUser().getUsername())</span><span class="s0">;</span><span class="s1"> 
+ 
+                            ElasticSearchUserController.UpdateUser updateUser = </span><span class="s0">new </span><span class="s1">ElasticSearchUserController.UpdateUser()</span><span class="s0">;</span><span class="s1"> 
+                            updateUser.execute(user)</span><span class="s0">;</span><span class="s1"> 
+ 
+                            </span><span class="s4">//Todo this will have to be altered with offline</span><span class="s1"> 
+                            String successString = </span><span class="s6">&quot;Request Sent&quot;</span><span class="s0">;</span><span class="s1"> 
+                            Toast.makeText(getBaseContext()</span><span class="s0">,</span><span class="s1">successString</span><span class="s0">, </span><span class="s1">Toast.LENGTH_SHORT).show()</span><span class="s0">;</span><span class="s1"> 
+                        } 
+                        </span><span class="s0">else </span><span class="s1">{ 
+                            addRequestText.setError(</span><span class="s6">&quot;Already requested to follow user&quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+                        } 
+                    } </span><span class="s0">else </span><span class="s1">{ 
+                        addRequestText.setError(</span><span class="s6">&quot;Already following user&quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+                    } 
+ 
+ 
+                } </span><span class="s0">catch </span><span class="s1">(ExecutionException | IndexOutOfBoundsException e) { 
+                    addRequestText.setError(</span><span class="s6">&quot;User Doesn't Exist&quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+                } </span><span class="s0">catch </span><span class="s1">(InterruptedException e) { 
+                    e.printStackTrace()</span><span class="s0">;</span><span class="s1"> 
+                } 
+            } 
+        })</span><span class="s0">;</span><span class="s1"> 
+ 
+    } 
+ 
+ 
+    @Override 
+    </span><span class="s0">public boolean </span><span class="s1">onCreateOptionsMenu(Menu menu) { 
+        </span><span class="s4">// Inflate the menu; this adds items to the action bar if it is present.</span><span class="s1"> 
+        getMenuInflater().inflate(R.menu.menu_follow_hub</span><span class="s0">, </span><span class="s1">menu)</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s0">return true;</span><span class="s1"> 
+    } 
+ 
+    @Override 
+    </span><span class="s0">public boolean </span><span class="s1">onOptionsItemSelected(MenuItem item) { 
+        </span><span class="s4">// Handle action bar item clicks here. The action bar will</span><span class="s1"> 
+        </span><span class="s4">// automatically handle clicks on the Home/Up button, so long</span><span class="s1"> 
+        </span><span class="s4">// as you specify a parent activity in AndroidManifest.xml.</span><span class="s1"> 
+        </span><span class="s0">int </span><span class="s1">id = item.getItemId()</span><span class="s0">;</span><span class="s1"> 
+ 
+        </span><span class="s4">//noinspection SimplifiableIfStatement</span><span class="s1"> 
+ 
+        </span><span class="s4">// referenced off of http://stackoverflow.com/questions/32172341/how-i-can-call-method-in-fragment-from-activity</span><span class="s1"> 
+        </span><span class="s4">// on April 2, 2017, to get methods in fragments inside a activity</span><span class="s1"> 
+        </span><span class="s0">if </span><span class="s1">(id == R.id.action_refresh) { 
+            </span><span class="s0">if </span><span class="s1">(followersTab != </span><span class="s0">null</span><span class="s1">){ 
+                followersTab.refresh()</span><span class="s0">;</span><span class="s1"> 
+            } 
+            </span><span class="s0">if </span><span class="s1">(followersTab != </span><span class="s0">null</span><span class="s1">) { 
+                followingTab.refresh()</span><span class="s0">;</span><span class="s1"> 
+            } 
+            </span><span class="s0">if </span><span class="s1">(requestsTab != </span><span class="s0">null</span><span class="s1">) { 
+                requestsTab.refresh()</span><span class="s0">;</span><span class="s1"> 
+            } 
+            </span><span class="s0">return true;</span><span class="s1"> 
+        } 
+ 
+        </span><span class="s0">return super</span><span class="s1">.onOptionsItemSelected(item)</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s4">//deleted placeholder Fragment here</span><span class="s1"> 
+ 
+    </span><span class="s2">/** 
+     * A {</span><span class="s3">@link </span><span class="s2">FragmentPagerAdapter} that returns a fragment corresponding to 
+     * one of the sections/tabs/pages. 
+     */</span><span class="s1"> 
+    </span><span class="s0">public class </span><span class="s1">SectionsPagerAdapter </span><span class="s0">extends </span><span class="s1">FragmentPagerAdapter { 
+ 
+        </span><span class="s2">/** 
+         * Instantiates a new Sections pager adapter. 
+         * 
+         * </span><span class="s3">@param </span><span class="s2">fm the fm 
+         */</span><span class="s1"> 
+        </span><span class="s0">public </span><span class="s1">SectionsPagerAdapter(FragmentManager fm) { 
+            </span><span class="s0">super</span><span class="s1">(fm)</span><span class="s0">;</span><span class="s1"> 
+        } 
+ 
+        @Override 
+        </span><span class="s0">public </span><span class="s1">Fragment getItem(</span><span class="s0">int </span><span class="s1">position) { 
+            </span><span class="s4">//Return the current tab</span><span class="s1"> 
+            </span><span class="s0">switch </span><span class="s1">(position) { 
+                </span><span class="s0">case </span><span class="s5">0</span><span class="s1">: 
+                    followersTab = </span><span class="s0">new </span><span class="s1">FollowHubActivityTab1Followers()</span><span class="s0">;</span><span class="s1"> 
+                    </span><span class="s0">return </span><span class="s1">followersTab</span><span class="s0">;</span><span class="s1"> 
+                </span><span class="s0">case </span><span class="s5">1</span><span class="s1">: 
+                    followingTab = </span><span class="s0">new </span><span class="s1">FollowHubActivityTab2Following()</span><span class="s0">;</span><span class="s1"> 
+                    </span><span class="s0">return </span><span class="s1">followingTab</span><span class="s0">;</span><span class="s1"> 
+                </span><span class="s0">case </span><span class="s5">2</span><span class="s1">: 
+                    requestsTab = </span><span class="s0">new </span><span class="s1">FollowHubActivityTab3Requests()</span><span class="s0">;</span><span class="s1"> 
+                    </span><span class="s0">return </span><span class="s1">requestsTab</span><span class="s0">;</span><span class="s1"> 
+                </span><span class="s0">default</span><span class="s1">: 
+                    </span><span class="s0">return null;</span><span class="s1"> 
+            } 
+        } 
+ 
+        @Override 
+        </span><span class="s0">public int </span><span class="s1">getCount() { 
+            </span><span class="s4">// Show 3 total pages.</span><span class="s1"> 
+            </span><span class="s0">return </span><span class="s5">3</span><span class="s0">;</span><span class="s1"> 
+        } 
+ 
+        @Override 
+        </span><span class="s0">public </span><span class="s1">CharSequence getPageTitle(</span><span class="s0">int </span><span class="s1">position) { 
+            </span><span class="s0">switch </span><span class="s1">(position) { 
+                </span><span class="s0">case </span><span class="s5">0</span><span class="s1">: 
+                    </span><span class="s0">return </span><span class="s6">&quot;Followers&quot;</span><span class="s0">;</span><span class="s1"> 
+                </span><span class="s0">case </span><span class="s5">1</span><span class="s1">: 
+                    </span><span class="s0">return </span><span class="s6">&quot;Following&quot;</span><span class="s0">;</span><span class="s1"> 
+                </span><span class="s0">case </span><span class="s5">2</span><span class="s1">: 
+                    </span><span class="s0">return </span><span class="s6">&quot;Requests&quot;</span><span class="s0">;</span><span class="s1"> 
+            } 
+            </span><span class="s0">return null;</span><span class="s1"> 
+        } 
+    } 
+} 
+</span></pre>
+</body>
+</html>

@@ -3,9 +3,11 @@ package com.example.whatsmymood;
 import java.util.ArrayList;
 
 /**
+ * Stores three separate array lists of users.
  * Used to keep track of followers and the people
  * you are following as well as your follow requests
- * Created by YiJi on 2017-02-21.
+ * @author
+ * @version 1.0, 2017-02-21.
  */
 public class Relations {
     private final ArrayList<String> followingList = new ArrayList<>();

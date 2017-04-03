@@ -1,0 +1,435 @@
+<html>
+<head>
+<title>AddMoodController.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: #606366; font-weight: normal; font-style: normal; }
+.s0 { color: rgb(204,120,50); }
+.s1 { color: rgb(169,183,198); }
+.s2 { color: rgb(98,151,85); font-style: italic; }
+.s3 { color: rgb(119,183,103); font-style: italic; }
+.s4 { color: rgb(98,151,85); font-weight: bold; font-style: italic; }
+.s5 { color: rgb(128,128,128); }
+.s6 { color: rgb(104,151,187); }
+.s7 { color: rgb(106,135,89); }
+</style>
+</head>
+<BODY BGCOLOR="#2b2b2b">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+AddMoodController.java</FONT>
+</center></TD></TR></TABLE>
+<pre>
+<span class="s0">package </span><span class="s1">com.example.whatsmymood</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s0">import </span><span class="s1">android.app.Activity</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.app.Dialog</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.content.Context</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.content.Intent</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.content.pm.PackageManager</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.graphics.Bitmap</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.graphics.Color</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.net.ConnectivityManager</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.net.NetworkInfo</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.support.v4.app.ActivityCompat</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.support.v4.content.ContextCompat</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.util.Log</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.view.View</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.widget.ArrayAdapter</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.widget.Button</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.widget.EditText</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.widget.ImageButton</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.widget.ImageView</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.widget.ListView</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.widget.Spinner</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.widget.TextView</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s0">import </span><span class="s1">com.google.android.gms.maps.model.LatLng</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s0">import </span><span class="s1">org.apache.commons.lang3.ObjectUtils</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s0">import </span><span class="s1">java.text.ParseException</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">java.text.SimpleDateFormat</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">java.util.Collections</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">java.util.Comparator</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">java.util.Date</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">java.util.Locale</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s2">/** 
+ * Takes user input and converts it into a relevant mood.</span><span class="s3">&lt;br&gt;</span><span class="s2"> 
+ * Also handles user interface for editing an existing mood. 
+ * 
+ * </span><span class="s4">@author </span><span class="s2">Nathan 
+ */</span><span class="s1"> 
+</span><span class="s0">class </span><span class="s1">AddMoodController{ 
+    </span><span class="s0">private final </span><span class="s1">CurrentUser current = CurrentUser.getInstance()</span><span class="s0">;</span><span class="s1"> 
+    </span><span class="s0">private final </span><span class="s1">UserAccount user = current.getCurrentUser()</span><span class="s0">;</span><span class="s1"> 
+ 
+    </span><span class="s0">private boolean </span><span class="s1">EDIT_MOOD = </span><span class="s0">false;</span><span class="s1"> 
+ 
+    </span><span class="s5">// Invalid User Selections</span><span class="s1"> 
+    </span><span class="s0">private boolean </span><span class="s1">SELECT_MOOD_INVALID = </span><span class="s0">false;</span><span class="s1"> 
+    </span><span class="s0">private boolean </span><span class="s1">MOOD_MESSAGE_INVALID = </span><span class="s0">false;</span><span class="s1"> 
+    </span><span class="s0">private boolean </span><span class="s1">DATE_INVALID = </span><span class="s0">false;</span><span class="s1"> 
+ 
+    </span><span class="s0">private static final int </span><span class="s1">GET_LOCATION_REQUEST_CODE = </span><span class="s6">0</span><span class="s0">;</span><span class="s1"> 
+ 
+    </span><span class="s5">// Permissions for the camera</span><span class="s1"> 
+    </span><span class="s0">private static final int </span><span class="s1">PERMISSIONS_REQUEST_ACCESS_CAMERA = </span><span class="s6">1</span><span class="s0">;</span><span class="s1"> 
+ 
+    </span><span class="s5">// Activity Result Codes</span><span class="s1"> 
+    </span><span class="s0">private static final int </span><span class="s1">CAPTURE_IMAGE_REQUEST_CODE = </span><span class="s6">4</span><span class="s0">;</span><span class="s1"> 
+    </span><span class="s0">private static final int </span><span class="s1">RESULT_OK = -</span><span class="s6">1</span><span class="s0">;</span><span class="s1"> 
+ 
+    </span><span class="s5">// Variable for camera permission checks</span><span class="s1"> 
+    </span><span class="s0">private int </span><span class="s1">cameraPermissionCheck</span><span class="s0">;</span><span class="s1"> 
+ 
+    </span><span class="s0">private static </span><span class="s1">ImageButton photoButton</span><span class="s0">;</span><span class="s1"> 
+    </span><span class="s0">private static </span><span class="s1">Button addLocation</span><span class="s0">;</span><span class="s1"> 
+ 
+    </span><span class="s0">private final </span><span class="s1">Dialog dialog</span><span class="s0">;</span><span class="s1"> 
+    </span><span class="s0">private final </span><span class="s1">Context context</span><span class="s0">;</span><span class="s1"> 
+ 
+    </span><span class="s0">private </span><span class="s1">String moodType</span><span class="s0">;</span><span class="s1"> 
+    </span><span class="s0">private final </span><span class="s1">String moodAuthor = user.getUsername()</span><span class="s0">;</span><span class="s1"> 
+    </span><span class="s0">private </span><span class="s1">String moodMsg = </span><span class="s0">null;</span><span class="s1"> 
+    </span><span class="s0">private static </span><span class="s1">LatLng location = </span><span class="s0">null;</span><span class="s1"> 
+    </span><span class="s0">private </span><span class="s1">String socialSit = </span><span class="s0">null;</span><span class="s1"> 
+    </span><span class="s0">private </span><span class="s1">Date date</span><span class="s0">;</span><span class="s1"> 
+    </span><span class="s0">private </span><span class="s1">String checkDate</span><span class="s0">;</span><span class="s1"> 
+    </span><span class="s0">private </span><span class="s1">String checkDate2</span><span class="s0">;</span><span class="s1"> 
+ 
+    </span><span class="s5">// TODO: Make this non-static</span><span class="s1"> 
+    </span><span class="s0">private static </span><span class="s1">String mPhoto</span><span class="s0">;</span><span class="s1"> 
+ 
+    </span><span class="s5">// Dialog Layouts</span><span class="s1"> 
+    </span><span class="s0">private final </span><span class="s1">Spinner spinner</span><span class="s0">;</span><span class="s1"> 
+    </span><span class="s0">private final </span><span class="s1">EditText editMoodMsg</span><span class="s0">;</span><span class="s1"> 
+    </span><span class="s0">private final </span><span class="s1">EditText editSocialSit</span><span class="s0">;</span><span class="s1"> 
+    </span><span class="s0">private final </span><span class="s1">EditText editDate</span><span class="s0">;</span><span class="s1"> 
+ 
+    </span><span class="s0">private </span><span class="s1">Mood mood</span><span class="s0">;</span><span class="s1"> 
+ 
+    </span><span class="s2">/** 
+     * Passes the dialog and context 
+     * Sets up the click functionality for the camera button and the post button 
+     * </span><span class="s4">@param </span><span class="s2">mContext Base context of the activity from main 
+     * </span><span class="s4">@param </span><span class="s2">mDialog Dialog created in footer handler 
+     */</span><span class="s1"> 
+    </span><span class="s0">public </span><span class="s1">AddMoodController(</span><span class="s0">final </span><span class="s1">Context mContext</span><span class="s0">, </span><span class="s1">Dialog mDialog) { 
+        </span><span class="s0">this</span><span class="s1">.dialog = mDialog</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s0">this</span><span class="s1">.context = mContext</span><span class="s0">;</span><span class="s1"> 
+ 
+        </span><span class="s0">this</span><span class="s1">.spinner = (Spinner) </span><span class="s0">this</span><span class="s1">.dialog.findViewById(R.id.select_mood)</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s0">this</span><span class="s1">.editMoodMsg = (EditText) </span><span class="s0">this</span><span class="s1">.dialog.findViewById(R.id.enter_description)</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s0">this</span><span class="s1">.editSocialSit = (EditText) </span><span class="s0">this</span><span class="s1">.dialog.findViewById(R.id.enter_tags)</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s0">this</span><span class="s1">.editDate = (EditText) </span><span class="s0">this</span><span class="s1">.dialog.findViewById(R.id.enter_date)</span><span class="s0">;</span><span class="s1"> 
+ 
+        </span><span class="s5">// Get Access to the Camera</span><span class="s1"> 
+        photoButton = (ImageButton) dialog.findViewById(R.id.load_picture)</span><span class="s0">;</span><span class="s1"> 
+ 
+        photoButton.setOnClickListener(</span><span class="s0">new </span><span class="s1">View.OnClickListener() { 
+            @Override 
+            </span><span class="s0">public void </span><span class="s1">onClick(View view) { 
+                </span><span class="s5">// http://stackoverflow.com/questions/38980647/i-need-to-get-the-activity-in-order-to-request-permissions</span><span class="s1"> 
+                </span><span class="s5">// March 13th,2017 1:48</span><span class="s1"> 
+                cameraPermissionCheck = ContextCompat.checkSelfPermission(context</span><span class="s0">, </span><span class="s1">android.Manifest.permission.CAMERA)</span><span class="s0">;</span><span class="s1"> 
+                </span><span class="s0">if </span><span class="s1">(cameraPermissionCheck != PackageManager.PERMISSION_GRANTED) { 
+                    </span><span class="s0">if </span><span class="s1">(mContext </span><span class="s0">instanceof </span><span class="s1">MainActivity) { 
+                        ActivityCompat.requestPermissions((MainActivity) context</span><span class="s0">, new </span><span class="s1">String[]{android.Manifest.permission.CAMERA}</span><span class="s0">, </span><span class="s1">PERMISSIONS_REQUEST_ACCESS_CAMERA)</span><span class="s0">;</span><span class="s1"> 
+                    } </span><span class="s0">else </span><span class="s1">{ 
+                        ActivityCompat.requestPermissions((ProfileActivity) context</span><span class="s0">, new </span><span class="s1">String[]{android.Manifest.permission.CAMERA}</span><span class="s0">, </span><span class="s1">PERMISSIONS_REQUEST_ACCESS_CAMERA)</span><span class="s0">;</span><span class="s1"> 
+                    } 
+                } 
+                </span><span class="s0">else </span><span class="s1">{ 
+                    Intent intent = </span><span class="s0">new </span><span class="s1">Intent(</span><span class="s7">&quot;android.media.action.IMAGE_CAPTURE&quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+                    </span><span class="s0">if </span><span class="s1">(mContext </span><span class="s0">instanceof </span><span class="s1">MainActivity) { 
+                        ((MainActivity) context).startActivityForResult(intent</span><span class="s0">, </span><span class="s1">CAPTURE_IMAGE_REQUEST_CODE)</span><span class="s0">;</span><span class="s1"> 
+                    } </span><span class="s0">else </span><span class="s1">{ 
+                        ((ProfileActivity) context).startActivityForResult(intent</span><span class="s0">, </span><span class="s1">CAPTURE_IMAGE_REQUEST_CODE)</span><span class="s0">;</span><span class="s1"> 
+                    } 
+                } 
+            } 
+        })</span><span class="s0">;</span><span class="s1"> 
+ 
+        </span><span class="s5">// Sets the mood on post button click</span><span class="s1"> 
+        Button post = (Button) dialog.findViewById(R.id.post)</span><span class="s0">;</span><span class="s1"> 
+ 
+        post.setOnClickListener(</span><span class="s0">new </span><span class="s1">View.OnClickListener() { 
+            @Override 
+            </span><span class="s0">public void </span><span class="s1">onClick(View view) { 
+                Mood mood = getMood()</span><span class="s0">;</span><span class="s1"> 
+ 
+                </span><span class="s5">// Checks the user is connected to wifi</span><span class="s1"> 
+                ConnectivityManager connManager = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE)</span><span class="s0">;</span><span class="s1"> 
+                NetworkInfo mWifi = connManager.getActiveNetworkInfo()</span><span class="s0">;</span><span class="s1"> 
+ 
+                </span><span class="s0">if </span><span class="s1">(!EDIT_MOOD) { 
+                    </span><span class="s0">if </span><span class="s1">(mood != </span><span class="s0">null</span><span class="s1">) { 
+                        user.moodList.addMood(mood)</span><span class="s0">;</span><span class="s1"> 
+ 
+                        Collections.sort(user.getMoodList().getMoodList()</span><span class="s0">, new </span><span class="s1">Comparator&lt;Mood&gt;() 
+                        { 
+                            </span><span class="s0">public int </span><span class="s1">compare(Mood mood1</span><span class="s0">, </span><span class="s1">Mood mood2) { 
+                                </span><span class="s0">return </span><span class="s1">mood2.getDate().compareTo(mood1.getDate())</span><span class="s0">;</span><span class="s1"> 
+                            } 
+                        })</span><span class="s0">;</span><span class="s1"> 
+ 
+                        ListView moodListView = (ListView) ((Activity) context).findViewById(R.id.moodListView)</span><span class="s0">;</span><span class="s1"> 
+                        ((ArrayAdapter) moodListView.getAdapter()).notifyDataSetChanged()</span><span class="s0">;</span><span class="s1"> 
+ 
+                        </span><span class="s0">try </span><span class="s1">{ 
+                            mWifi.isConnected()</span><span class="s0">;</span><span class="s1"> 
+                            ElasticSearchUserController.UpdateUser updateUser = </span><span class="s0">new </span><span class="s1">ElasticSearchUserController.UpdateUser()</span><span class="s0">;</span><span class="s1"> 
+                            updateUser.execute(user)</span><span class="s0">;</span><span class="s1"> 
+                        } </span><span class="s0">catch </span><span class="s1">(NullPointerException e) { 
+                            e.printStackTrace()</span><span class="s0">;</span><span class="s1"> 
+                            CommandQueue.getInstance().addQueue(</span><span class="s0">new </span><span class="s1">UpdateCommand(user))</span><span class="s0">;</span><span class="s1"> 
+                            Log.d(</span><span class="s7">&quot;COMMANDWOW&quot;</span><span class="s0">, </span><span class="s7">&quot;WORKED&quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+                        } 
+ 
+                        dialog.dismiss()</span><span class="s0">;</span><span class="s1"> 
+                        ThemeController.notifyThemeChange((Activity)mContext)</span><span class="s0">;</span><span class="s1"> 
+                    } 
+                } 
+                </span><span class="s0">else </span><span class="s1">{ 
+                    </span><span class="s0">if </span><span class="s1">(mood != </span><span class="s0">null</span><span class="s1">) { 
+                        EDIT_MOOD = </span><span class="s0">false;</span><span class="s1"> 
+ 
+                        Collections.sort(user.getMoodList().getMoodList()</span><span class="s0">, new </span><span class="s1">Comparator&lt;Mood&gt;() 
+                        { 
+                            </span><span class="s0">public int </span><span class="s1">compare(Mood mood1</span><span class="s0">, </span><span class="s1">Mood mood2) { 
+                                </span><span class="s0">return </span><span class="s1">mood2.getDate().compareTo(mood1.getDate())</span><span class="s0">;</span><span class="s1"> 
+                            } 
+                        })</span><span class="s0">;</span><span class="s1"> 
+ 
+                        ListView moodListView = (ListView) ((ProfileActivity) context).findViewById(R.id.moodListView)</span><span class="s0">;</span><span class="s1"> 
+                        ((ArrayAdapter) moodListView.getAdapter()).notifyDataSetChanged()</span><span class="s0">;</span><span class="s1"> 
+ 
+                        </span><span class="s0">try </span><span class="s1">{ 
+                            mWifi.isConnected()</span><span class="s0">;</span><span class="s1"> 
+                            ElasticSearchUserController.UpdateUser updateUser = </span><span class="s0">new </span><span class="s1">ElasticSearchUserController.UpdateUser()</span><span class="s0">;</span><span class="s1"> 
+                            updateUser.execute(user)</span><span class="s0">;</span><span class="s1"> 
+                        } </span><span class="s0">catch </span><span class="s1">(NullPointerException e) { 
+                            e.printStackTrace()</span><span class="s0">;</span><span class="s1"> 
+                            CommandQueue.getInstance().addQueue(</span><span class="s0">new </span><span class="s1">UpdateCommand(user))</span><span class="s0">;</span><span class="s1"> 
+                        } 
+                        dialog.dismiss()</span><span class="s0">;</span><span class="s1"> 
+                        ThemeController.notifyThemeChange((Activity)mContext)</span><span class="s0">;</span><span class="s1"> 
+                    } 
+                } 
+            } 
+        })</span><span class="s0">;</span><span class="s1"> 
+ 
+        addLocation = (Button) dialog.findViewById(R.id.enter_location)</span><span class="s0">;</span><span class="s1"> 
+ 
+        addLocation.setOnClickListener(</span><span class="s0">new </span><span class="s1">View.OnClickListener() { 
+            @Override 
+            </span><span class="s0">public void </span><span class="s1">onClick(View v) { 
+                Intent intent = </span><span class="s0">new </span><span class="s1">Intent(context</span><span class="s0">,</span><span class="s1">AddLocationActivity.</span><span class="s0">class</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+ 
+                ((Activity) context).startActivityForResult(intent</span><span class="s0">, </span><span class="s1">GET_LOCATION_REQUEST_CODE)</span><span class="s0">;</span><span class="s1"> 
+ 
+            } 
+        })</span><span class="s0">;</span><span class="s1"> 
+    } 
+    </span><span class="s5">// I removed the static here but don't know if it will break anything. Check this with nathan after</span><span class="s1"> 
+    </span><span class="s0">public static void </span><span class="s1">processResult(</span><span class="s0">int </span><span class="s1">requestCode</span><span class="s0">, int </span><span class="s1">resultCode</span><span class="s0">, </span><span class="s1">Intent intent) { 
+        </span><span class="s0">if </span><span class="s1">(requestCode == CAPTURE_IMAGE_REQUEST_CODE) { 
+            </span><span class="s0">if </span><span class="s1">(resultCode == RESULT_OK) { 
+                Bitmap photo = (Bitmap) intent.getExtras().get(</span><span class="s7">&quot;data&quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+ 
+                </span><span class="s5">// TODO: Figure out a way to not create memory leaks from this line</span><span class="s1"> 
+                </span><span class="s5">// Basically photo's work but this line sets the image to the thumbnail of</span><span class="s1"> 
+                </span><span class="s5">// the photo you just took. This is kind of optional, it's only so the user</span><span class="s1"> 
+                </span><span class="s5">// knows that a photo was actually taken</span><span class="s1"> 
+                photoButton.setImageBitmap(photo)</span><span class="s0">;</span><span class="s1"> 
+ 
+                PhotoController photoController = </span><span class="s0">new </span><span class="s1">PhotoController()</span><span class="s0">;</span><span class="s1"> 
+ 
+                mPhoto = photoController.encodePhoto(photo)</span><span class="s0">;</span><span class="s1"> 
+            } 
+        } 
+ 
+        </span><span class="s0">if </span><span class="s1">(requestCode == GET_LOCATION_REQUEST_CODE) { 
+            </span><span class="s0">if </span><span class="s1">(resultCode == RESULT_OK) { 
+                </span><span class="s0">double </span><span class="s1">lat = (Double) intent.getExtras().get(</span><span class="s7">&quot;Lat&quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+                </span><span class="s0">double </span><span class="s1">lng = (Double) intent.getExtras().get(</span><span class="s7">&quot;Lng&quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+ 
+                location = </span><span class="s0">new </span><span class="s1">LatLng(lat</span><span class="s0">,</span><span class="s1">lng)</span><span class="s0">;</span><span class="s1"> 
+                addLocation.setText(</span><span class="s7">&quot;Location Added!&quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+                Log.d(</span><span class="s7">&quot;Add Location&quot;</span><span class="s0">,</span><span class="s1">location.toString())</span><span class="s0">;</span><span class="s1"> 
+ 
+            } 
+        } 
+    } 
+ 
+    </span><span class="s2">/** 
+     * Prefils all user interface in the dialog to display existing information about a mood. 
+     * Called when user is editing an existing mood. 
+     * </span><span class="s4">@param </span><span class="s2">mood 
+     */</span><span class="s1"> 
+    </span><span class="s0">public void </span><span class="s1">preFill(Mood mood) { 
+        EDIT_MOOD = </span><span class="s0">true;</span><span class="s1"> 
+ 
+        </span><span class="s5">// Gets the mood for updating</span><span class="s1"> 
+        </span><span class="s5">//this.user = current.getCurrentUser();</span><span class="s1"> 
+        </span><span class="s0">int </span><span class="s1">index = user.getMoodList().getIndex(mood)</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s0">this</span><span class="s1">.mood = current.getCurrentUser().getMoodList().get(index)</span><span class="s0">;</span><span class="s1"> 
+ 
+        </span><span class="s5">// http://stackoverflow.com/questions/2390102/how-to-set-selected-item-of-spinner-by-value-not-by-position</span><span class="s1"> 
+        </span><span class="s5">// March 30th, 2017</span><span class="s1"> 
+        String compareMood = </span><span class="s0">this</span><span class="s1">.mood.getMoodType()</span><span class="s0">;</span><span class="s1"> 
+        ArrayAdapter&lt;CharSequence&gt; adapter = ArrayAdapter.createFromResource(</span><span class="s0">this</span><span class="s1">.context</span><span class="s0">, </span><span class="s1">R.array.mood_array</span><span class="s0">, </span><span class="s1">android.R.layout.simple_spinner_item)</span><span class="s0">;</span><span class="s1"> 
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s0">this</span><span class="s1">.spinner.setAdapter(adapter)</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s0">int </span><span class="s1">position = adapter.getPosition(compareMood)</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s0">this</span><span class="s1">.spinner.setSelection(position)</span><span class="s0">;</span><span class="s1"> 
+ 
+        </span><span class="s0">try </span><span class="s1">{ 
+            </span><span class="s0">this</span><span class="s1">.editMoodMsg.setText(</span><span class="s0">this</span><span class="s1">.mood.getMoodMsg())</span><span class="s0">;</span><span class="s1"> 
+        } </span><span class="s0">catch </span><span class="s1">(NullPointerException e) { 
+            e.printStackTrace()</span><span class="s0">;</span><span class="s1"> 
+        } 
+ 
+        </span><span class="s0">try </span><span class="s1">{ 
+            </span><span class="s0">this</span><span class="s1">.editSocialSit.setText(</span><span class="s0">this</span><span class="s1">.mood.getSocialSit())</span><span class="s0">;</span><span class="s1"> 
+        } </span><span class="s0">catch </span><span class="s1">(NullPointerException e) { 
+            e.printStackTrace()</span><span class="s0">;</span><span class="s1"> 
+        } 
+ 
+        </span><span class="s0">try </span><span class="s1">{ 
+            SimpleDateFormat dateFormat = </span><span class="s0">new </span><span class="s1">SimpleDateFormat(</span><span class="s7">&quot;yyyy-MM-dd&quot;</span><span class="s0">, </span><span class="s1">Locale.getDefault())</span><span class="s0">;</span><span class="s1"> 
+            checkDate = dateFormat.format(</span><span class="s0">this</span><span class="s1">.mood.getDate())</span><span class="s0">;</span><span class="s1"> 
+            </span><span class="s0">this</span><span class="s1">.editDate.setText(checkDate)</span><span class="s0">;</span><span class="s1"> 
+        } </span><span class="s0">catch </span><span class="s1">(NullPointerException e) { 
+            e.printStackTrace()</span><span class="s0">;</span><span class="s1"> 
+        } 
+ 
+        </span><span class="s0">try </span><span class="s1">{ 
+            PhotoController photoController = </span><span class="s0">new </span><span class="s1">PhotoController()</span><span class="s0">;</span><span class="s1"> 
+            Bitmap photo = photoController.decodePhoto(</span><span class="s0">this</span><span class="s1">.mood.getPhoto())</span><span class="s0">;</span><span class="s1"> 
+ 
+            photoButton.setImageBitmap(photo)</span><span class="s0">;</span><span class="s1"> 
+        } </span><span class="s0">catch </span><span class="s1">(NullPointerException e) { 
+            e.printStackTrace()</span><span class="s0">;</span><span class="s1"> 
+        } 
+    } 
+ 
+    </span><span class="s2">/** 
+     * Main controller actions 
+     * Takes each input and converts it into 
+     * their respective variables 
+     * </span><span class="s4">@return </span><span class="s2">Calls make mood to make a mood object 
+     */</span><span class="s1"> 
+    </span><span class="s0">private </span><span class="s1">Mood getMood() { 
+ 
+        </span><span class="s0">if </span><span class="s1">(!spinner.getSelectedItem().toString().equals(</span><span class="s7">&quot;Select a mood&quot;</span><span class="s1">)) { 
+            </span><span class="s0">this</span><span class="s1">.moodType = spinner.getSelectedItem().toString()</span><span class="s0">;</span><span class="s1"> 
+        } </span><span class="s0">else </span><span class="s1">{ 
+            SELECT_MOOD_INVALID = </span><span class="s0">true;</span><span class="s1"> 
+        } 
+ 
+        </span><span class="s0">if </span><span class="s1">(!editMoodMsg.getText().toString().isEmpty()) { 
+            String message = editMoodMsg.getText().toString()</span><span class="s0">;</span><span class="s1"> 
+            </span><span class="s0">if </span><span class="s1">(message.split(</span><span class="s7">&quot;</span><span class="s0">\\</span><span class="s7">s+&quot;</span><span class="s1">).length &gt; </span><span class="s6">3 </span><span class="s1">|| message.length() &gt; </span><span class="s6">20</span><span class="s1">) { 
+                MOOD_MESSAGE_INVALID = </span><span class="s0">true;</span><span class="s1"> 
+            } </span><span class="s0">else </span><span class="s1">{ 
+                </span><span class="s0">this</span><span class="s1">.moodMsg = editMoodMsg.getText().toString()</span><span class="s0">;</span><span class="s1"> 
+            } 
+        } 
+ 
+        </span><span class="s0">if </span><span class="s1">(!editSocialSit.getText().toString().isEmpty()) { 
+            </span><span class="s0">this</span><span class="s1">.socialSit = editSocialSit.getText().toString()</span><span class="s0">;</span><span class="s1"> 
+        } 
+ 
+        </span><span class="s5">// Checks if the date is empty and if the format is correct</span><span class="s1"> 
+        </span><span class="s0">if </span><span class="s1">(!editDate.getText().toString().isEmpty()) { 
+            SimpleDateFormat check = </span><span class="s0">new </span><span class="s1">SimpleDateFormat(</span><span class="s7">&quot;yyyy-MM-dd&quot;</span><span class="s0">, </span><span class="s1">Locale.getDefault())</span><span class="s0">;</span><span class="s1"> 
+            check.setLenient(</span><span class="s0">false</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+ 
+            </span><span class="s0">try </span><span class="s1">{ 
+                </span><span class="s0">this</span><span class="s1">.checkDate2 = editDate.getText().toString()</span><span class="s0">;</span><span class="s1"> 
+                </span><span class="s0">this</span><span class="s1">.date = check.parse(checkDate2)</span><span class="s0">;</span><span class="s1"> 
+            } </span><span class="s0">catch</span><span class="s1">(ParseException e) { 
+                e.printStackTrace()</span><span class="s0">;</span><span class="s1"> 
+                DATE_INVALID = </span><span class="s0">true;</span><span class="s1"> 
+            } 
+        } 
+ 
+        </span><span class="s0">if </span><span class="s1">(SELECT_MOOD_INVALID) { 
+            TextView textview = (TextView) spinner.getSelectedView()</span><span class="s0">;</span><span class="s1"> 
+            textview.setError(</span><span class="s7">&quot;&quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+            textview.setTextColor(Color.RED)</span><span class="s0">;</span><span class="s1"> 
+            textview.setText(R.string.invalid_mood)</span><span class="s0">;</span><span class="s1"> 
+            SELECT_MOOD_INVALID = </span><span class="s0">false;</span><span class="s1"> 
+        } </span><span class="s0">else if </span><span class="s1">(MOOD_MESSAGE_INVALID) { 
+            editMoodMsg.setError(</span><span class="s7">&quot;Mood Messages must be less than 20 characters containing 3 or less words&quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+            MOOD_MESSAGE_INVALID = </span><span class="s0">false;</span><span class="s1"> 
+        } </span><span class="s0">else if </span><span class="s1">(DATE_INVALID) { 
+            editDate.setError(</span><span class="s7">&quot;Invalid Date Inputted (yyyy-MM-DD)&quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+            DATE_INVALID = </span><span class="s0">false;</span><span class="s1"> 
+ 
+        } </span><span class="s0">else </span><span class="s1">{ 
+            </span><span class="s0">if </span><span class="s1">(!EDIT_MOOD) { 
+                </span><span class="s0">return </span><span class="s1">makeMood()</span><span class="s0">;</span><span class="s1"> 
+            } 
+            </span><span class="s0">else </span><span class="s1">{ 
+                </span><span class="s0">return </span><span class="s1">updateMood()</span><span class="s0">;</span><span class="s1"> 
+            } 
+        } 
+        </span><span class="s0">return null;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">/** 
+     * Creates the mood 
+     * Automatically creates a date to the current date 
+     * if there is no date specified 
+     * </span><span class="s4">@return </span><span class="s2">Returns a mood object 
+     */</span><span class="s1"> 
+    </span><span class="s0">private </span><span class="s1">Mood makeMood() { 
+        </span><span class="s0">if </span><span class="s1">(</span><span class="s0">this</span><span class="s1">.date == </span><span class="s0">null</span><span class="s1">) { 
+            mood = </span><span class="s0">new </span><span class="s1">Mood(</span><span class="s0">this</span><span class="s1">.moodAuthor</span><span class="s0">, this</span><span class="s1">.moodType)</span><span class="s0">;</span><span class="s1"> 
+        } </span><span class="s0">else </span><span class="s1">{ 
+            mood = </span><span class="s0">new </span><span class="s1">Mood(</span><span class="s0">this</span><span class="s1">.moodAuthor</span><span class="s0">, this</span><span class="s1">.moodType</span><span class="s0">, this</span><span class="s1">.date)</span><span class="s0">;</span><span class="s1"> 
+        } 
+ 
+        mood.setMoodMsg(</span><span class="s0">this</span><span class="s1">.moodMsg)</span><span class="s0">;</span><span class="s1"> 
+        mood.setLocation(</span><span class="s0">this</span><span class="s1">.location)</span><span class="s0">;</span><span class="s1"> 
+        mood.setSocialSit(</span><span class="s0">this</span><span class="s1">.socialSit)</span><span class="s0">;</span><span class="s1"> 
+        mood.setPhoto(mPhoto)</span><span class="s0">;</span><span class="s1"> 
+        mPhoto = </span><span class="s0">null;</span><span class="s1"> 
+ 
+        </span><span class="s0">return </span><span class="s1">mood</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">/** 
+     * Updates the mood 
+     * Sets all of the mood information again 
+     * </span><span class="s4">@return </span><span class="s2">mood 
+     */</span><span class="s1"> 
+    </span><span class="s0">private </span><span class="s1">Mood updateMood() { 
+        mood.setMoodType(</span><span class="s0">this</span><span class="s1">.moodType)</span><span class="s0">;</span><span class="s1"> 
+        mood.setMoodMsg(</span><span class="s0">this</span><span class="s1">.moodMsg)</span><span class="s0">;</span><span class="s1"> 
+        mood.setLocation(</span><span class="s0">this</span><span class="s1">.location)</span><span class="s0">;</span><span class="s1"> 
+        mood.setSocialSit(</span><span class="s0">this</span><span class="s1">.socialSit)</span><span class="s0">;</span><span class="s1"> 
+ 
+        </span><span class="s0">if </span><span class="s1">(</span><span class="s0">this</span><span class="s1">.date == </span><span class="s0">null</span><span class="s1">) { 
+            mood.setDate(</span><span class="s0">new </span><span class="s1">Date())</span><span class="s0">;</span><span class="s1"> 
+        } </span><span class="s0">else </span><span class="s1">{ 
+            </span><span class="s0">if </span><span class="s1">(</span><span class="s0">this</span><span class="s1">.checkDate.equals(</span><span class="s0">this</span><span class="s1">.checkDate2)) { 
+                mood.setDate(</span><span class="s0">this</span><span class="s1">.mood.getDate())</span><span class="s0">;</span><span class="s1"> 
+            } </span><span class="s0">else </span><span class="s1">{ 
+                mood.setDate(</span><span class="s0">this</span><span class="s1">.date)</span><span class="s0">;</span><span class="s1"> 
+            } 
+        } 
+ 
+        mood.setPhoto(mPhoto)</span><span class="s0">;</span><span class="s1"> 
+        mPhoto = </span><span class="s0">null;</span><span class="s1"> 
+ 
+        </span><span class="s0">return </span><span class="s1">mood</span><span class="s0">;</span><span class="s1"> 
+    } 
+}</span></pre>
+</body>
+</html>

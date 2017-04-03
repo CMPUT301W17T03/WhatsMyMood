@@ -1,0 +1,68 @@
+<html>
+<head>
+<title>CurrentUser.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: #606366; font-weight: normal; font-style: normal; }
+.s0 { color: rgb(204,120,50); }
+.s1 { color: rgb(169,183,198); }
+.s2 { color: rgb(98,151,85); font-style: italic; }
+.s3 { color: rgb(128,128,128); }
+.s4 { color: rgb(98,151,85); font-weight: bold; font-style: italic; }
+</style>
+</head>
+<BODY BGCOLOR="#2b2b2b">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+CurrentUser.java</FONT>
+</center></TD></TR></TABLE>
+<pre>
+<span class="s0">package </span><span class="s1">com.example.whatsmymood</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s2">/** 
+ * Created by Malcolm on 2017-03-11. 
+ * 
+ * Implements Lazy Singleton to hold Current User. There can only be one user 
+ * logged into the app at a time, Singelton is used to referes the user 
+ * that is logged into the app 
+ */</span><span class="s1"> 
+</span><span class="s0">public class </span><span class="s1">CurrentUser { 
+ 
+    </span><span class="s3">// Sets the current instance to null</span><span class="s1"> 
+    </span><span class="s3">// for the first creation of the singleton</span><span class="s1"> 
+    </span><span class="s0">private static </span><span class="s1">CurrentUser instance = </span><span class="s0">null;</span><span class="s1"> 
+    </span><span class="s0">private </span><span class="s1">UserAccount currentUser </span><span class="s0">;</span><span class="s1"> 
+    </span><span class="s0">private </span><span class="s1">CurrentUser() { 
+    } 
+ 
+    </span><span class="s2">/** 
+     * Checks if the user is instantiated and returns 
+     * the current instance if it is instantiated 
+     * </span><span class="s4">@return</span><span class="s2"> 
+     */</span><span class="s1"> 
+    </span><span class="s0">public static </span><span class="s1">CurrentUser getInstance() { 
+        </span><span class="s0">if</span><span class="s1">(instance == </span><span class="s0">null</span><span class="s1">){ 
+            instance = </span><span class="s0">new </span><span class="s1">CurrentUser()</span><span class="s0">;</span><span class="s1"> 
+        } 
+        </span><span class="s0">return </span><span class="s1">instance</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">/** 
+     * Returns current user 
+     * </span><span class="s4">@return</span><span class="s2"> 
+     */</span><span class="s1"> 
+    </span><span class="s0">public </span><span class="s1">UserAccount getCurrentUser() { 
+        </span><span class="s0">return </span><span class="s1">currentUser</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">/** 
+     * Sets the current user 
+     * </span><span class="s4">@param </span><span class="s2">currentUser 
+     */</span><span class="s1"> 
+    </span><span class="s0">public void </span><span class="s1">setCurrentUser(UserAccount currentUser) { 
+        </span><span class="s0">this</span><span class="s1">.currentUser = currentUser</span><span class="s0">;</span><span class="s1"> 
+    } 
+}</span></pre>
+</body>
+</html>

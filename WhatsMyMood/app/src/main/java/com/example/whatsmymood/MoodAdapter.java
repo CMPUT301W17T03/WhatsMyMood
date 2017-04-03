@@ -30,11 +30,9 @@ import java.util.Date;
 import static android.view.View.VISIBLE;
 
 /**
- * The type Mood adapter.
- * Created by ejtang
- *
  * An adapter that will adapt the view to display mood information about the mood that is to
  * be adapted
+ * @author ejtang
  */
 class MoodAdapter extends ArrayAdapter<Mood> {
     private AddMoodController moodController;
@@ -167,6 +165,11 @@ class MoodAdapter extends ArrayAdapter<Mood> {
         return customView;
     }
 
+    /**
+     * Sets the emoticon image to be displayed for a give mood into the provided view.
+     * @param mood
+     * @param customView
+     */
     private void setMoodEmoticon(Mood mood, View customView) {
         ImageView emoticon = (ImageView) customView.findViewById(R.id.moodEmoticon);
         switch (mood.getMoodType()) {

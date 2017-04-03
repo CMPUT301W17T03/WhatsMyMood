@@ -1,0 +1,260 @@
+<html>
+<head>
+<title>LoginActivity.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: #606366; font-weight: normal; font-style: normal; }
+.s0 { color: rgb(204,120,50); }
+.s1 { color: rgb(169,183,198); }
+.s2 { color: rgb(98,151,85); font-style: italic; }
+.s3 { color: rgb(128,128,128); }
+.s4 { color: rgb(104,151,187); }
+.s5 { color: rgb(106,135,89); }
+</style>
+</head>
+<BODY BGCOLOR="#2b2b2b">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+LoginActivity.java</FONT>
+</center></TD></TR></TABLE>
+<pre>
+<span class="s0">package </span><span class="s1">com.example.whatsmymood</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s0">import </span><span class="s1">android.animation.Animator</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.animation.AnimatorListenerAdapter</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.annotation.TargetApi</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.content.Context</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.content.Intent</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.os.AsyncTask</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.os.Build</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.os.Bundle</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.support.v7.app.AppCompatActivity</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.text.TextUtils</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.view.KeyEvent</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.view.View</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.view.View.OnClickListener</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.view.inputmethod.EditorInfo</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.widget.AutoCompleteTextView</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.widget.Button</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.widget.EditText</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.widget.TextView</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.widget.Toast</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s0">import </span><span class="s1">java.util.ArrayList</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">java.util.concurrent.ExecutionException</span><span class="s0">;</span><span class="s1"> 
+ 
+ 
+</span><span class="s2">/** 
+ * A login screen that offers login via username/password. 
+ */</span><span class="s1"> 
+</span><span class="s0">public class </span><span class="s1">LoginActivity </span><span class="s0">extends </span><span class="s1">AppCompatActivity{ 
+ 
+    </span><span class="s2">/** 
+     * Keep track of the login task to ensure we can cancel it if requested. 
+     */</span><span class="s1"> 
+    </span><span class="s0">private </span><span class="s1">UserLoginTask mAuthTask = </span><span class="s0">null;</span><span class="s1"> 
+ 
+    </span><span class="s3">// UI references.</span><span class="s1"> 
+    </span><span class="s0">private </span><span class="s1">AutoCompleteTextView mUsernameView</span><span class="s0">;</span><span class="s1"> 
+    </span><span class="s0">private </span><span class="s1">EditText mPasswordView</span><span class="s0">;</span><span class="s1"> 
+    </span><span class="s0">private </span><span class="s1">View mProgressView</span><span class="s0">;</span><span class="s1"> 
+    </span><span class="s0">private </span><span class="s1">View mLoginFormView</span><span class="s0">;</span><span class="s1"> 
+ 
+    @Override 
+    </span><span class="s0">protected void </span><span class="s1">onCreate(Bundle savedInstanceState) { 
+        </span><span class="s0">super</span><span class="s1">.onCreate(savedInstanceState)</span><span class="s0">;</span><span class="s1"> 
+        setContentView(R.layout.activity_login)</span><span class="s0">;</span><span class="s1"> 
+ 
+        </span><span class="s3">// Set up the login form.</span><span class="s1"> 
+        mUsernameView = (AutoCompleteTextView) findViewById(R.id.Username)</span><span class="s0">;</span><span class="s1"> 
+ 
+        mPasswordView = (EditText) findViewById(R.id.password)</span><span class="s0">;</span><span class="s1"> 
+        mPasswordView.setOnEditorActionListener(</span><span class="s0">new </span><span class="s1">TextView.OnEditorActionListener() { 
+            @Override 
+            </span><span class="s0">public boolean </span><span class="s1">onEditorAction(TextView textView</span><span class="s0">, int </span><span class="s1">id</span><span class="s0">, </span><span class="s1">KeyEvent keyEvent) { 
+                </span><span class="s0">if </span><span class="s1">(id == R.id.login || id == EditorInfo.IME_NULL) { 
+                    attemptLogin()</span><span class="s0">;</span><span class="s1"> 
+                    </span><span class="s0">return true;</span><span class="s1"> 
+                } 
+                </span><span class="s0">return false;</span><span class="s1"> 
+            } 
+        })</span><span class="s0">;</span><span class="s1"> 
+ 
+        Button mSignInButton = (Button) findViewById(R.id.sign_in_button)</span><span class="s0">;</span><span class="s1"> 
+        mSignInButton.setOnClickListener(</span><span class="s0">new </span><span class="s1">OnClickListener() { 
+            @Override 
+            </span><span class="s0">public void </span><span class="s1">onClick(View view) { 
+                attemptLogin()</span><span class="s0">;</span><span class="s1"> 
+            } 
+        })</span><span class="s0">;</span><span class="s1"> 
+ 
+        Button createUserButton = (Button) findViewById(R.id.create_account_button)</span><span class="s0">;</span><span class="s1"> 
+        createUserButton.setOnClickListener(</span><span class="s0">new </span><span class="s1">OnClickListener() { 
+            @Override 
+            </span><span class="s0">public void </span><span class="s1">onClick(View view) { 
+                Intent intent = </span><span class="s0">new </span><span class="s1">Intent(LoginActivity.</span><span class="s0">this,</span><span class="s1">UserCreateActivity.</span><span class="s0">class</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+                startActivity(intent)</span><span class="s0">;</span><span class="s1"> 
+            } 
+        })</span><span class="s0">;</span><span class="s1"> 
+ 
+        mLoginFormView = findViewById(R.id.login_form)</span><span class="s0">;</span><span class="s1"> 
+        mProgressView = findViewById(R.id.login_progress)</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">/** 
+     * Attempts to sign in or register the account specified by the login form. 
+     * If there are form errors (missing fields, etc.), the 
+     * errors are presented and no actual login attempt is made. 
+     */</span><span class="s1"> 
+    </span><span class="s0">private void </span><span class="s1">attemptLogin() { 
+        </span><span class="s0">if </span><span class="s1">(mAuthTask != </span><span class="s0">null</span><span class="s1">) { 
+            </span><span class="s0">return;</span><span class="s1"> 
+        } 
+ 
+        </span><span class="s3">// Reset errors.</span><span class="s1"> 
+        mUsernameView.setError(</span><span class="s0">null</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+        mPasswordView.setError(</span><span class="s0">null</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+ 
+        </span><span class="s3">// Store values at the time of the login attempt.</span><span class="s1"> 
+        String username = mUsernameView.getText().toString()</span><span class="s0">;</span><span class="s1"> 
+        String password = mPasswordView.getText().toString()</span><span class="s0">;</span><span class="s1"> 
+ 
+        </span><span class="s0">boolean </span><span class="s1">cancel = </span><span class="s0">false;</span><span class="s1"> 
+        View focusView = </span><span class="s0">null;</span><span class="s1"> 
+ 
+        </span><span class="s3">// Check for a valid password, if the user entered one.</span><span class="s1"> 
+        </span><span class="s0">if </span><span class="s1">(TextUtils.isEmpty(password)) { 
+            mPasswordView.setError(getString(R.string.error_field_required))</span><span class="s0">;</span><span class="s1"> 
+            focusView = mPasswordView</span><span class="s0">;</span><span class="s1"> 
+            cancel = </span><span class="s0">true;</span><span class="s1"> 
+        } 
+ 
+        </span><span class="s3">// Check for a valid username address.</span><span class="s1"> 
+        </span><span class="s0">if </span><span class="s1">(TextUtils.isEmpty(username)) { 
+            mUsernameView.setError(getString(R.string.error_field_required))</span><span class="s0">;</span><span class="s1"> 
+            focusView = mUsernameView</span><span class="s0">;</span><span class="s1"> 
+            cancel = </span><span class="s0">true;</span><span class="s1"> 
+        } 
+ 
+        </span><span class="s0">if </span><span class="s1">(cancel) { 
+            </span><span class="s3">// There was an error; don't attempt login and focus the first</span><span class="s1"> 
+            </span><span class="s3">// form field with an error.</span><span class="s1"> 
+            focusView.requestFocus()</span><span class="s0">;</span><span class="s1"> 
+ 
+        } </span><span class="s0">else </span><span class="s1">{ 
+            </span><span class="s3">// Show a progress spinner, and kick off a background task to</span><span class="s1"> 
+            </span><span class="s3">// perform the user login attempt.</span><span class="s1"> 
+            showProgress(</span><span class="s0">true</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+            mAuthTask = </span><span class="s0">new </span><span class="s1">UserLoginTask(username</span><span class="s0">, </span><span class="s1">password)</span><span class="s0">;</span><span class="s1"> 
+            mAuthTask.execute((Void) </span><span class="s0">null</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+        } 
+    } 
+ 
+    </span><span class="s2">/** 
+     * Shows the progress UI and hides the login form. 
+     */</span><span class="s1"> 
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2) 
+    </span><span class="s0">private void </span><span class="s1">showProgress(</span><span class="s0">final boolean </span><span class="s1">show) { 
+        </span><span class="s3">// On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow</span><span class="s1"> 
+        </span><span class="s3">// for very easy animations. If available, use these APIs to fade-in</span><span class="s1"> 
+        </span><span class="s3">// the progress spinner.</span><span class="s1"> 
+        </span><span class="s0">if </span><span class="s1">(Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.HONEYCOMB_MR2) { 
+            </span><span class="s0">int </span><span class="s1">shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime)</span><span class="s0">;</span><span class="s1"> 
+ 
+            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE)</span><span class="s0">;</span><span class="s1"> 
+            mLoginFormView.animate().setDuration(shortAnimTime).alpha( 
+                    show ? </span><span class="s4">0 </span><span class="s1">: </span><span class="s4">1</span><span class="s1">).setListener(</span><span class="s0">new </span><span class="s1">AnimatorListenerAdapter() { 
+                @Override 
+                </span><span class="s0">public void </span><span class="s1">onAnimationEnd(Animator animation) { 
+                    mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE)</span><span class="s0">;</span><span class="s1"> 
+                } 
+            })</span><span class="s0">;</span><span class="s1"> 
+ 
+            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE)</span><span class="s0">;</span><span class="s1"> 
+            mProgressView.animate().setDuration(shortAnimTime).alpha( 
+                    show ? </span><span class="s4">1 </span><span class="s1">: </span><span class="s4">0</span><span class="s1">).setListener(</span><span class="s0">new </span><span class="s1">AnimatorListenerAdapter() { 
+                @Override 
+                </span><span class="s0">public void </span><span class="s1">onAnimationEnd(Animator animation) { 
+                    mProgressView.setVisibility(show ? View.VISIBLE : View.GONE)</span><span class="s0">;</span><span class="s1"> 
+                } 
+            })</span><span class="s0">;</span><span class="s1"> 
+        } </span><span class="s0">else </span><span class="s1">{ 
+            </span><span class="s3">// The ViewPropertyAnimator APIs are not available, so simply show</span><span class="s1"> 
+            </span><span class="s3">// and hide the relevant UI components.</span><span class="s1"> 
+            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE)</span><span class="s0">;</span><span class="s1"> 
+            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE)</span><span class="s0">;</span><span class="s1"> 
+        } 
+    } 
+     
+    </span><span class="s2">/** 
+     * Represents an asynchronous login/registration task used to authenticate 
+     * the user. 
+     */</span><span class="s1"> 
+    </span><span class="s0">public class </span><span class="s1">UserLoginTask </span><span class="s0">extends </span><span class="s1">AsyncTask&lt;Void</span><span class="s0">, </span><span class="s1">Void</span><span class="s0">, </span><span class="s1">Boolean&gt; { 
+ 
+        </span><span class="s0">private final </span><span class="s1">String mUsername</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s0">private final </span><span class="s1">String mPassword</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s0">private final </span><span class="s1">ElasticSearchUserController.GetUserTask getUserTask</span><span class="s0">;</span><span class="s1"> 
+ 
+        UserLoginTask(String username</span><span class="s0">, </span><span class="s1">String password) { 
+            mUsername = username</span><span class="s0">;</span><span class="s1"> 
+            mPassword = password</span><span class="s0">;</span><span class="s1"> 
+ 
+            getUserTask = </span><span class="s0">new </span><span class="s1">ElasticSearchUserController.GetUserTask()</span><span class="s0">;</span><span class="s1"> 
+            getUserTask.execute(mUsername)</span><span class="s0">;</span><span class="s1"> 
+        } 
+ 
+        @Override 
+        </span><span class="s0">protected </span><span class="s1">Boolean doInBackground(Void... params) { 
+            </span><span class="s0">try </span><span class="s1">{ 
+                ArrayList&lt;UserAccount&gt; userList = getUserTask.get()</span><span class="s0">;</span><span class="s1"> 
+                </span><span class="s0">if </span><span class="s1">(userList.isEmpty()) { 
+                    </span><span class="s0">return false;</span><span class="s1"> 
+                } 
+ 
+                UserAccount User = userList.get(</span><span class="s4">0</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+                </span><span class="s0">if </span><span class="s1">(User.getUsername().equals(mUsername) &amp;&amp; User.getPassword().equals(mPassword)) { 
+                    CurrentUser.getInstance().setCurrentUser(User)</span><span class="s0">;</span><span class="s1"> 
+                    </span><span class="s0">return true;</span><span class="s1"> 
+                } </span><span class="s0">else </span><span class="s1">{ 
+                    </span><span class="s0">return false;</span><span class="s1"> 
+                } 
+ 
+            } </span><span class="s0">catch </span><span class="s1">(ExecutionException | InterruptedException e) { 
+                e.printStackTrace()</span><span class="s0">;</span><span class="s1"> 
+            } 
+            </span><span class="s0">return true;</span><span class="s1"> 
+        } 
+ 
+        @Override 
+        </span><span class="s0">protected void </span><span class="s1">onPostExecute(</span><span class="s0">final </span><span class="s1">Boolean success) { 
+            mAuthTask = </span><span class="s0">null;</span><span class="s1"> 
+            showProgress(</span><span class="s0">false</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+ 
+            </span><span class="s0">if </span><span class="s1">(success) { 
+                Intent intent = </span><span class="s0">new </span><span class="s1">Intent(getApplicationContext()</span><span class="s0">, </span><span class="s1">MainActivity.</span><span class="s0">class</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+ 
+                startActivity(intent)</span><span class="s0">;</span><span class="s1"> 
+                finish()</span><span class="s0">;</span><span class="s1"> 
+            } </span><span class="s0">else </span><span class="s1">{ 
+                Context context = getApplicationContext()</span><span class="s0">;</span><span class="s1"> 
+                CharSequence text = </span><span class="s5">&quot;Wrong Username/Password Combination&quot;</span><span class="s0">;</span><span class="s1"> 
+                </span><span class="s0">int </span><span class="s1">duration = Toast.LENGTH_LONG</span><span class="s0">;</span><span class="s1"> 
+ 
+                Toast toast = Toast.makeText(context</span><span class="s0">, </span><span class="s1">text</span><span class="s0">, </span><span class="s1">duration)</span><span class="s0">;</span><span class="s1"> 
+                toast.show()</span><span class="s0">;</span><span class="s1"> 
+            } 
+        } 
+ 
+        @Override 
+        </span><span class="s0">protected void </span><span class="s1">onCancelled() { 
+            mAuthTask = </span><span class="s0">null;</span><span class="s1"> 
+            showProgress(</span><span class="s0">false</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+        } 
+    } 
+} 
+ 
+</span></pre>
+</body>
+</html>

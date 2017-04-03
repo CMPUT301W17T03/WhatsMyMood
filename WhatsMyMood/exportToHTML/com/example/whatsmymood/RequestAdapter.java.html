@@ -1,0 +1,157 @@
+<html>
+<head>
+<title>RequestAdapter.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: #606366; font-weight: normal; font-style: normal; }
+.s0 { color: rgb(204,120,50); }
+.s1 { color: rgb(169,183,198); }
+.s2 { color: rgb(98,151,85); font-style: italic; }
+.s3 { color: rgb(98,151,85); font-weight: bold; font-style: italic; }
+.s4 { color: rgb(104,151,187); }
+.s5 { color: rgb(128,128,128); }
+</style>
+</head>
+<BODY BGCOLOR="#2b2b2b">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+RequestAdapter.java</FONT>
+</center></TD></TR></TABLE>
+<pre>
+<span class="s0">package </span><span class="s1">com.example.whatsmymood</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s0">import </span><span class="s1">android.app.Activity</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.content.Context</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.support.annotation.NonNull</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.view.LayoutInflater</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.view.View</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.view.ViewGroup</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.widget.ArrayAdapter</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.widget.Button</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.widget.ListAdapter</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.widget.ListView</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.widget.TextView</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s0">import </span><span class="s1">java.util.ArrayList</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">java.util.concurrent.ExecutionException</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s2">/** 
+ * Handles the display of requests in follow hub. 
+ * </span><span class="s3">@author </span><span class="s2">ejtang 
+ * </span><span class="s3">@version </span><span class="s2">1.0, 07/03/2017 
+ */</span><span class="s1"> 
+</span><span class="s0">public class </span><span class="s1">RequestAdapter </span><span class="s0">extends </span><span class="s1">ArrayAdapter&lt;String&gt; { 
+    </span><span class="s0">private final </span><span class="s1">CurrentUser current = CurrentUser.getInstance()</span><span class="s0">;</span><span class="s1"> 
+    </span><span class="s0">private </span><span class="s1">UserAccount fetchedUser</span><span class="s0">;</span><span class="s1"> 
+ 
+    </span><span class="s0">private final </span><span class="s1">Context mContext</span><span class="s0">;</span><span class="s1"> 
+    </span><span class="s0">private </span><span class="s1">ListView followersList</span><span class="s0">;</span><span class="s1"> 
+ 
+    </span><span class="s2">/** 
+     * Instantiates a new Request adapter. 
+     */</span><span class="s1"> 
+    </span><span class="s0">public </span><span class="s1">RequestAdapter(ArrayList&lt;String&gt; names</span><span class="s0">, </span><span class="s1">Context context) { 
+        </span><span class="s0">super</span><span class="s1">(context</span><span class="s0">, </span><span class="s1">R.layout.request_adapter</span><span class="s0">, </span><span class="s1">names)</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s0">this</span><span class="s1">.mContext = context</span><span class="s0">;</span><span class="s1"> 
+ 
+        followersList = (ListView) ((Activity) mContext).findViewById(R.id.followersList)</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">/** 
+     * Gets the view for follow requests 
+     * </span><span class="s3">@param </span><span class="s2">position 
+     * </span><span class="s3">@param </span><span class="s2">convertView 
+     * </span><span class="s3">@param </span><span class="s2">parent 
+     * </span><span class="s3">@return</span><span class="s2"> 
+     */</span><span class="s1"> 
+    @NonNull 
+    @Override 
+    </span><span class="s0">public </span><span class="s1">View getView(</span><span class="s0">int </span><span class="s1">position</span><span class="s0">, </span><span class="s1">View convertView</span><span class="s0">, </span><span class="s1">@NonNull ViewGroup parent) { 
+ 
+        LayoutInflater requestsInflator = LayoutInflater.from(getContext())</span><span class="s0">;</span><span class="s1"> 
+        View customView = requestsInflator.inflate(R.layout.request_adapter</span><span class="s0">, </span><span class="s1">parent</span><span class="s0">, false</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">;</span><span class="s1"> 
+        Button acceptButton = (Button) customView.findViewById(R.id.acceptButton)</span><span class="s0">;</span><span class="s1"> 
+        Button declineButton = (Button) customView.findViewById(R.id.declineButton)</span><span class="s0">;</span><span class="s1"> 
+ 
+        </span><span class="s0">final </span><span class="s1">String user = getItem(position)</span><span class="s0">;</span><span class="s1"> 
+        TextView usernameText = (TextView) customView.findViewById(R.id.usernameText)</span><span class="s0">;</span><span class="s1"> 
+        usernameText.setText(user)</span><span class="s0">;</span><span class="s1"> 
+ 
+        acceptButton.setOnClickListener(</span><span class="s0">new </span><span class="s1">View.OnClickListener() { 
+            @Override 
+            </span><span class="s0">public void </span><span class="s1">onClick(View v) { 
+ 
+                current.getCurrentUser().relations.addToFollowedBy(user)</span><span class="s0">;</span><span class="s1"> 
+                current.getCurrentUser().relations.removeFromFollowRequests(user)</span><span class="s0">;</span><span class="s1"> 
+                ((ArrayAdapter)followersList.getAdapter()).notifyDataSetChanged()</span><span class="s0">;</span><span class="s1"> 
+                notifyDataSetChanged()</span><span class="s0">;</span><span class="s1"> 
+ 
+                fetchData(user)</span><span class="s0">;</span><span class="s1"> 
+                fetchedUser.relations.addToFollowing(current.getCurrentUser().getUsername())</span><span class="s0">;</span><span class="s1"> 
+                updateData(current.getCurrentUser())</span><span class="s0">;</span><span class="s1"> 
+                updateData(fetchedUser)</span><span class="s0">;</span><span class="s1"> 
+ 
+                ((ArrayAdapter)followersList.getAdapter()).notifyDataSetChanged()</span><span class="s0">;</span><span class="s1"> 
+                notifyDataSetChanged()</span><span class="s0">;</span><span class="s1"> 
+            } 
+        })</span><span class="s0">;</span><span class="s1"> 
+ 
+        declineButton.setOnClickListener(</span><span class="s0">new </span><span class="s1">View.OnClickListener() { 
+            @Override 
+            </span><span class="s0">public void </span><span class="s1">onClick(View v) { 
+                current.getCurrentUser().relations.removeFromFollowRequests(user)</span><span class="s0">;</span><span class="s1"> 
+                notifyDataSetChanged()</span><span class="s0">;</span><span class="s1"> 
+ 
+                fetchData(current.getCurrentUser().getName())</span><span class="s0">;</span><span class="s1"> 
+                current.setCurrentUser(fetchedUser)</span><span class="s0">;</span><span class="s1"> 
+                updateData(current.getCurrentUser())</span><span class="s0">;</span><span class="s1"> 
+            } 
+        })</span><span class="s0">;</span><span class="s1"> 
+ 
+        </span><span class="s0">return </span><span class="s1">customView</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">private void </span><span class="s1">fetchData(String requestUser) { 
+        ElasticSearchUserController.GetUserTask getUserTask = </span><span class="s0">new </span><span class="s1">ElasticSearchUserController.GetUserTask()</span><span class="s0">;</span><span class="s1"> 
+ 
+        getUserTask.execute(requestUser)</span><span class="s0">;</span><span class="s1"> 
+ 
+        </span><span class="s0">try </span><span class="s1">{ 
+            fetchedUser = getUserTask.get().get(</span><span class="s4">0</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+ 
+        } </span><span class="s0">catch </span><span class="s1">(ExecutionException | InterruptedException e) { 
+            e.printStackTrace()</span><span class="s0">;</span><span class="s1"> 
+        } 
+    } 
+ 
+    </span><span class="s0">private void </span><span class="s1">updateData(UserAccount user) { 
+        ElasticSearchUserController.UpdateUser updateUser = </span><span class="s0">new </span><span class="s1">ElasticSearchUserController.UpdateUser()</span><span class="s0">;</span><span class="s1"> 
+        updateUser.execute(user)</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s5">//TODO remove this function and change xml to different format</span><span class="s1"> 
+    </span><span class="s0">private void </span><span class="s1">justifyListViewHeightBasedOnChildren (ListView listView) { 
+ 
+        ListAdapter adapter = listView.getAdapter()</span><span class="s0">;</span><span class="s1"> 
+ 
+        </span><span class="s0">if </span><span class="s1">(adapter == </span><span class="s0">null</span><span class="s1">) { 
+            </span><span class="s0">return;</span><span class="s1"> 
+        } 
+        </span><span class="s0">int </span><span class="s1">totalHeight = </span><span class="s4">0</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s0">for </span><span class="s1">(</span><span class="s0">int </span><span class="s1">i = </span><span class="s4">0</span><span class="s0">; </span><span class="s1">i &lt; adapter.getCount()</span><span class="s0">; </span><span class="s1">i++) { 
+            View listItem = adapter.getView(i</span><span class="s0">, null, </span><span class="s1">listView)</span><span class="s0">;</span><span class="s1"> 
+            listItem.measure(</span><span class="s4">0</span><span class="s0">, </span><span class="s4">0</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+            totalHeight += listItem.getMeasuredHeight()</span><span class="s0">;</span><span class="s1"> 
+        } 
+ 
+        ViewGroup.LayoutParams par = listView.getLayoutParams()</span><span class="s0">;</span><span class="s1"> 
+        par.height = totalHeight + (listView.getDividerHeight() * (adapter.getCount() - </span><span class="s4">1</span><span class="s1">))</span><span class="s0">;</span><span class="s1"> 
+        listView.setLayoutParams(par)</span><span class="s0">;</span><span class="s1"> 
+        listView.requestLayout()</span><span class="s0">;</span><span class="s1"> 
+    } 
+} 
+</span></pre>
+</body>
+</html>

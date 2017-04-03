@@ -1,0 +1,291 @@
+<html>
+<head>
+<title>MainActivity.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: #606366; font-weight: normal; font-style: normal; }
+.s0 { color: rgb(204,120,50); }
+.s1 { color: rgb(169,183,198); }
+.s2 { color: rgb(98,151,85); font-style: italic; }
+.s3 { color: rgb(98,151,85); font-weight: bold; font-style: italic; }
+.s4 { color: rgb(128,128,128); }
+.s5 { color: rgb(106,135,89); }
+.s6 { color: rgb(104,151,187); }
+</style>
+</head>
+<BODY BGCOLOR="#2b2b2b">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+MainActivity.java</FONT>
+</center></TD></TR></TABLE>
+<pre>
+<span class="s0">package </span><span class="s1">com.example.whatsmymood</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s0">import </span><span class="s1">android.app.Dialog</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.content.Context</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.content.Intent</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.net.ConnectivityManager</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.net.NetworkInfo</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.os.Bundle</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.os.Handler</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.os.Message</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.support.v4.widget.SwipeRefreshLayout</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.support.v7.app.AppCompatActivity</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.support.v7.widget.Toolbar</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.util.Log</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.view.Menu</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.view.MenuItem</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.view.View</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.widget.ArrayAdapter</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.widget.Button</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.widget.EditText</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.widget.LinearLayout</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.widget.ListView</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.widget.Spinner</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.widget.Toast</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s0">import </span><span class="s1">java.util.ArrayList</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">java.util.concurrent.ExecutionException</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s2">/** 
+ * Main Activity 
+ * Used for displaying the moods of the people you follow 
+ * Also implements a footer that handles moving to different activities 
+ * </span><span class="s3">@author </span><span class="s2">Yiji 
+ * </span><span class="s3">@version </span><span class="s2">2.4, 4/1/2017 
+ */</span><span class="s1"> 
+</span><span class="s0">public class </span><span class="s1">MainActivity </span><span class="s0">extends </span><span class="s1">AppCompatActivity { 
+    </span><span class="s0">private final </span><span class="s1">CurrentUser current = CurrentUser.getInstance()</span><span class="s0">;</span><span class="s1"> 
+ 
+    </span><span class="s0">private </span><span class="s1">Dialog dialog</span><span class="s0">;</span><span class="s1"> 
+    </span><span class="s0">private </span><span class="s1">Filter filter</span><span class="s0">;</span><span class="s1"> 
+    </span><span class="s0">private </span><span class="s1">LinearLayout footer</span><span class="s0">;</span><span class="s1"> 
+    </span><span class="s0">private </span><span class="s1">FooterHandler handler</span><span class="s0">;</span><span class="s1"> 
+ 
+    </span><span class="s0">private </span><span class="s1">ArrayList&lt;String&gt; followers</span><span class="s0">;</span><span class="s1"> 
+ 
+    </span><span class="s0">private </span><span class="s1">ArrayList&lt;Mood&gt; moods</span><span class="s0">;</span><span class="s1"> 
+ 
+    </span><span class="s0">private </span><span class="s1">ArrayAdapter&lt;Mood&gt; moodAdapter</span><span class="s0">;</span><span class="s1"> 
+    </span><span class="s0">private </span><span class="s1">ListView moodListView</span><span class="s0">;</span><span class="s1"> 
+ 
+    </span><span class="s0">private </span><span class="s1">Toast toast</span><span class="s0">;</span><span class="s1"> 
+ 
+    @Override 
+    </span><span class="s0">protected void </span><span class="s1">onCreate(Bundle savedInstanceState) { 
+        ThemeController.setThemeForRecentMood(</span><span class="s0">this</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s0">super</span><span class="s1">.onCreate(savedInstanceState)</span><span class="s0">;</span><span class="s1"> 
+        setContentView(R.layout.activity_main)</span><span class="s0">;</span><span class="s1"> 
+ 
+        </span><span class="s0">this</span><span class="s1">.dialog = </span><span class="s0">new </span><span class="s1">Dialog(</span><span class="s0">this</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+ 
+        </span><span class="s0">this</span><span class="s1">.toast = Toast.makeText(getBaseContext()</span><span class="s0">, null, </span><span class="s1">Toast.LENGTH_SHORT)</span><span class="s0">;</span><span class="s1"> 
+ 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.main_toolbar)</span><span class="s0">;</span><span class="s1"> 
+        setSupportActionBar(toolbar)</span><span class="s0">;</span><span class="s1"> 
+ 
+        footer = (LinearLayout)findViewById(R.id.footer)</span><span class="s0">;</span><span class="s1"> 
+        FooterHandler handler = </span><span class="s0">new </span><span class="s1">FooterHandler(</span><span class="s0">this, </span><span class="s1">footer)</span><span class="s0">;</span><span class="s1"> 
+ 
+        </span><span class="s4">/* 
+        ConnectivityManager connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE); 
+        NetworkInfo mWifi = connManager.getActiveNetworkInfo(); 
+ 
+        try { 
+            mWifi.isConnected(); 
+            fetchData(); 
+        } catch (NullPointerException e) { 
+            e.printStackTrace(); 
+        } 
+        */</span><span class="s1"> 
+        fetchData()</span><span class="s0">;</span><span class="s1"> 
+        setAdapters()</span><span class="s0">;</span><span class="s1"> 
+ 
+        </span><span class="s0">if</span><span class="s1">((savedInstanceState == </span><span class="s0">null</span><span class="s1">)){ 
+            </span><span class="s0">this</span><span class="s1">.filter = </span><span class="s0">new </span><span class="s1">Filter()</span><span class="s0">;</span><span class="s1"> 
+            refresh()</span><span class="s0">;</span><span class="s1"> 
+        } 
+ 
+        </span><span class="s0">final </span><span class="s1">SwipeRefreshLayout pullToRefresh = (SwipeRefreshLayout) findViewById(R.id.swiperefresh)</span><span class="s0">;</span><span class="s1"> 
+        pullToRefresh.setOnRefreshListener(</span><span class="s0">new </span><span class="s1">SwipeRefreshLayout.OnRefreshListener() { 
+            @Override 
+            </span><span class="s0">public void </span><span class="s1">onRefresh() { 
+                ConnectivityManager connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE)</span><span class="s0">;</span><span class="s1"> 
+                NetworkInfo mWifi = connManager.getActiveNetworkInfo()</span><span class="s0">;</span><span class="s1"> 
+ 
+                </span><span class="s0">try </span><span class="s1">{ 
+                    mWifi.isConnected()</span><span class="s0">;</span><span class="s1"> 
+                    </span><span class="s0">try </span><span class="s1">{ 
+                        CommandQueue.getInstance().executeAllCommands()</span><span class="s0">;</span><span class="s1"> 
+                    } </span><span class="s0">catch </span><span class="s1">(NullPointerException e) { 
+                        Log.d(</span><span class="s5">&quot;COMMANDSWOW&quot;</span><span class="s0">, </span><span class="s5">&quot;DON'TWORK&quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+                        e.printStackTrace()</span><span class="s0">;</span><span class="s1"> 
+                    } 
+                    fetchData()</span><span class="s0">;</span><span class="s1"> 
+                    setAdapters()</span><span class="s0">;</span><span class="s1"> 
+                    pullToRefresh.setRefreshing(</span><span class="s0">false</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+                } </span><span class="s0">catch </span><span class="s1">(Exception e) { 
+                    e.printStackTrace()</span><span class="s0">;</span><span class="s1"> 
+                    toast.setText(</span><span class="s5">&quot;No Internet Connection&quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+                    toast.show()</span><span class="s0">;</span><span class="s1"> 
+                    pullToRefresh.setRefreshing(</span><span class="s0">false</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+                } 
+            } 
+        })</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">private void </span><span class="s1">refresh(){ 
+        moods.clear()</span><span class="s0">;</span><span class="s1"> 
+        moods.addAll(filter.filterArray(current.getCurrentUser().moodList.getMoodList()))</span><span class="s0">;</span><span class="s1"> 
+        moodAdapter.notifyDataSetChanged()</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    @Override 
+    </span><span class="s0">protected void </span><span class="s1">onSaveInstanceState(Bundle outState){ 
+        </span><span class="s0">super</span><span class="s1">.onSaveInstanceState(outState)</span><span class="s0">;</span><span class="s1"> 
+        outState.putParcelable(</span><span class="s5">&quot;filter&quot;</span><span class="s0">,</span><span class="s1">filter)</span><span class="s0">;</span><span class="s1"> 
+        Log.d(</span><span class="s5">&quot;tag&quot;</span><span class="s0">,</span><span class="s5">&quot;parceling!&quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+        Log.d(</span><span class="s5">&quot;tag&quot;</span><span class="s0">,</span><span class="s1">String.valueOf(filter.getType()))</span><span class="s0">;</span><span class="s1"> 
+    } 
+    @Override 
+    </span><span class="s0">public void </span><span class="s1">onRestoreInstanceState(Bundle savedInstanceState) { 
+        </span><span class="s0">super</span><span class="s1">.onRestoreInstanceState(savedInstanceState)</span><span class="s0">;</span><span class="s1"> 
+        filter = savedInstanceState.getParcelable(</span><span class="s5">&quot;filter&quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+        Log.d(</span><span class="s5">&quot;tag&quot;</span><span class="s0">,</span><span class="s5">&quot;restoring!&quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+        Log.d(</span><span class="s5">&quot;tag&quot;</span><span class="s0">,</span><span class="s1">String.valueOf(filter.getType()))</span><span class="s0">;</span><span class="s1"> 
+        refresh()</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    @Override 
+    </span><span class="s0">protected void </span><span class="s1">onResume() { 
+        </span><span class="s0">super</span><span class="s1">.onResume()</span><span class="s0">;</span><span class="s1"> 
+ 
+        </span><span class="s4">// Checks the user is connected to wifi</span><span class="s1"> 
+        ConnectivityManager connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE)</span><span class="s0">;</span><span class="s1"> 
+        NetworkInfo mWifi = connManager.getActiveNetworkInfo()</span><span class="s0">;</span><span class="s1"> 
+ 
+        </span><span class="s0">try </span><span class="s1">{ 
+            Log.d(</span><span class="s5">&quot;WIFIWOW&quot;</span><span class="s0">, </span><span class="s5">&quot;1&quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+            mWifi.isConnected()</span><span class="s0">;</span><span class="s1"> 
+            Log.d(</span><span class="s5">&quot;WIFIWOW&quot;</span><span class="s0">, </span><span class="s5">&quot;2&quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+            fetchData()</span><span class="s0">;</span><span class="s1"> 
+            Log.d(</span><span class="s5">&quot;WIFIWOW&quot;</span><span class="s0">, </span><span class="s5">&quot;3&quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+        } </span><span class="s0">catch </span><span class="s1">(NullPointerException e) { 
+            e.printStackTrace()</span><span class="s0">;</span><span class="s1"> 
+        } 
+ 
+        setAdapters()</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    @Override 
+    </span><span class="s0">protected void </span><span class="s1">onActivityResult(</span><span class="s0">int </span><span class="s1">requestCode</span><span class="s0">, int </span><span class="s1">resultCode</span><span class="s0">, </span><span class="s1">Intent intent) { 
+        AddMoodController.processResult(requestCode</span><span class="s0">, </span><span class="s1">resultCode</span><span class="s0">, </span><span class="s1">intent)</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">private void </span><span class="s1">setAdapters() { 
+        </span><span class="s0">this</span><span class="s1">.moodAdapter = </span><span class="s0">new </span><span class="s1">MoodAdapter(moods</span><span class="s0">,this</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+ 
+        </span><span class="s4">// Sets the adapter</span><span class="s1"> 
+        </span><span class="s0">this</span><span class="s1">.moodListView = (ListView) findViewById(R.id.moodListView)</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s0">this</span><span class="s1">.moodListView.setAdapter(</span><span class="s0">this</span><span class="s1">.moodAdapter)</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">/** 
+     * Fetches the moods from each follower and adds them 
+     * to an ArrayList to be displayed 
+     */</span><span class="s1"> 
+    </span><span class="s0">private void </span><span class="s1">fetchData() { 
+        moods = </span><span class="s0">new </span><span class="s1">ArrayList&lt;&gt;()</span><span class="s0">;</span><span class="s1"> 
+ 
+        followers = current.getCurrentUser().relations.getFollowingList()</span><span class="s0">;</span><span class="s1"> 
+ 
+        </span><span class="s0">if </span><span class="s1">(!followers.isEmpty()) { 
+            String query = followers.get(</span><span class="s6">0</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+            </span><span class="s0">for </span><span class="s1">(</span><span class="s0">int </span><span class="s1">i = </span><span class="s6">1</span><span class="s0">; </span><span class="s1">i &lt; followers.size()</span><span class="s0">; </span><span class="s1">i++) { 
+                query += </span><span class="s5">&quot; OR &quot; </span><span class="s1">+ followers.get(i)</span><span class="s0">;</span><span class="s1"> 
+            } 
+ 
+            ElasticSearchUserController.GetUserTask getFollowersTask = </span><span class="s0">new </span><span class="s1">ElasticSearchUserController.GetUserTask()</span><span class="s0">;</span><span class="s1"> 
+            getFollowersTask.execute(query)</span><span class="s0">;</span><span class="s1"> 
+ 
+            </span><span class="s0">try </span><span class="s1">{ 
+                ArrayList&lt;UserAccount&gt; followers = getFollowersTask.get()</span><span class="s0">;</span><span class="s1"> 
+                </span><span class="s0">if </span><span class="s1">(!followers.isEmpty()) { 
+                    </span><span class="s0">for </span><span class="s1">(UserAccount user : followers) { 
+                        moods.add(user.getMoodList().get(</span><span class="s6">0</span><span class="s1">))</span><span class="s0">;</span><span class="s1"> 
+                    } 
+                } 
+            } </span><span class="s0">catch </span><span class="s1">(ExecutionException | InterruptedException e) { 
+                e.printStackTrace()</span><span class="s0">;</span><span class="s1"> 
+            } 
+        } 
+    } 
+ 
+    @Override 
+    </span><span class="s0">public boolean </span><span class="s1">onCreateOptionsMenu(Menu menu) { 
+        </span><span class="s4">// Inflate the menu; this adds items to the action bar if it is present.</span><span class="s1"> 
+        getMenuInflater().inflate(R.menu.menu_main_activity</span><span class="s0">, </span><span class="s1">menu)</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s0">return true;</span><span class="s1"> 
+    } 
+ 
+    @Override 
+    </span><span class="s0">public boolean </span><span class="s1">onOptionsItemSelected(MenuItem item) { 
+        </span><span class="s4">// Handle action bar item clicks here. The action bar will</span><span class="s1"> 
+        </span><span class="s4">// automatically handle clicks on the Home/Up button, so long</span><span class="s1"> 
+        </span><span class="s4">// as you specify a parent activity in AndroidManifest.xml.</span><span class="s1"> 
+        </span><span class="s0">int </span><span class="s1">id = item.getItemId()</span><span class="s0">;</span><span class="s1"> 
+ 
+        </span><span class="s4">//noinspection SimplifiableIfStatement</span><span class="s1"> 
+        </span><span class="s0">if </span><span class="s1">(id == R.id.action_recent) { 
+            </span><span class="s4">//filter.setType(filter.RECENT);</span><span class="s1"> 
+            Log.d(</span><span class="s5">&quot;tag&quot;</span><span class="s0">,</span><span class="s5">&quot;check filter:&quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+            Log.d(</span><span class="s5">&quot;tag&quot;</span><span class="s0">,</span><span class="s1">String.valueOf(filter.getType()))</span><span class="s0">;</span><span class="s1"> 
+            </span><span class="s0">return true;</span><span class="s1"> 
+        } 
+ 
+        </span><span class="s4">//noinspection SimplifiableIfStatement</span><span class="s1"> 
+        </span><span class="s0">if </span><span class="s1">(id == R.id.action_moodType) { 
+            dialog.setContentView(R.layout.mood_filter_popup)</span><span class="s0">;</span><span class="s1"> 
+            </span><span class="s0">final </span><span class="s1">Button submit =  (Button)dialog.findViewById(R.id.filter)</span><span class="s0">;</span><span class="s1"> 
+            submit.setOnClickListener(</span><span class="s0">new </span><span class="s1">View.OnClickListener() { 
+                @Override 
+                </span><span class="s0">public void </span><span class="s1">onClick(View view) { 
+                    Spinner spinner = (Spinner)dialog.findViewById(R.id.select_mood)</span><span class="s0">;</span><span class="s1"> 
+                    filter.setType(filter.MOOD_TYPE)</span><span class="s0">;</span><span class="s1"> 
+                    filter.setValue(spinner.getSelectedItem().toString())</span><span class="s0">;</span><span class="s1"> 
+                    dialog.dismiss()</span><span class="s0">;</span><span class="s1"> 
+                } 
+            })</span><span class="s0">;</span><span class="s1"> 
+            dialog.show()</span><span class="s0">;</span><span class="s1"> 
+            </span><span class="s0">return true;</span><span class="s1"> 
+        } 
+ 
+        </span><span class="s4">//noinspection SimplifiableIfStatement</span><span class="s1"> 
+        </span><span class="s0">if </span><span class="s1">(id == R.id.action_moodMessage) { 
+            dialog.setContentView(R.layout.message_filter_popup)</span><span class="s0">;</span><span class="s1"> 
+            </span><span class="s0">final </span><span class="s1">Button submit =  (Button)dialog.findViewById(R.id.filter)</span><span class="s0">;</span><span class="s1"> 
+            submit.setOnClickListener(</span><span class="s0">new </span><span class="s1">View.OnClickListener() { 
+                @Override 
+                </span><span class="s0">public void </span><span class="s1">onClick(View view) { 
+                    EditText text = (EditText) dialog.findViewById(R.id.message)</span><span class="s0">;</span><span class="s1"> 
+                    filter.setType(filter.MOOD_MESSAGE)</span><span class="s0">;</span><span class="s1"> 
+                    filter.setValue(text.getText().toString())</span><span class="s0">;</span><span class="s1"> 
+                    dialog.dismiss()</span><span class="s0">;</span><span class="s1"> 
+                } 
+            })</span><span class="s0">;</span><span class="s1"> 
+            dialog.show()</span><span class="s0">;</span><span class="s1"> 
+            </span><span class="s0">return true;</span><span class="s1"> 
+        } 
+        </span><span class="s0">if </span><span class="s1">(id == R.id.action_mapView) { 
+            Intent intent = </span><span class="s0">new </span><span class="s1">Intent(</span><span class="s0">this, </span><span class="s1">MapActivity.</span><span class="s0">class</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+            intent.putParcelableArrayListExtra(</span><span class="s5">&quot;moods&quot;</span><span class="s0">,</span><span class="s1">moods)</span><span class="s0">;</span><span class="s1"> 
+            intent.putExtra(</span><span class="s5">&quot;filter&quot;</span><span class="s0">,</span><span class="s1">filter)</span><span class="s0">;</span><span class="s1"> 
+            startActivity(intent)</span><span class="s0">;</span><span class="s1"> 
+        } 
+ 
+        </span><span class="s0">return super</span><span class="s1">.onOptionsItemSelected(item)</span><span class="s0">;</span><span class="s1"> 
+    } 
+}</span></pre>
+</body>
+</html>

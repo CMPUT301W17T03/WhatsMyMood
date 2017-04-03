@@ -10,6 +10,7 @@ import android.widget.Toast;
 /**
  * Creates a new user
  * Used before logging in if the user is new
+ * @author Alex
  */
 public class UserCreateActivity extends AppCompatActivity {
 

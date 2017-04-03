@@ -6,6 +6,10 @@ import android.util.Base64;
 
 import java.io.ByteArrayOutputStream;
 
+/**
+ * Translates photos between elastic search and the rest of the app
+ * @author Malcom
+ */
 class PhotoController {
     private final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 

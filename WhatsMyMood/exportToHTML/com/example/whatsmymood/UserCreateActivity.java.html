@@ -1,0 +1,86 @@
+<html>
+<head>
+<title>UserCreateActivity.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: #606366; font-weight: normal; font-style: normal; }
+.s0 { color: rgb(204,120,50); }
+.s1 { color: rgb(169,183,198); }
+.s2 { color: rgb(98,151,85); font-style: italic; }
+.s3 { color: rgb(98,151,85); font-weight: bold; font-style: italic; }
+.s4 { color: rgb(128,128,128); }
+.s5 { color: rgb(106,135,89); }
+</style>
+</head>
+<BODY BGCOLOR="#2b2b2b">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+UserCreateActivity.java</FONT>
+</center></TD></TR></TABLE>
+<pre>
+<span class="s0">package </span><span class="s1">com.example.whatsmymood</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s0">import </span><span class="s1">android.os.Bundle</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.support.v7.app.AppCompatActivity</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.view.View</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.widget.Button</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.widget.EditText</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.widget.Toast</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s2">/** 
+ * Creates a new user 
+ * Used before logging in if the user is new 
+ * </span><span class="s3">@author </span><span class="s2">Alex 
+ */</span><span class="s1"> 
+</span><span class="s0">public class </span><span class="s1">UserCreateActivity </span><span class="s0">extends </span><span class="s1">AppCompatActivity { 
+ 
+    </span><span class="s0">private </span><span class="s1">CreateUserController userController</span><span class="s0">;</span><span class="s1"> 
+ 
+    </span><span class="s2">/** 
+     * Instantiates each EditText and grabs the user input values 
+     * </span><span class="s3">@param </span><span class="s2">savedInstanceState 
+     */</span><span class="s1"> 
+    @Override 
+    </span><span class="s0">protected void </span><span class="s1">onCreate(Bundle savedInstanceState) { 
+        </span><span class="s0">super</span><span class="s1">.onCreate(savedInstanceState)</span><span class="s0">;</span><span class="s1"> 
+        setContentView(R.layout.activity_user_create)</span><span class="s0">;</span><span class="s1"> 
+ 
+        </span><span class="s0">final </span><span class="s1">EditText userName = (EditText) findViewById(R.id.username)</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s0">final </span><span class="s1">EditText password = (EditText) findViewById(R.id.password1)</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s0">final </span><span class="s1">EditText passwordConfirm = (EditText) findViewById(R.id.password2)</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s0">final </span><span class="s1">Button createAccount = (Button) findViewById(R.id.create)</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s0">final </span><span class="s1">Button cancelButton = (Button) findViewById(R.id.cancel)</span><span class="s0">;</span><span class="s1"> 
+ 
+        </span><span class="s0">this</span><span class="s1">.userController = </span><span class="s0">new </span><span class="s1">CreateUserController()</span><span class="s0">;</span><span class="s1"> 
+ 
+        </span><span class="s4">// Error checking if the username already exists</span><span class="s1"> 
+        createAccount.setOnClickListener(</span><span class="s0">new </span><span class="s1">View.OnClickListener() { 
+            </span><span class="s0">public void </span><span class="s1">onClick(View v) { 
+                </span><span class="s0">if </span><span class="s1">(password.getText().toString().equals(passwordConfirm.getText().toString())) { 
+                    </span><span class="s0">if </span><span class="s1">(userController.create(userName.getText().toString()</span><span class="s0">, </span><span class="s1">password.getText().toString())) { 
+                        finish()</span><span class="s0">;</span><span class="s1"> 
+                    } </span><span class="s0">else </span><span class="s1">{ 
+                        String errorString = </span><span class="s5">&quot;Username already exists&quot;</span><span class="s0">;</span><span class="s1"> 
+                        Toast errorMessage = Toast.makeText(UserCreateActivity.</span><span class="s0">this, </span><span class="s1">errorString</span><span class="s0">, </span><span class="s1">Toast.LENGTH_SHORT)</span><span class="s0">;</span><span class="s1"> 
+                        errorMessage.show()</span><span class="s0">;</span><span class="s1"> 
+                    } 
+ 
+                } </span><span class="s0">else </span><span class="s1">{ 
+                    String errorString = </span><span class="s5">&quot;Passwords do not match&quot;</span><span class="s0">;</span><span class="s1"> 
+                    Toast errorMessage = Toast.makeText(UserCreateActivity.</span><span class="s0">this, </span><span class="s1">errorString</span><span class="s0">, </span><span class="s1">Toast.LENGTH_SHORT)</span><span class="s0">;</span><span class="s1"> 
+                    errorMessage.show()</span><span class="s0">;</span><span class="s1"> 
+                } 
+            } 
+        })</span><span class="s0">;</span><span class="s1"> 
+ 
+        cancelButton.setOnClickListener(</span><span class="s0">new </span><span class="s1">View.OnClickListener() { 
+            </span><span class="s0">public void </span><span class="s1">onClick(View v) { 
+                finish()</span><span class="s0">;</span><span class="s1"> 
+            } 
+        })</span><span class="s0">;</span><span class="s1"> 
+    } 
+} 
+</span></pre>
+</body>
+</html>

@@ -1,0 +1,176 @@
+<html>
+<head>
+<title>Mood.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: #606366; font-weight: normal; font-style: normal; }
+.s0 { color: rgb(204,120,50); }
+.s1 { color: rgb(169,183,198); }
+.s2 { color: rgb(98,151,85); font-style: italic; }
+.s3 { color: rgb(98,151,85); font-weight: bold; font-style: italic; }
+.s4 { color: rgb(128,128,128); }
+.s5 { color: rgb(104,151,187); }
+.s6 { color: rgb(106,135,89); }
+</style>
+</head>
+<BODY BGCOLOR="#2b2b2b">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+Mood.java</FONT>
+</center></TD></TR></TABLE>
+<pre>
+<span class="s0">package </span><span class="s1">com.example.whatsmymood</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s0">import </span><span class="s1">android.os.Parcel</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.os.Parcelable</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.support.annotation.NonNull</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s0">import </span><span class="s1">com.google.android.gms.maps.model.LatLng</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s0">import </span><span class="s1">java.util.Date</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s2">/** 
+ * Mood object that holds mood details 
+ * </span><span class="s3">@author </span><span class="s2">Yiji 
+ */</span><span class="s1"> 
+</span><span class="s0">public class </span><span class="s1">Mood </span><span class="s0">implements </span><span class="s1">Comparable&lt;Mood&gt;</span><span class="s0">, </span><span class="s1">Parcelable { 
+    </span><span class="s0">private </span><span class="s1">String moodType</span><span class="s0">;</span><span class="s1"> 
+    </span><span class="s0">private </span><span class="s1">String moodAuthor</span><span class="s0">;</span><span class="s1"> 
+    </span><span class="s0">private </span><span class="s1">String moodMsg</span><span class="s0">;</span><span class="s1"> 
+ 
+    </span><span class="s4">// TODO: Use an actual location instead of a string</span><span class="s1"> 
+    </span><span class="s4">//private Location location;</span><span class="s1"> 
+    </span><span class="s0">private </span><span class="s1">LatLng location</span><span class="s0">;</span><span class="s1"> 
+    </span><span class="s0">private </span><span class="s1">String socialSit</span><span class="s0">;</span><span class="s1"> 
+    </span><span class="s0">private </span><span class="s1">Date date</span><span class="s0">;</span><span class="s1"> 
+    </span><span class="s0">private </span><span class="s1">String photo</span><span class="s0">;</span><span class="s1"> 
+ 
+    </span><span class="s2">/** 
+     * </span><span class="s3">@param </span><span class="s2">moodAuthor 
+     * </span><span class="s3">@param </span><span class="s2">moodType 
+     */</span><span class="s1"> 
+    </span><span class="s0">public </span><span class="s1">Mood(String moodAuthor</span><span class="s0">, </span><span class="s1">String moodType) { 
+        </span><span class="s0">this</span><span class="s1">.moodAuthor = moodAuthor</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s0">this</span><span class="s1">.moodType = moodType</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s0">this</span><span class="s1">.date = </span><span class="s0">new </span><span class="s1">Date()</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">/** 
+     * Manual Date 
+     * </span><span class="s3">@param </span><span class="s2">moodAuthor 
+     * </span><span class="s3">@param </span><span class="s2">moodType 
+     * </span><span class="s3">@param </span><span class="s2">date 
+     */</span><span class="s1"> 
+    </span><span class="s0">public </span><span class="s1">Mood(String moodAuthor</span><span class="s0">, </span><span class="s1">String moodType</span><span class="s0">, </span><span class="s1">Date date) { 
+        </span><span class="s0">this</span><span class="s1">.moodAuthor = moodAuthor</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s0">this</span><span class="s1">.moodType = moodType</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s0">this</span><span class="s1">.date = date</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">/** 
+     * Getters and Setters 
+     * </span><span class="s3">@return</span><span class="s2"> 
+     */</span><span class="s1"> 
+    </span><span class="s0">public </span><span class="s1">String getMoodType() { 
+        </span><span class="s0">return </span><span class="s1">moodType</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">public void </span><span class="s1">setMoodType(String newMoodType) { 
+        </span><span class="s0">this</span><span class="s1">.moodType = newMoodType</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">public </span><span class="s1">String getMoodAuthor() { 
+        </span><span class="s0">return </span><span class="s1">moodAuthor</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">public void </span><span class="s1">setMoodAuthor(String newMoodAuthor) { 
+        </span><span class="s0">this</span><span class="s1">.moodAuthor = newMoodAuthor</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">public </span><span class="s1">String getMoodMsg() { 
+        </span><span class="s0">return </span><span class="s1">moodMsg</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">public void </span><span class="s1">setMoodMsg(String newmoodMsg) { 
+        </span><span class="s0">this</span><span class="s1">.moodMsg = newmoodMsg</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s4">// TODO: Use an actual location instead of a string</span><span class="s1"> 
+    </span><span class="s0">public </span><span class="s1">LatLng getLocation() { </span><span class="s0">return </span><span class="s1">location</span><span class="s0">; </span><span class="s1">} 
+ 
+    </span><span class="s0">public void </span><span class="s1">setLocation(LatLng newLocation) {</span><span class="s0">this</span><span class="s1">.location = newLocation</span><span class="s0">; </span><span class="s1">} 
+ 
+ 
+    </span><span class="s0">public </span><span class="s1">String getSocialSit() { 
+        </span><span class="s0">return </span><span class="s1">socialSit</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">public void </span><span class="s1">setSocialSit(String newSocialSit) { 
+        </span><span class="s0">this</span><span class="s1">.socialSit = newSocialSit</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">public </span><span class="s1">Date getDate() { 
+        </span><span class="s0">return </span><span class="s1">date</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">public void </span><span class="s1">setDate(Date newDate) { 
+        </span><span class="s0">this</span><span class="s1">.date = newDate</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">public </span><span class="s1">String getPhoto() { 
+        </span><span class="s0">return </span><span class="s1">photo</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">public void </span><span class="s1">setPhoto(String newPhoto) { 
+        </span><span class="s0">this</span><span class="s1">.photo = newPhoto</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s4">//http://stackoverflow.com/questions/5927109/sort-objects-in-arraylist-by-date</span><span class="s1"> 
+    </span><span class="s4">//February 26th, 2016 - 1:02pm</span><span class="s1"> 
+    </span><span class="s0">public int </span><span class="s1">compareTo(@NonNull Mood o) { 
+        </span><span class="s0">return </span><span class="s1">getDate().compareTo(o.getDate())</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">protected </span><span class="s1">Mood(Parcel in) { 
+        moodType = in.readString()</span><span class="s0">;</span><span class="s1"> 
+        moodAuthor = in.readString()</span><span class="s0">;</span><span class="s1"> 
+        moodMsg = in.readString()</span><span class="s0">;</span><span class="s1"> 
+        location = (LatLng) in.readValue(LatLng.</span><span class="s0">class</span><span class="s1">.getClassLoader())</span><span class="s0">;</span><span class="s1"> 
+        socialSit = in.readString()</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s0">long </span><span class="s1">tmpDate = in.readLong()</span><span class="s0">;</span><span class="s1"> 
+        date = tmpDate != -</span><span class="s5">1 </span><span class="s1">? </span><span class="s0">new </span><span class="s1">Date(tmpDate) : </span><span class="s0">null;</span><span class="s1"> 
+        photo = in.readString()</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    @Override 
+    </span><span class="s0">public int </span><span class="s1">describeContents() { 
+        </span><span class="s0">return </span><span class="s5">0</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    @Override 
+    </span><span class="s0">public void </span><span class="s1">writeToParcel(Parcel dest</span><span class="s0">, int </span><span class="s1">flags) { 
+        dest.writeString(moodType)</span><span class="s0">;</span><span class="s1"> 
+        dest.writeString(moodAuthor)</span><span class="s0">;</span><span class="s1"> 
+        dest.writeString(moodMsg)</span><span class="s0">;</span><span class="s1"> 
+        dest.writeValue(location)</span><span class="s0">;</span><span class="s1"> 
+        dest.writeString(socialSit)</span><span class="s0">;</span><span class="s1"> 
+        dest.writeLong(date != </span><span class="s0">null </span><span class="s1">? date.getTime() : -</span><span class="s5">1L</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+        dest.writeString(photo)</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    @SuppressWarnings(</span><span class="s6">&quot;unused&quot;</span><span class="s1">) 
+    </span><span class="s0">public static final </span><span class="s1">Parcelable.Creator&lt;Mood&gt; CREATOR = </span><span class="s0">new </span><span class="s1">Parcelable.Creator&lt;Mood&gt;() { 
+        @Override 
+        </span><span class="s0">public </span><span class="s1">Mood createFromParcel(Parcel in) { 
+            </span><span class="s0">return new </span><span class="s1">Mood(in)</span><span class="s0">;</span><span class="s1"> 
+        } 
+ 
+        @Override 
+        </span><span class="s0">public </span><span class="s1">Mood[] newArray(</span><span class="s0">int </span><span class="s1">size) { 
+            </span><span class="s0">return new </span><span class="s1">Mood[size]</span><span class="s0">;</span><span class="s1"> 
+        } 
+    }</span><span class="s0">;</span><span class="s1"> 
+}</span></pre>
+</body>
+</html>

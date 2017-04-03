@@ -1,0 +1,177 @@
+<html>
+<head>
+<title>MoodList.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: #606366; font-weight: normal; font-style: normal; }
+.s0 { color: rgb(204,120,50); }
+.s1 { color: rgb(169,183,198); }
+.s2 { color: rgb(98,151,85); font-style: italic; }
+.s3 { color: rgb(98,151,85); font-weight: bold; font-style: italic; }
+.s4 { color: rgb(104,151,187); }
+.s5 { color: rgb(106,135,89); }
+</style>
+</head>
+<BODY BGCOLOR="#2b2b2b">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+MoodList.java</FONT>
+</center></TD></TR></TABLE>
+<pre>
+<span class="s0">package </span><span class="s1">com.example.whatsmymood</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s0">import </span><span class="s1">android.os.Parcel</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.os.Parcelable</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s0">import </span><span class="s1">java.util.ArrayList</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">java.util.Collections</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s2">/** 
+ * MoodList object holds an ArrayList of moods 
+ * to keep track of the moods of each user 
+ * </span><span class="s3">@author </span><span class="s2">Malcom 
+ */</span><span class="s1"> 
+</span><span class="s0">public class </span><span class="s1">MoodList </span><span class="s0">implements </span><span class="s1">Parcelable { 
+    </span><span class="s0">private final </span><span class="s1">ArrayList&lt;Mood&gt; moods</span><span class="s0">;</span><span class="s1"> 
+ 
+    </span><span class="s0">public </span><span class="s1">MoodList() { 
+        </span><span class="s0">this</span><span class="s1">.moods = </span><span class="s0">new </span><span class="s1">ArrayList&lt;&gt;()</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">/** 
+     * appends a mood to the list 
+     * </span><span class="s3">@param </span><span class="s2">mood 
+     */</span><span class="s1"> 
+    </span><span class="s0">public void </span><span class="s1">addMood(Mood mood){ 
+        </span><span class="s0">this</span><span class="s1">.moods.add(mood)</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">/** 
+     * inserts a mood to the list at index 
+     * </span><span class="s3">@param </span><span class="s2">index 
+     * </span><span class="s3">@param </span><span class="s2">mood 
+     */</span><span class="s1"> 
+    </span><span class="s0">public void </span><span class="s1">addMood(</span><span class="s0">int </span><span class="s1">index</span><span class="s0">, </span><span class="s1">Mood mood){ 
+        </span><span class="s0">this</span><span class="s1">.moods.add(index</span><span class="s0">, </span><span class="s1">mood)</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">/** 
+     * removes a mood from the list matching mood 
+     * </span><span class="s3">@param </span><span class="s2">mood 
+     */</span><span class="s1"> 
+    </span><span class="s0">public void </span><span class="s1">removeMood(Mood mood){ 
+        </span><span class="s0">this</span><span class="s1">.moods.remove(mood)</span><span class="s0">;</span><span class="s1"> 
+    } 
+    </span><span class="s2">/** 
+     * removes a mood from the list at index 
+     * </span><span class="s3">@param </span><span class="s2">index 
+     */</span><span class="s1"> 
+    </span><span class="s0">public void </span><span class="s1">removeMood(</span><span class="s0">int </span><span class="s1">index){ 
+        </span><span class="s0">this</span><span class="s1">.moods.remove(index)</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">/** 
+     * Get's index of the mood 
+     * </span><span class="s3">@param </span><span class="s2">mood 
+     * </span><span class="s3">@return </span><span class="s2">The index position of mood 
+     */</span><span class="s1"> 
+    </span><span class="s0">public int </span><span class="s1">getIndex(Mood mood){ 
+        </span><span class="s0">for </span><span class="s1">(</span><span class="s0">int </span><span class="s1">i = </span><span class="s4">0</span><span class="s0">; </span><span class="s1">i &lt; </span><span class="s0">this</span><span class="s1">.getSize()</span><span class="s0">; </span><span class="s1">i++){ 
+            </span><span class="s0">if</span><span class="s1">(moods.get(i) == mood){</span><span class="s0">return </span><span class="s1">i</span><span class="s0">;</span><span class="s1">} 
+        } 
+        </span><span class="s0">return </span><span class="s1">-</span><span class="s4">1</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">/** 
+     * Get's mood from index 
+     * </span><span class="s3">@param </span><span class="s2">index 
+     * </span><span class="s3">@return </span><span class="s2">the mood at index position 
+     */</span><span class="s1"> 
+    </span><span class="s0">public </span><span class="s1">Mood get(</span><span class="s0">int </span><span class="s1">index){ 
+        </span><span class="s0">return this</span><span class="s1">.moods.get(index)</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">/** 
+     * Gets the size of the moodList 
+     * </span><span class="s3">@return </span><span class="s2">an integer of the size 
+     */</span><span class="s1"> 
+    </span><span class="s0">public int </span><span class="s1">getSize(){ 
+        </span><span class="s0">return this</span><span class="s1">.moods.size()</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">/** 
+     * Get's the most recent mood 
+     * </span><span class="s3">@return </span><span class="s2">the mood with the earliest date 
+     */</span><span class="s1"> 
+    </span><span class="s0">public </span><span class="s1">Mood getRecentMood(){ 
+        </span><span class="s0">try </span><span class="s1">{ 
+            Mood mostRecentMood = moods.get(</span><span class="s4">0</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+            </span><span class="s0">for </span><span class="s1">(</span><span class="s0">int </span><span class="s1">i = </span><span class="s4">1</span><span class="s0">; </span><span class="s1">i &lt; </span><span class="s0">this</span><span class="s1">.getSize()</span><span class="s0">; </span><span class="s1">i++) { 
+                </span><span class="s0">if </span><span class="s1">(moods.get(i).getDate().after(mostRecentMood.getDate())) { 
+                    mostRecentMood = moods.get(i)</span><span class="s0">;</span><span class="s1"> 
+                } 
+            } 
+            </span><span class="s0">return </span><span class="s1">mostRecentMood</span><span class="s0">;</span><span class="s1"> 
+        }</span><span class="s0">catch</span><span class="s1">(IndexOutOfBoundsException e){ 
+            </span><span class="s0">return null;</span><span class="s1"> 
+        } 
+ 
+    } 
+ 
+    </span><span class="s2">/** 
+     * Gets the sorted mood list 
+     * </span><span class="s3">@return </span><span class="s2">the array list sorted by date ascending 
+     */</span><span class="s1"> 
+    </span><span class="s0">public </span><span class="s1">ArrayList&lt;Mood&gt; getSortedMoodList(){ 
+        Collections.sort(</span><span class="s0">this</span><span class="s1">.moods)</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s0">return this</span><span class="s1">.moods</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">/** 
+     * Gets the mood list 
+     * </span><span class="s3">@return </span><span class="s2">the mood list 
+     */</span><span class="s1"> 
+    </span><span class="s0">public </span><span class="s1">ArrayList&lt;Mood&gt; getMoodList(){ 
+        </span><span class="s0">return this</span><span class="s1">.moods</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">protected </span><span class="s1">MoodList(Parcel in) { 
+        </span><span class="s0">if </span><span class="s1">(in.readByte() == </span><span class="s4">0x01</span><span class="s1">) { 
+            moods = </span><span class="s0">new </span><span class="s1">ArrayList&lt;Mood&gt;()</span><span class="s0">;</span><span class="s1"> 
+            in.readList(moods</span><span class="s0">, </span><span class="s1">Mood.</span><span class="s0">class</span><span class="s1">.getClassLoader())</span><span class="s0">;</span><span class="s1"> 
+        } </span><span class="s0">else </span><span class="s1">{ 
+            moods = </span><span class="s0">null;</span><span class="s1"> 
+        } 
+    } 
+ 
+    @Override 
+    </span><span class="s0">public int </span><span class="s1">describeContents() { 
+        </span><span class="s0">return </span><span class="s4">0</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    @Override 
+    </span><span class="s0">public void </span><span class="s1">writeToParcel(Parcel dest</span><span class="s0">, int </span><span class="s1">flags) { 
+        </span><span class="s0">if </span><span class="s1">(moods == </span><span class="s0">null</span><span class="s1">) { 
+            dest.writeByte((</span><span class="s0">byte</span><span class="s1">) (</span><span class="s4">0x00</span><span class="s1">))</span><span class="s0">;</span><span class="s1"> 
+        } </span><span class="s0">else </span><span class="s1">{ 
+            dest.writeByte((</span><span class="s0">byte</span><span class="s1">) (</span><span class="s4">0x01</span><span class="s1">))</span><span class="s0">;</span><span class="s1"> 
+            dest.writeList(moods)</span><span class="s0">;</span><span class="s1"> 
+        } 
+    } 
+ 
+    @SuppressWarnings(</span><span class="s5">&quot;unused&quot;</span><span class="s1">) 
+    </span><span class="s0">public static final </span><span class="s1">Parcelable.Creator&lt;MoodList&gt; CREATOR = </span><span class="s0">new </span><span class="s1">Parcelable.Creator&lt;MoodList&gt;() { 
+        @Override 
+        </span><span class="s0">public </span><span class="s1">MoodList createFromParcel(Parcel in) { 
+            </span><span class="s0">return new </span><span class="s1">MoodList(in)</span><span class="s0">;</span><span class="s1"> 
+        } 
+ 
+        @Override 
+        </span><span class="s0">public </span><span class="s1">MoodList[] newArray(</span><span class="s0">int </span><span class="s1">size) { 
+            </span><span class="s0">return new </span><span class="s1">MoodList[size]</span><span class="s0">;</span><span class="s1"> 
+        } 
+    }</span><span class="s0">;</span><span class="s1"> 
+}</span></pre>
+</body>
+</html>

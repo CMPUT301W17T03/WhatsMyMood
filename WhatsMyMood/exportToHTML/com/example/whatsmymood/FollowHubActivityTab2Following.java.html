@@ -1,0 +1,65 @@
+<html>
+<head>
+<title>FollowHubActivityTab2Following.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: #606366; font-weight: normal; font-style: normal; }
+.s0 { color: rgb(204,120,50); }
+.s1 { color: rgb(169,183,198); }
+.s2 { color: rgb(98,151,85); font-style: italic; }
+.s3 { color: rgb(98,151,85); font-weight: bold; font-style: italic; }
+.s4 { color: rgb(106,135,89); }
+</style>
+</head>
+<BODY BGCOLOR="#2b2b2b">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+FollowHubActivityTab2Following.java</FONT>
+</center></TD></TR></TABLE>
+<pre>
+<span class="s0">package </span><span class="s1">com.example.whatsmymood</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s0">import </span><span class="s1">android.os.Bundle</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.support.v4.app.Fragment</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.util.Log</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.view.LayoutInflater</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.view.View</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.view.ViewGroup</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.widget.ArrayAdapter</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.widget.ListView</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s2">/** 
+ * Referenced off of https://www.youtube.com/watch?v=00LLd7qr9sA for ideas and what to do 
+ * to get our tabs working 
+ * Obtained Mar 29, 2017 
+ * </span><span class="s3">@author </span><span class="s2">ejtang 
+ * </span><span class="s3">@version </span><span class="s2">1.0, 2017-03-29. 
+ */</span><span class="s1"> 
+ 
+</span><span class="s0">public class </span><span class="s1">FollowHubActivityTab2Following </span><span class="s0">extends </span><span class="s1">Fragment { 
+    </span><span class="s0">private final </span><span class="s1">CurrentUser current = CurrentUser.getInstance()</span><span class="s0">;</span><span class="s1"> 
+ 
+    </span><span class="s0">private </span><span class="s1">ListView followingList</span><span class="s0">;</span><span class="s1"> 
+ 
+ 
+    @Override 
+    </span><span class="s0">public </span><span class="s1">View onCreateView(LayoutInflater inflater</span><span class="s0">, </span><span class="s1">ViewGroup container</span><span class="s0">,</span><span class="s1"> 
+                             Bundle savedInstanceState) { 
+        View rootView = inflater.inflate(R.layout.fragment_follow_hub_following</span><span class="s0">, </span><span class="s1">container</span><span class="s0">, false</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+        followingList = (ListView) rootView.findViewById(R.id.followingList)</span><span class="s0">;</span><span class="s1"> 
+ 
+        ArrayAdapter&lt;String&gt; followersAdapter = </span><span class="s0">new </span><span class="s1">FollowAdapter( 
+                current.getCurrentUser().relations.getFollowingList()</span><span class="s0">, this</span><span class="s1">.getContext())</span><span class="s0">;</span><span class="s1"> 
+        followingList.setAdapter(followersAdapter)</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s0">return </span><span class="s1">rootView</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">public void </span><span class="s1">refresh() { 
+        ((ArrayAdapter)followingList.getAdapter()).notifyDataSetChanged()</span><span class="s0">;</span><span class="s1"> 
+        Log.d(</span><span class="s4">&quot;refresh&quot;</span><span class="s0">,</span><span class="s4">&quot;refreshed list!!&quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+    } 
+} 
+</span></pre>
+</body>
+</html>

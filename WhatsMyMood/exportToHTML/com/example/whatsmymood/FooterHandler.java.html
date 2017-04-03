@@ -1,0 +1,167 @@
+<html>
+<head>
+<title>FooterHandler.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: #606366; font-weight: normal; font-style: normal; }
+.s0 { color: rgb(204,120,50); }
+.s1 { color: rgb(169,183,198); }
+.s2 { color: rgb(98,151,85); font-style: italic; }
+.s3 { color: rgb(98,151,85); font-weight: bold; font-style: italic; }
+.s4 { color: rgb(106,135,89); }
+.s5 { color: rgb(128,128,128); }
+</style>
+</head>
+<BODY BGCOLOR="#2b2b2b">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+FooterHandler.java</FONT>
+</center></TD></TR></TABLE>
+<pre>
+<span class="s0">package </span><span class="s1">com.example.whatsmymood</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s0">import </span><span class="s1">android.app.Activity</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.app.Dialog</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.content.Context</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.content.Intent</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.view.View</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">android.widget.Toast</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s0">import </span><span class="s1">java.lang.reflect.Array</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">java.util.ArrayList</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">java.util.concurrent.ExecutionException</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s2">/** 
+ *</span><span class="s3">@author </span><span class="s2">mtfische 
+ *</span><span class="s3">@version </span><span class="s2">1.0 , 2017-03-08. 
+ */</span><span class="s1"> 
+ 
+</span><span class="s0">class </span><span class="s1">FooterHandler { 
+    </span><span class="s2">/** 
+     * FooterHandler handles the footer view that is displayed in activities 
+     * Creates on click listeners and handles page transitions 
+     * 
+     * </span><span class="s3">@param </span><span class="s2">mView            The footer View to be passed in and handled 
+     * </span><span class="s3">@param </span><span class="s2">mContext     The context of the main activity which calls the handler 
+     * </span><span class="s3">@param </span><span class="s2">dialog       dialog is the dialog the handler displays on certain button presses 
+     */</span><span class="s1"> 
+    </span><span class="s0">private </span><span class="s1">View mView</span><span class="s0">;</span><span class="s1"> 
+    </span><span class="s0">private </span><span class="s1">Context mContext</span><span class="s0">;</span><span class="s1"> 
+    </span><span class="s0">private </span><span class="s1">Dialog dialog</span><span class="s0">;</span><span class="s1"> 
+    </span><span class="s0">private </span><span class="s1">Toast toast</span><span class="s0">;</span><span class="s1"> 
+    </span><span class="s0">private </span><span class="s1">AddMoodController moodController</span><span class="s0">;</span><span class="s1"> 
+    </span><span class="s2">/** 
+     * Constructor to attach a view and context as well as initialize boolean values 
+     * build is called at the end to initialize the onclick listeners 
+     * 
+     * </span><span class="s3">@param </span><span class="s2">mContext The context of the main activity which calls the handler 
+     * </span><span class="s3">@param </span><span class="s2">view        The footer View to be passed in and handled 
+     */</span><span class="s1"> 
+    </span><span class="s0">public </span><span class="s1">FooterHandler(Context mContext</span><span class="s0">, </span><span class="s1">View view) { 
+        </span><span class="s0">this</span><span class="s1">.mView = view</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s0">this</span><span class="s1">.mContext = mContext</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s0">this</span><span class="s1">.toast = Toast.makeText(mContext</span><span class="s0">, null, </span><span class="s1">Toast.LENGTH_SHORT)</span><span class="s0">;</span><span class="s1"> 
+        build()</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">/** 
+     * Setter to set the context 
+     * 
+     * </span><span class="s3">@param </span><span class="s2">mContext The context of the main activity which calls the handler 
+     */</span><span class="s1"> 
+    </span><span class="s0">public void </span><span class="s1">setContext(Context mContext){ 
+        </span><span class="s0">this</span><span class="s1">.mContext = mContext</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">/** 
+     * Setter to set the view to be handled build is called after a view shift 
+     * 
+     * </span><span class="s3">@param </span><span class="s2">v The footer View to be passed in and handled 
+     */</span><span class="s1"> 
+    </span><span class="s0">public void </span><span class="s1">setView(View v) { 
+        </span><span class="s0">this</span><span class="s1">.mView = v</span><span class="s0">;</span><span class="s1"> 
+        build()</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s2">/** 
+     * Builder function which initializes the onClickListeners for the footer buttons 
+     */</span><span class="s1"> 
+    </span><span class="s0">private void </span><span class="s1">build() { 
+        </span><span class="s0">this</span><span class="s1">.mView.findViewById(R.id.follow).setOnClickListener(</span><span class="s0">new </span><span class="s1">View.OnClickListener() { 
+            @Override 
+            </span><span class="s0">public void </span><span class="s1">onClick(View view) { 
+                Intent intent = </span><span class="s0">new </span><span class="s1">Intent(mContext</span><span class="s0">, </span><span class="s1">FollowHubActivity.</span><span class="s0">class</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+                mContext.startActivity(intent)</span><span class="s0">;</span><span class="s1"> 
+            } 
+        })</span><span class="s0">;</span><span class="s1"> 
+ 
+        </span><span class="s0">this</span><span class="s1">.mView.findViewById(R.id.profile).setOnClickListener(</span><span class="s0">new </span><span class="s1">View.OnClickListener() { 
+            @Override 
+            </span><span class="s0">public void </span><span class="s1">onClick(View view) { 
+                </span><span class="s0">if </span><span class="s1">(mContext </span><span class="s0">instanceof </span><span class="s1">ProfileActivity) { 
+                    toast.setText(</span><span class="s4">&quot;Currently In Profile&quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+                    toast.show()</span><span class="s0">;</span><span class="s1"> 
+                } </span><span class="s0">else </span><span class="s1">{ 
+                    Intent intent = </span><span class="s0">new </span><span class="s1">Intent(mContext</span><span class="s0">, </span><span class="s1">ProfileActivity.</span><span class="s0">class</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+                    mContext.startActivity(intent)</span><span class="s0">;</span><span class="s1"> 
+                } 
+            } 
+        })</span><span class="s0">;</span><span class="s1"> 
+ 
+        </span><span class="s5">// http://stackoverflow.com/questions/5934050/check-whether-activity-is-active March 13, 2017 15:17</span><span class="s1"> 
+        </span><span class="s0">this</span><span class="s1">.mView.findViewById(R.id.home).setOnClickListener(</span><span class="s0">new </span><span class="s1">View.OnClickListener() { 
+            @Override 
+            </span><span class="s0">public void </span><span class="s1">onClick(View view) { 
+                </span><span class="s0">if </span><span class="s1">(mContext </span><span class="s0">instanceof </span><span class="s1">MainActivity) { 
+                    toast.setText(</span><span class="s4">&quot;Currently In Home&quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+                    toast.show()</span><span class="s0">;</span><span class="s1"> 
+                } </span><span class="s0">else </span><span class="s1">{ 
+                    Intent intent = </span><span class="s0">new </span><span class="s1">Intent(mContext</span><span class="s0">, </span><span class="s1">MainActivity.</span><span class="s0">class</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+                    mContext.startActivity(intent)</span><span class="s0">;</span><span class="s1"> 
+                } 
+            } 
+        })</span><span class="s0">;</span><span class="s1"> 
+ 
+        </span><span class="s0">this</span><span class="s1">.mView.findViewById(R.id.map).setOnClickListener(</span><span class="s0">new </span><span class="s1">View.OnClickListener() { 
+            @Override 
+            </span><span class="s0">public void </span><span class="s1">onClick(View view) { 
+                Intent intent = </span><span class="s0">new </span><span class="s1">Intent (mContext</span><span class="s0">, </span><span class="s1">MapActivity.</span><span class="s0">class</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+ 
+                ElasticSearchUserController.GetAllMoodsTask allusers = </span><span class="s0">new </span><span class="s1">ElasticSearchUserController.GetAllMoodsTask()</span><span class="s0">;</span><span class="s1"> 
+                allusers.execute()</span><span class="s0">;</span><span class="s1"> 
+ 
+                ArrayList&lt;Mood&gt; moods = </span><span class="s0">null;</span><span class="s1"> 
+                </span><span class="s0">try </span><span class="s1">{ 
+                    moods = allusers.get()</span><span class="s0">;</span><span class="s1"> 
+                } </span><span class="s0">catch </span><span class="s1">(InterruptedException e) { 
+                    moods = </span><span class="s0">new </span><span class="s1">ArrayList&lt;Mood&gt;()</span><span class="s0">;</span><span class="s1"> 
+                } </span><span class="s0">catch </span><span class="s1">(ExecutionException e) { 
+                    moods = </span><span class="s0">new </span><span class="s1">ArrayList&lt;Mood&gt;()</span><span class="s0">;</span><span class="s1"> 
+                } 
+ 
+                intent.putParcelableArrayListExtra(</span><span class="s4">&quot;moods&quot;</span><span class="s0">,</span><span class="s1">moods)</span><span class="s0">;</span><span class="s1"> 
+                intent.putExtra(</span><span class="s4">&quot;filter&quot;</span><span class="s0">,new </span><span class="s1">Filter(Filter.FIVE_KM))</span><span class="s0">;</span><span class="s1"> 
+                mContext.startActivity(intent)</span><span class="s0">;</span><span class="s1"> 
+            } 
+        })</span><span class="s0">;</span><span class="s1"> 
+ 
+        </span><span class="s0">this</span><span class="s1">.mView.findViewById(R.id.add).setOnClickListener(</span><span class="s0">new </span><span class="s1">View.OnClickListener() { 
+            @Override 
+            </span><span class="s0">public void </span><span class="s1">onClick(View view) { 
+                dialog = </span><span class="s0">new </span><span class="s1">Dialog(mContext)</span><span class="s0">;</span><span class="s1"> 
+                dialog.setContentView(R.layout.add_mood_popup)</span><span class="s0">;</span><span class="s1"> 
+                </span><span class="s0">if</span><span class="s1">(!dialog.isShowing()) { 
+                    moodController = </span><span class="s0">new </span><span class="s1">AddMoodController(mContext</span><span class="s0">,</span><span class="s1">dialog)</span><span class="s0">;</span><span class="s1"> 
+                    dialog.show()</span><span class="s0">;</span><span class="s1"> 
+                }</span><span class="s0">else</span><span class="s1">{ 
+                    dialog.dismiss()</span><span class="s0">;</span><span class="s1"> 
+                } 
+            } 
+        })</span><span class="s0">;</span><span class="s1"> 
+    } 
+ 
+} 
+</span></pre>
+</body>
+</html>
