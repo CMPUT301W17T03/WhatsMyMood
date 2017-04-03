@@ -6,6 +6,7 @@
         <item name="android:textColorPrimary">@color/defaultTextColorPrimary</item>
         <item name="android:textColorTertiary">@color/defaultTextColorTertiary</item>
         <item name="android:windowBackground">@color/defaultWindowBackground</item>
+        <item name="android:itemBackground">@color/action_bar</item>
 
     </style>
 
@@ -24,6 +25,7 @@
         <item name="android:textColorPrimary">@color/sadTextColorPrimary</item>
         <item name="android:textColorTertiary">@color/sadTextColorTertiary</item>
         <item name="android:windowBackground">@color/sadWindowBackground</item>
+        <item name="android:itemBackground">@color/action_bar</item>
     </style>
 
     <!-- Anger Theme -->
@@ -32,6 +34,7 @@
         <item name="android:textColorPrimary">@color/angerTextColorPrimary</item>
         <item name="android:textColorTertiary">@color/angerTextColorTertiary</item>
         <item name="android:windowBackground">@color/angerWindowBackground</item>
+        <item name="android:itemBackground">@color/action_bar</item>
     </style>
 
     <!-- Confused Theme -->
@@ -40,6 +43,7 @@
         <item name="android:textColorPrimary">@color/confusedTextColorPrimary</item>
         <item name="android:textColorTertiary">@color/confusedTextColorTertiary</item>
         <item name="android:windowBackground">@color/confusedWindowBackground</item>
+        <item name="android:itemBackground">@color/action_bar</item>
     </style>
 
     <!-- Disgusted Theme -->
@@ -48,6 +52,7 @@
         <item name="android:textColorPrimary">@color/disgustedTextColorPrimary</item>
         <item name="android:textColorTertiary">@color/disgustedTextColorTertiary</item>
         <item name="android:windowBackground">@color/disgustedWindowBackground</item>
+        <item name="android:itemBackground">@color/action_bar</item>
     </style>
 
     <!-- Scared Theme -->
