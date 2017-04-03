@@ -26,8 +26,9 @@ import java.util.ArrayList;
  */
 public class ProfileActivity extends AppCompatActivity {
     private CurrentUser current = CurrentUser.getInstance();
-    private ArrayList<Mood> moods;
+    private ArrayList<Mood> moods = new ArrayList<Mood>();;
 
+    ArrayAdapter<Mood> moodAdapter;
     private Dialog dialog;
     private Filter filter;
 
@@ -41,7 +42,6 @@ public class ProfileActivity extends AppCompatActivity {
         if((savedInstanceState == null)){
             this.filter = new Filter();
         }
-        moods = current.getCurrentUser().moodList.getMoodList();
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.profile_toolbar);
@@ -53,12 +53,23 @@ public class ProfileActivity extends AppCompatActivity {
         setAdapters();
     }
 
+    @Override
+    protected void onStart(){
+        super.onStart();
+        refresh();
+    }
+
     private void refresh(){
-        Log.d("tag","restoring!");
+        Log.d("tag","refresh!");
         Log.d("tag",String.valueOf(filter.getType()));
-        moods = filter.filterArray(current.getCurrentUser().moodList.getMoodList());
-        ListView moodListView = (ListView) findViewById(R.id.moodListView);
-        ((ArrayAdapter)moodListView.getAdapter()).notifyDataSetChanged();
+        Log.d("tag",String.valueOf(filter.getValue()));
+        Log.d("tag","mood:");
+        Log.d("tag",moods.toString());
+        moods.clear();
+        moods.addAll(filter.filterArray(current.getCurrentUser().moodList.getMoodList()));
+        moodAdapter.notifyDataSetChanged();
+        Log.d("tag","mood:");
+        Log.d("tag",moods.toString());
     }
     @Override
     protected void onSaveInstanceState(Bundle outState){
@@ -82,10 +93,9 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void setAdapters() {
-        ArrayAdapter<Mood> moodAdapter = new MoodAdapter(moods, this);
+        moodAdapter = new MoodAdapter(moods, this);
 
         ListView moodListView = (ListView) findViewById(R.id.moodListView);
-
         moodListView.setAdapter(moodAdapter);
     }
 
@@ -118,10 +128,12 @@ public class ProfileActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     Spinner spinner = (Spinner)dialog.findViewById(R.id.select_mood);
-                    filter.setType(filter.MOOD_TYPE);
-                    filter.setValue(spinner.getSelectedItem().toString());
+                    if(!spinner.getSelectedItem().toString().equals("Select a mood")){
+                        filter.setType(filter.MOOD_TYPE);
+                        filter.setValue(spinner.getSelectedItem().toString());
+                        refresh();
+                    }
                     dialog.dismiss();
-                    refresh();
                 }
             });
             dialog.show();
@@ -136,10 +148,12 @@ public class ProfileActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     EditText text = (EditText) dialog.findViewById(R.id.message);
-                    filter.setType(filter.MOOD_MESSAGE);
-                    filter.setValue(text.getText().toString());
+                    if(!text.getText().toString().isEmpty()) {
+                        filter.setType(filter.MOOD_MESSAGE);
+                        filter.setValue(text.getText().toString());
+                        refresh();
+                    }
                     dialog.dismiss();
-                    refresh();
                 }
             });
             dialog.show();
