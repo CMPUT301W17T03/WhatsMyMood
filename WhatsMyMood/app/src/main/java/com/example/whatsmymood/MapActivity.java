@@ -18,9 +18,12 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.ArrayList;
 
 /**
  * An activity that displays a Google map with a marker (pin) to indicate a particular location.
@@ -110,8 +113,66 @@ public class MapActivity extends AppCompatActivity
             Log.d("Mood Maker", "Added mood marker");
         } catch (Exception e) {
             Log.d("Exception", "Nothing in intent, adding markers");
-            setMarker();
+            try {
+
+
+            } catch (Exception ex) {
+                setMarker();
+            }
         }
+    }
+
+    private void setMoodMarkers(ArrayList<Mood> moods) {
+        for (int i = 0; i < moods.size(); i++) {
+            Mood mood = moods.get(i);
+            String moodType = mood.getMoodType();
+            switch (moodType){
+                case "Happiness":
+                    mMap.addMarker(new MarkerOptions().position(mood.getLocation())
+                                        .title(mood.getMoodAuthor())
+                                        .snippet("Happiness")
+                                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
+                case "Sadness":
+                    mMap.addMarker(new MarkerOptions().position(mood.getLocation())
+                            .title(mood.getMoodAuthor())
+                            .snippet("Sadness")
+                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+                case "Anger":
+                    mMap.addMarker(new MarkerOptions().position(mood.getLocation())
+                            .title(mood.getMoodAuthor())
+                            .snippet("Anger")
+                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+                case "Confusion":
+                    mMap.addMarker(new MarkerOptions().position(mood.getLocation())
+                            .title(mood.getMoodAuthor())
+                            .snippet("Confusion")
+                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+                case "Disgusted":
+                    mMap.addMarker(new MarkerOptions().position(mood.getLocation())
+                            .title(mood.getMoodAuthor())
+                            .snippet("Disgusted")
+                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
+                case "Scared":
+                    mMap.addMarker(new MarkerOptions().position(mood.getLocation())
+                            .title(mood.getMoodAuthor())
+                            .snippet("Scared")
+                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET)));
+                case "Shame":
+                    mMap.addMarker(new MarkerOptions().position(mood.getLocation())
+                            .title(mood.getMoodAuthor())
+                            .snippet("Shame")
+                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA)));
+                case "Surprise":
+                    mMap.addMarker(new MarkerOptions().position(mood.getLocation())
+                            .title(mood.getMoodAuthor())
+                            .snippet("Surprise")
+                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN)));
+                default:
+                    break;
+
+            }
+        }
+
     }
 
     private void setMarker() {
@@ -137,7 +198,6 @@ public class MapActivity extends AppCompatActivity
                 Log.d("Add Marker", String.valueOf(mLastKnownLocation));
 
             }
-
         }
 
     }
